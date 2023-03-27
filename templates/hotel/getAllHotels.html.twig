@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des hôtels{% endblock %}
+
+{% block body %}
+    <h1>Liste des hôtels</h1>
+    <table border=1 >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Adresse</th>
+                <th>Nombre de chambres</th>
+                <th>Téléphone</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hotel in list %}
+                <tr>
+                    <td>{{ hotel.idHotel }}</td>
+                    <td>{{ hotel.libelle }}</td>
+                    <td>{{ hotel.adresse }}</td>
+                    <td>{{ hotel.nbreChambres }}</td>
+                    <td>{{ hotel.telephone }}</td>
+                    <td>{{ hotel.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
