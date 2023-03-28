@@ -1,0 +1,54 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  thead {
+    background-color: #f2f2f2;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+.button {
+  background-color: #4CAF50; /* couleur de fond */
+  border: none; /* pas de bordure */
+  color: white; /* couleur du texte */
+  padding: 10px 20px; /* espacement du texte par rapport au bord */
+  text-align: center; /* centrage du texte */
+  text-decoration: none; /* pas de soulignement */
+  display: inline-block; /* affichage en ligne */
+  font-size: 16px; /* taille de police */
+  margin: 4px 2px; /* espacement entre les boutons */
+  cursor: pointer; /* curseur en forme de main */
+  border-radius: 8px; /* arrondi des bords */
+}
+
+.button:hover {
+  background-color: #3e8e41; /* couleur de fond au survol */
+}
+.buttonD {
+  background-color: red;
+  border: none; /* pas de bordure */
+  color: white; /* couleur du texte */
+  padding: 10px 20px; /* espacement du texte par rapport au bord */
+  text-align: center; /* centrage du texte */
+  text-decoration: none; /* pas de soulignement */
+  display: inline-block; /* affichage en ligne */
+  font-size: 16px; /* taille de police */
+  margin: 4px 2px; /* espacement entre les boutons */
+  cursor: pointer; /* curseur en forme de main */
+  border-radius: 8px; /* arrondi des bords */
+}
+  
