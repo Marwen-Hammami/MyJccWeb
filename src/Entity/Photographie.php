@@ -15,15 +15,16 @@ class Photographie
     private ?int $idPhotographie = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $nom=null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $description=null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $photographiepath=null;
+    private ?string $photographiepath = null;
 
     #[ORM\ManyToOne(inversedBy: 'Photographie')]
+    #[ORM\JoinColumn(name: 'id_Galerie', referencedColumnName: 'id_galerie')]
     private ?Galerie $idGalerie = null;
 
     public function getIdPhotographie(): ?int
@@ -78,6 +79,4 @@ class Photographie
 
         return $this;
     }
-
-
 }

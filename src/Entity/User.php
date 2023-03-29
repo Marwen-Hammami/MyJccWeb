@@ -15,28 +15,28 @@ class User
     private ?int $idUser = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $nom=null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $prenom=null;
+    private ?string $prenom = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $genre=null;
+    private ?string $genre = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $email=null;
+    private ?string $email = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $motdepasse=null;
+    private ?string $motdepasse = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $role=null;
+    private ?string $role = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $photob64=null;
+    private ?string $photob64 = null;
 
     #[ORM\Column]
-    private ?int $numtel=null;
+    private ?int $numtel = null;
 
     public function getIdUser(): ?int
     {
@@ -138,6 +138,4 @@ class User
 
         return $this;
     }
-
-
 }
