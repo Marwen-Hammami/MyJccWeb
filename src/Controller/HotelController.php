@@ -83,7 +83,7 @@ class HotelController extends AbstractController
     }
 
     #[Route('/hotel/update/{id}', name: 'update_hotel')]
-    public function update(ManagerRegistry $doctrine, Request $request, $id, HotelRepository $repo)
+    public function updateHotel(ManagerRegistry $doctrine, Request $request, $id, HotelRepository $repo)
     {
         $hotel = $repo->find($id);
         $form = $this->createForm(HotelType::class, $hotel);

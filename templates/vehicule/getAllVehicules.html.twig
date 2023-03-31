@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des voitures{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>Liste des voitures</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Matricule</th>
+      <th scope="col">Type</th>
+      <th scope="col">Marque</th>
+      <th scope="col">Couleur</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vehicule in list %}
+    <tr data-id="{{ vehicule.matricule }}">
+      <td>{{ vehicule.matricule }}</td>
+      <td>{{ vehicule.type }}</td>
+      <td>{{ vehicule.marque }}</td>
+      <td>{{ vehicule.couleur }}</td>
+      <td>
+        <a href="{{ path('vehicule_delete', {'matricule': vehicule.matricule}) }}" class="buttonD">Supprimer</a>
+        <a href="{{ path('update_vehicule', {'matricule': vehicule.matricule}) }}" class="button">Modifier</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
