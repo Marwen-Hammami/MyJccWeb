@@ -30,7 +30,7 @@ class LocationVehicule
     private ?string $qrpath = null;
 
     #[ORM\ManyToOne(targetEntity: Vehicule::class)]
-    #[ORM\JoinColumn(name: 'ID_matricule', referencedColumnName: 'matricule')]
+    #[ORM\JoinColumn(name: 'matricule', referencedColumnName: 'matricule')]
     private ?Vehicule $matricule = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]

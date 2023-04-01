@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des locations de véhicules{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>Liste des locations de véhicules</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date de réservation</th>
+      <th scope="col">Date de début</th>
+      <th scope="col">Date de fin</th>
+      <th scope="col">Tarif total</th>
+      <th scope="col">QR code</th>
+      <th scope="col">Matricule</th>
+      <th scope="col">Utilisateur</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for location in list %}
+    <tr data-id="{{ location.idLocation }}">
+      <td>{{ location.datereservation|date('d/m/Y') }}</td>
+      <td>{{ location.dateDebut|date('d/m/Y') }}</td>
+      <td>{{ location.dateFin|date('d/m/Y') }}</td>
+      <td>{{ location.tariftotal }}</td>
+      <td>{{ location.qrpath }}</td>
+      <td>{{ location.matricule.marque }}</td>
+      <td>{{ location.idUser.prenom }}</td>
+      <td>
+        <a href="{{ path('location_vehicule_delete', {'id': location.idLocation}) }}" class="buttonD">Supprimer</a>
+        <a href="{{ path('update_locationvehicule', {'id': location.idLocation}) }}" class="button">Modifier</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LocationVehicule index{% endblock %}
+
+{% block body %}
+    <h1>LocationVehicule index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdLocation</th>
+                <th>Datereservation</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>Tariftotal</th>
+                <th>Qrpath</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for location_vehicule in location_vehicules %}
+            <tr>
+                <td>{{ location_vehicule.idLocation }}</td>
+                <td>{{ location_vehicule.datereservation ? location_vehicule.datereservation|date('Y-m-d') : '' }}</td>
+                <td>{{ location_vehicule.dateDebut ? location_vehicule.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ location_vehicule.dateFin ? location_vehicule.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ location_vehicule.tariftotal }}</td>
+                <td>{{ location_vehicule.qrpath }}</td>
+                <td>
+                    <a href="{{ path('app_location_vehicule_show', {'idLocation': location_vehicule.idLocation}) }}">show</a>
+                    <a href="{{ path('app_location_vehicule_edit', {'idLocation': location_vehicule.idLocation}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_location_vehicule_new') }}">Create new</a>
+{% endblock %}
