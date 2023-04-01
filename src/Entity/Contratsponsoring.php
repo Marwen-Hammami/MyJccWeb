@@ -11,8 +11,8 @@ class Contratsponsoring
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idContrat =null;
+    #[ORM\Column(name: "ID_Contrat")]
+    private ?int $idContrat = null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $datedebut;
@@ -21,28 +21,30 @@ class Contratsponsoring
     private \DateTime $datefin;
 
     #[ORM\Column(length: 30)]
-    private ?string $type=null;
+    private ?string $type = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $etat=null;
+    private ?string $etat = null;
 
     #[ORM\Column]
-    private ?float $salairedt=null;
+    private ?float $salairedt = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $termespdf=null;
+    private ?string $termespdf = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $signaturesponsor=null;
+    private ?string $signaturesponsor = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $signaturephotographe=null;
+    private ?string $signaturephotographe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Contratsponsoring')]
-    private ?User $idSponsor= null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_Sponsor', referencedColumnName: 'ID_User')]
+    private ?User $idSponsor = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Contratsponsoring')]
-    private ?User $idPhotographe= null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_Photographe', referencedColumnName: 'ID_User')]
+    private ?User $idPhotographe = null;
 
     public function getIdContrat(): ?int
     {
@@ -168,6 +170,4 @@ class Contratsponsoring
 
         return $this;
     }
-
-
 }

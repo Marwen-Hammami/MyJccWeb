@@ -11,7 +11,7 @@ class Photographie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "ID_Photographie")]
     private ?int $idPhotographie = null;
 
     #[ORM\Column(length: 254)]
@@ -23,8 +23,8 @@ class Photographie
     #[ORM\Column(length: 254)]
     private ?string $photographiepath = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Photographie')]
-    #[ORM\JoinColumn(name: 'id_Galerie', referencedColumnName: 'id_galerie')]
+    #[ORM\ManyToOne(targetEntity: Galerie::class)]
+    #[ORM\JoinColumn(name: 'ID_galerie', referencedColumnName: 'ID_Galerie')]
     private ?Galerie $idGalerie = null;
 
     public function getIdPhotographie(): ?int

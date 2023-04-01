@@ -1,1 +1,39 @@
-Ceci est l'accueil de photographie
+{% extends 'base.html.twig' %}
+
+{% block title %}Photographie index{% endblock %}
+
+{% block body %}
+    <h1>Photographie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPhotographie</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Photographiepath</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for photographie in photographies %}
+            <tr>
+                <td>{{ photographie.idPhotographie }}</td>
+                <td>{{ photographie.nom }}</td>
+                <td>{{ photographie.description }}</td>
+                <td>{{ photographie.photographiepath }}</td>
+                <td>
+                    <a href="{{ path('app_photographie_show', {'idPhotographie': photographie.idPhotographie}) }}">show</a>
+                    <a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_photographie_new') }}">Create new</a>
+{% endblock %}

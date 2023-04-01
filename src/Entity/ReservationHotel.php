@@ -11,8 +11,8 @@ class ReservationHotel
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idReservationh =null;
+    #[ORM\Column(name: "ID_ReservationH")]
+    private ?int $idReservationh = null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $datereservation;
@@ -24,15 +24,17 @@ class ReservationHotel
     private \DateTime $dateFin;
 
     #[ORM\Column]
-    private ?float $tariftotale=null;
+    private ?float $tariftotale = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $qrpath=null;
+    private ?string $qrpath = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ReservationHotel')]
+    #[ORM\ManyToOne(targetEntity: Hotel::class)]
+    #[ORM\JoinColumn(name: 'ID_hotel', referencedColumnName: 'ID_Hotel')]
     private ?Hotel $idHotel = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ReservationHotel')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
     private ?User $idUser = null;
 
     public function getIdReservationh(): ?int
@@ -123,6 +125,4 @@ class ReservationHotel
 
         return $this;
     }
-
-
 }

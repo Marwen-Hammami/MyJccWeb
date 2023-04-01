@@ -11,7 +11,7 @@ class Blog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "id_blog")]
     private  ?int $idBlog = null;
 
     #[ORM\Column(length: 256)]

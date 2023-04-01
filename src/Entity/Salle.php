@@ -11,32 +11,32 @@ class Salle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "ID_salle")]
     private ?int $idSalle = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $nomsalle=null;
+    private ?string $nomsalle = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $adresse=null;
+    private ?string $adresse = null;
 
     #[ORM\Column]
-    private ?int $capacite=null;
+    private ?int $capacite = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $numtelSalle=null;
+    private ?string $numtelSalle = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $emailSalle=null;
+    private ?string $emailSalle = null;
 
     #[ORM\Column(length: 6)]
-    private ?string $tempsOuverture=null;
+    private ?string $tempsOuverture = null;
 
     #[ORM\Column(length: 6)]
-    private ?string $tempsFermuture=null;
+    private ?string $tempsFermuture = null;
 
     #[ORM\Column]
-    private ?float $avis=null;
+    private ?float $avis = null;
 
     public function getIdSalle(): ?int
     {
@@ -138,6 +138,4 @@ class Salle
 
         return $this;
     }
-
-
 }

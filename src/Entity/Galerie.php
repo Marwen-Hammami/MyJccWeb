@@ -11,7 +11,7 @@ class Galerie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "ID_Galerie")]
     private ?int $idGalerie = null;
 
     #[ORM\Column(length: 20)]
@@ -23,8 +23,8 @@ class Galerie
     #[ORM\Column(length: 65535)]
     private ?string $description = null;
 
-    #[ORM\OneToOne(inversedBy: 'Galerie')]
-    #[ORM\JoinColumn(name: 'id_photographe', referencedColumnName: 'id_user')]
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_photographe', referencedColumnName: 'ID_User')]
     private ?User $idPhotographe = null;
 
     public function getIdGalerie(): ?int

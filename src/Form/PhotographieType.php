@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Galerie;
 use App\Entity\Photographie;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,8 +22,7 @@ class PhotographieType extends AbstractType
             ->add('idGalerie', EntityType::class, [
                 'class' => Galerie::class,
                 'choice_label' => 'nom',
-            ])
-            ->add('save', SubmitType::class);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

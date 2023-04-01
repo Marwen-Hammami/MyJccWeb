@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Photographie{% endblock %}
+
+{% block body %}
+    <h1>Photographie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPhotographie</th>
+                <td>{{ photographie.idPhotographie }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ photographie.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ photographie.description }}</td>
+            </tr>
+            <tr>
+                <th>Photographiepath</th>
+                <td>{{ photographie.photographiepath }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_photographie_index') }}">back to list</a>
+
+    <a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
+
+    {{ include('photographie/_delete_form.html.twig') }}
+{% endblock %}
