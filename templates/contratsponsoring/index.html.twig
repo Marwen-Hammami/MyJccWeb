@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contratsponsoring index{% endblock %}
+
+{% block body %}
+    <h1>Contratsponsoring index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdContrat</th>
+                <th>Datedebut</th>
+                <th>Datefin</th>
+                <th>Type</th>
+                <th>Etat</th>
+                <th>Salairedt</th>
+                <th>Termespdf</th>
+                <th>Signaturesponsor</th>
+                <th>Signaturephotographe</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contratsponsoring in contratsponsorings %}
+            <tr>
+                <td>{{ contratsponsoring.idContrat }}</td>
+                <td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
+                <td>{{ contratsponsoring.datefin ? contratsponsoring.datefin|date('Y-m-d') : '' }}</td>
+                <td>{{ contratsponsoring.type }}</td>
+                <td>{{ contratsponsoring.etat }}</td>
+                <td>{{ contratsponsoring.salairedt }}</td>
+                <td>{{ contratsponsoring.termespdf }}</td>
+                <td>{{ contratsponsoring.signaturesponsor }}</td>
+                <td>{{ contratsponsoring.signaturephotographe }}</td>
+                <td>
+                    <a href="{{ path('app_contratsponsoring_show', {'idContrat': contratsponsoring.idContrat}) }}">show</a>
+                    <a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contratsponsoring_new') }}">Create new</a>
+{% endblock %}

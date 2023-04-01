@@ -30,8 +30,7 @@ class ContratsponsoringType extends AbstractType
             ->add('idPhotographe', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'nom',
-            ])
-            ->add('save', SubmitType::class);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
