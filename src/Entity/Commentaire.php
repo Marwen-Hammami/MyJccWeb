@@ -11,20 +11,22 @@ class Commentaire
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idCommentaire =null;
+    #[ORM\Column(name: "id_commentaire")]
+    private ?int $idCommentaire = null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $dateCommentaire;
 
     #[ORM\Column(length: 256)]
-    private ?string $contenu=null;
+    private ?string $contenu = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Commentaire')]
+    #[ORM\ManyToOne(targetEntity: Blog::class)]
+    #[ORM\JoinColumn(name: 'ID_blog', referencedColumnName: 'id_blog')]
     private ?Blog $idBlog = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Commentaire')]
-    private ?User $idAuteur=null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_Auteur', referencedColumnName: 'ID_User')]
+    private ?User $idAuteur = null;
 
     public function getIdCommentaire(): ?int
     {
@@ -78,6 +80,4 @@ class Commentaire
 
         return $this;
     }
-
-
 }

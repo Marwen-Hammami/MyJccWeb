@@ -11,23 +11,23 @@ class Evenement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id =null;
+    #[ORM\Column(name: "id")]
+    private ?int $id = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $nomEvent=null;
+    private ?string $nomEvent = null;
 
     #[ORM\Column(type: "datetime")]
     private \DateTime $dateEtHeure;
 
     #[ORM\Column(length: 256)]
-    private ?string $lieu=null;
+    private ?string $lieu = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $typeEvent=null;
+    private ?string $typeEvent = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $description=null;
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -93,6 +93,4 @@ class Evenement
 
         return $this;
     }
-
-
 }

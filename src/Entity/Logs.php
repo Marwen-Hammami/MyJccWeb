@@ -11,17 +11,17 @@ class Logs
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idLogs =null;
+    #[ORM\Column(name: "ID_Logs")]
+    private ?int $idLogs = null;
 
     #[ORM\Column]
-    private ?int $idUser=null;
+    private ?int $idUser = null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $date;
 
     #[ORM\Column(length: 254)]
-    private ?string $action=null;
+    private ?string $action = null;
 
     public function getIdLogs(): ?int
     {
@@ -63,6 +63,4 @@ class Logs
 
         return $this;
     }
-
-
 }
