@@ -10,30 +10,22 @@ use Doctrine\ORM\Mapping as ORM;
 class Vehicule
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 20)]
-    private ?string $matricule= null;
+    #[ORM\Column(type: 'string', length: 20, name: 'matricule')]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?string $matricule = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $type=null;
+    private ?string $type = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $marque=null;
+    private ?string $marque = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $couleur=null;
-
-
+    private ?string $couleur = null;
 
     public function getMatricule(): ?string
     {
         return $this->matricule;
-    }
-    
-    public function setMatricule($matricule)
-    {
-        $this->matricule = $matricule;
-
-        return $this;
     }
 
     public function getType(): ?string
@@ -71,5 +63,4 @@ class Vehicule
 
         return $this;
     }
-
 }

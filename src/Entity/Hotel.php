@@ -11,23 +11,23 @@ class Hotel
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idHotel =null;
+    #[ORM\Column(name: "ID_Hotel")]
+    private ?int $idHotel = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $libelle=null;
+    private ?string $libelle = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $adresse=null;
+    private ?string $adresse = null;
 
     #[ORM\Column]
-    private ?int $nbreChambres=null;
+    private ?int $nbreChambres = null;
 
     #[ORM\Column]
-    private ?int $telephone=null;
+    private ?int $telephone = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $description=null;
+    private ?string $description = null;
 
     public function getIdHotel(): ?int
     {
@@ -93,6 +93,4 @@ class Hotel
 
         return $this;
     }
-
-
 }

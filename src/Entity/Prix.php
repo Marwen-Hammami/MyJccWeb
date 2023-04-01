@@ -11,13 +11,14 @@ class Prix
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idPrix=null;
+    #[ORM\Column(name: "ID_Prix")]
+    private ?int $idPrix = null;
 
-   #[ORM\Column(length: 254)]
-    private ?string $typeprix=null;
+    #[ORM\Column(length: 254)]
+    private ?string $typeprix = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Prix')]
+    #[ORM\ManyToOne(targetEntity: Film::class)]
+    #[ORM\JoinColumn(name: 'ID_film', referencedColumnName: 'ID_Film')]
     private ?Film $idFilm = null;
 
     public function getIdPrix(): ?int
@@ -48,6 +49,4 @@ class Prix
 
         return $this;
     }
-
-
 }

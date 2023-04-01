@@ -11,35 +11,35 @@ class Film
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idFilm =null;
+    #[ORM\Column(name: "ID_Film")]
+    private ?int $idFilm = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $titre=null;
+    private ?string $titre = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $daterealisation=null;
+    private ?string $daterealisation = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $genre=null;
+    private ?string $genre = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $resume=null;
+    private ?string $resume = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $duree=null;
+    private ?string $duree = null;
 
     #[ORM\Column]
-    private ?float $prix=null;
+    private ?float $prix = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $idProducteur=null;
+    private ?string $idProducteur = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $acteur=null;
+    private ?string $acteur = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $filmimage=null;
+    private ?string $filmimage = null;
 
     public function getIdFilm(): ?int
     {
@@ -153,6 +153,4 @@ class Film
 
         return $this;
     }
-
-
 }

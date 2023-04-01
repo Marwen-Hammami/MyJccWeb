@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des réservations{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1>Liste des réservations</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Date de réservation</th>
+      <th scope="col">Date de début</th>
+      <th scope="col">Date de fin</th>
+      <th scope="col">Tarif total</th>
+      <th scope="col">QR code</th>
+      <th scope="col">Hôtel</th>
+      <th scope="col">Utilisateur</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reservation in list %}
+    <tr data-id="{{ reservation.idReservationh }}">
+      <td>{{ reservation.datereservation|date('Y-m-d') }}</td>
+      <td>{{ reservation.dateDebut|date('Y-m-d') }}</td>
+      <td>{{ reservation.dateFin|date('Y-m-d') }}</td>
+      <td>{{ reservation.tariftotale }}</td>
+      <td>{{ reservation.qrpath }}</td>
+      <td>{{ reservation.idHotel.libelle }}</td>
+      <td>{{ reservation.idUser.prenom }}</td>
+      <td>
+        <a href="{{ path('reservationhotel_delete', {'id': reservation.idReservationh}) }}" class="buttonD">Supprimer</a>
+        <a href="{{ path('update_reservationhotel', {'id': reservation.idReservationh}) }}" class="button">Modifier</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -5,23 +5,36 @@ namespace App\Form;
 use App\Entity\Hotel;
 use App\Entity\User;
 use App\Entity\ReservationHotel;
+use Doctrine\DBAL\Types\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-
-class ReservationType extends AbstractType
+class ReservationHotelType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $currentdate = new \DateTime();
         $builder
-          //  ->add('datereservation')
-            ->add('dateDebut')
-            ->add('dateFin')
+           /* ->add('datereservation', TypeDateType::class, [
+                'disabled' => true,
+                'data' => $currentdate,
+            ])*/
+
+            ->add('dateDebut', TypeDateType::class, [
+                'data' => $currentdate,
+            ])
+            ->add('dateFin', TypeDateType::class, [
+                'data' => $currentdate,
+            ])
             ->add('TarifTotale')
-          //  ->add('qrpath')
+            ->add('qrpath', TextType::class, [
+                'disabled' => true,
+            ])
             ->add('idHotel', EntityType::class,[
                 'label' => 'Choisir un Hotel',
                 'placeholder' => 'Hotel',
