@@ -11,11 +11,11 @@ class Blog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "id_blog")]
     private  ?int $idBlog = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $titre=null;
+    private ?string $titre = null;
 
     #[ORM\Column]
     private ?int $idAuteur = null;
@@ -24,13 +24,13 @@ class Blog
     private \DateTime $datePublication;
 
     #[ORM\Column(length: 256)]
-    private ?string $contenu=null;
+    private ?string $contenu = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $etiquette=null;
+    private ?string $etiquette = null;
 
     #[ORM\Column(length: 256)]
-    private ?string $image=null;
+    private ?string $image = null;
 
     public function getIdBlog(): ?int
     {
@@ -108,6 +108,4 @@ class Blog
 
         return $this;
     }
-
-
 }

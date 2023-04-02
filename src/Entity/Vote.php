@@ -10,24 +10,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Vote
 {
     #[ORM\Column]
-    private ?int $valeur=null;
+    private ?int $valeur = null;
 
     #[ORM\Id]
-    #[ORM\Column]
-    private ?int $idUser=null;
+   
+    private ?int $idUser = null;
 
     #[ORM\Id]
-    #[ORM\Column]
-    private ?int $idFilm=null;
+    #[ORM\Column(name: "ID_Film")]
+    private ?int $idFilm = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $commentaire=null;
+    private ?string $commentaire = null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $dateVote;
 
     #[ORM\Column]
-    private ?int $voteFilm=null;
+    private ?int $voteFilm = null;
 
     public function getValeur(): ?int
     {
@@ -86,6 +86,4 @@ class Vote
 
         return $this;
     }
-
-
 }

@@ -11,7 +11,7 @@ class LocationVehicule
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "ID_location")]
     private ?int $idLocation = null;
 
     #[ORM\Column(type: 'date')]
@@ -24,15 +24,17 @@ class LocationVehicule
     private \DateTime $dateFin;
 
     #[ORM\Column]
-    private ?float $tariftotal=null;
+    private ?float $tariftotal = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $qrpath=null;
+    private ?string $qrpath = null;
 
-    #[ORM\ManyToOne(inversedBy: 'LocationVehicule')]
+    #[ORM\ManyToOne(targetEntity: Vehicule::class)]
+    #[ORM\JoinColumn(name: 'matricule', referencedColumnName: 'matricule')]
     private ?Vehicule $matricule = null;
 
-    #[ORM\ManyToOne(inversedBy: 'LocationVehicule')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
     private ?User $idUser = null;
 
     public function getIdLocation(): ?int
@@ -123,6 +125,4 @@ class LocationVehicule
 
         return $this;
     }
-
-
 }

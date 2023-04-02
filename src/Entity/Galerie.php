@@ -11,20 +11,21 @@ class Galerie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idGalerie=null;
+    #[ORM\Column(name: "ID_Galerie")]
+    private ?int $idGalerie = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $couleurhtml=null;
+    private ?string $couleurhtml = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $nom=null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $description=null;
+    private ?string $description = null;
 
-    #[ORM\OneToOne(inversedBy: 'Galerie')]
-    private ?User $idPhotographe=null;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_photographe', referencedColumnName: 'ID_User')]
+    private ?User $idPhotographe = null;
 
     public function getIdGalerie(): ?int
     {
@@ -78,6 +79,4 @@ class Galerie
 
         return $this;
     }
-
-
 }
