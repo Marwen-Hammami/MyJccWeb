@@ -32,12 +32,12 @@ class VehiculeController extends AbstractController
             $EM = $doctrine->getManager();
             $EM->persist($vehicule);
             $EM->flush();
-            return $this->redirectToRoute('app_vehicule');
+            return $this->redirectToRoute('vehicule_index');
         }
         $cancelButtonClicked = isset($request->request->get('vehicule')['cancel']);
 
         if ($cancelButtonClicked) {
-            return $this->redirectToRoute('app_vehicule');
+            return $this->redirectToRoute('vehicule_index');
         }
 
         return $this->render('vehicule/CreateVehicule.html.twig', [

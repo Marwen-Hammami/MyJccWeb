@@ -11,7 +11,6 @@ class Vehicule
 {
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 20, name: 'matricule')]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?string $matricule = null;
 
     #[ORM\Column(length: 20)]
@@ -23,9 +22,18 @@ class Vehicule
     #[ORM\Column(length: 20)]
     private ?string $couleur = null;
 
+
+
     public function getMatricule(): ?string
     {
         return $this->matricule;
+    }
+    
+    public function setMatricule($matricule)
+    {
+        $this->matricule = $matricule;
+
+        return $this;
     }
 
     public function getType(): ?string
@@ -63,4 +71,6 @@ class Vehicule
 
         return $this;
     }
+
+
 }
