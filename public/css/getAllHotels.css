@@ -1,7 +1,8 @@
 table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 20px 0;
+  border-collapse: collapse;
+  width: 60%;
+  margin: 15px 0;
+  margin-left: 5%;
   }
   
   th, td {
@@ -51,4 +52,7 @@ table {
   cursor: pointer; /* curseur en forme de main */
   border-radius: 8px; /* arrondi des bords */
 }
+
+
+
   

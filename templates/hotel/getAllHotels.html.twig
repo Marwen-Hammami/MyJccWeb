@@ -5,34 +5,37 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
 {% endblock %}
-
+{% block sidebar %}
+    {% include 'main/index.html.twig' %}
+{% endblock %}
 {% block body %}
-<h1>Liste des hôtels</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Libelle</th>
-      <th scope="col">Adresse</th>
-      <th scope="col">Nombre de chambres</th>
-      <th scope="col">Téléphone</th>
-      <th scope="col">Description</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for hotel in list %}
-    <tr data-id="{{ hotel.idHotel }}">
-      <td>{{ hotel.libelle }}</td>
-      <td>{{ hotel.adresse }}</td>
-      <td>{{ hotel.nbreChambres }}</td>
-      <td>{{ hotel.telephone }}</td>
-      <td>{{ hotel.description }}</td>
-      <td>
-        <a href="{{ path('hotel_delete', {'id': hotel.idHotel}) }}" class="buttonD">Supprimer</a>
-        <a href="{{ path('update_hotel', {'id': hotel.idHotel}) }}" class="button">Modifier</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+    <h1>Liste des hôtels</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Libelle</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Nombre de chambres</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hotel in list %}
+            <tr data-id="{{ hotel.idHotel }}">
+                <td>{{ hotel.libelle }}</td>
+                <td>{{ hotel.adresse }}</td>
+                <td>{{ hotel.nbreChambres }}</td>
+                <td>{{ hotel.telephone }}</td>
+                <td>{{ hotel.description }}</td>
+                <td>
+                    <a href="{{ path('hotel_delete', {'id': hotel.idHotel}) }}" class="buttonD">Supprimer</a>
+                    <a href="{{ path('update_hotel', {'id': hotel.idHotel}) }}" class="button">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
