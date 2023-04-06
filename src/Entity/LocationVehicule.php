@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\LocationVehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LocationVehiculeRepository::class)]
 class LocationVehicule
@@ -18,12 +19,18 @@ class LocationVehicule
     private \DateTime $datereservation;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: 'La date de début est requise')]
+    #[GreaterThanOrEqual(value: 'today', message: 'La date de début doit être supérieure ou égale à la date actuelle')]
     private \DateTime $dateDebut;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: 'La date de fin est requise')]
+    #[Assert\GreaterThan(propertyPath: "dateDebut", message: 'La date de fin doit être après la date de début')]
     private \DateTime $dateFin;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Entrer la Tarif totale de la reservation  SVP')]
+    #[Assert\PositiveOrZero(message: 'Tarif totale doit etre positive')] 
     private ?float $tariftotal = null;
 
     #[ORM\Column(length: 254)]
@@ -31,10 +38,12 @@ class LocationVehicule
 
     #[ORM\ManyToOne(targetEntity: Vehicule::class)]
     #[ORM\JoinColumn(name: 'matricule', referencedColumnName: 'matricule')]
+    #[Assert\NotNull(message: ' vehiule est requis')]
     private ?Vehicule $matricule = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
+    #[Assert\NotNull(message: 'l\'utilisateur est requis')]
     private ?User $idUser = null;
 
     public function getIdLocation(): ?int

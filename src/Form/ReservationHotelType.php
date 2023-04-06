@@ -31,8 +31,8 @@ class ReservationHotelType extends AbstractType
             ->add('dateFin', TypeDateType::class, [
                 'data' => $currentdate,
             ])
-            ->add('TarifTotale')
-            ->add('qrpath', TextType::class, [
+            ->add('tarifTotale')
+            ->add('qrPath', TextType::class, [
                 'disabled' => true,
             ])
             ->add('idHotel', EntityType::class,[
