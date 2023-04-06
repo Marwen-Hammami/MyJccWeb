@@ -1,0 +1,54 @@
+table {
+  border-collapse: collapse;
+  width: 60%;
+  margin: 15px 0;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+thead {
+  background-color: #2b74f3;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.buttonShow {
+  background-color: #4caf50; /* couleur de fond */
+  border: none; /* pas de bordure */
+  color: white; /* couleur du texte */
+  padding: 10px 20px; /* espacement du texte par rapport au bord */
+  text-align: center; /* centrage du texte */
+  text-decoration: none; /* pas de soulignement */
+  display: inline-block; /* affichage en ligne */
+  font-size: 16px; /* taille de police */
+  margin: 4px 2px; /* espacement entre les boutons */
+  cursor: pointer; /* curseur en forme de main */
+  border-radius: 8px; /* arrondi des bords */
+}
+
+.buttonShow:hover {
+  background-color: #3e8e41; /* couleur de fond au survol */
+}
+.buttonEdit {
+  background-color: rgb(205, 107, 10);
+  border: none; /* pas de bordure */
+  color: white; /* couleur du texte */
+  padding: 10px 20px; /* espacement du texte par rapport au bord */
+  text-align: center; /* centrage du texte */
+  text-decoration: none; /* pas de soulignement */
+  display: inline-block; /* affichage en ligne */
+  font-size: 16px; /* taille de police */
+  margin: 4px 2px; /* espacement entre les boutons */
+  cursor: pointer; /* curseur en forme de main */
+  border-radius: 8px; /* arrondi des bords */
+}

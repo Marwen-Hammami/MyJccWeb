@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Photographie{% endblock %}
+{% block title %}New Photographie
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Photographie</h1>
+	<div class="container">
+		<div class="row row-clos-2">
+			<div class="col-md-4">
 
-    {{ include('photographie/_form.html.twig') }}
+				<h1>Create new Photographie</h1>
 
-    <a href="{{ path('app_photographie_index') }}">back to list</a>
+				{{ include('photographie/_form.html.twig') }}
+
+				<a href="{{ path('app_photographie_index') }}" class="buttonEdit">back to list</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}
