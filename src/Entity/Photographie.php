@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\PhotographieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotographieRepository::class)]
 class Photographie
@@ -15,12 +16,15 @@ class Photographie
     private ?int $idPhotographie = null;
 
     #[ORM\Column(length: 254)]
+    #[Assert\NotBlank(message: "Le nom de la photographie est obligatoire")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 65535)]
+    #[Assert\NotBlank(message: "Une courte description est obligatoire")]
     private ?string $description = null;
 
     #[ORM\Column(length: 254)]
+    #[Assert\NotBlank(message: "Chemain de la photographie est obligatoire")]
     private ?string $photographiepath = null;
 
     #[ORM\ManyToOne(targetEntity: Galerie::class)]

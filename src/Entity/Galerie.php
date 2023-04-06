@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\GalerieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GalerieRepository::class)]
 class Galerie
@@ -15,12 +16,15 @@ class Galerie
     private ?int $idGalerie = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message: "Une couleur en code html est obligatoire")]
     private ?string $couleurhtml = null;
 
     #[ORM\Column(length: 254)]
+    #[Assert\NotBlank(message: "Le nom de la galerie est obligatoire")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 65535)]
+    #[Assert\NotBlank(message: "Une courte description est obligatoire")]
     private ?string $description = null;
 
     #[ORM\OneToOne(targetEntity: User::class)]

@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\ContratsponsoringRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ContratsponsoringRepository::class)]
 class Contratsponsoring
@@ -15,27 +17,46 @@ class Contratsponsoring
     private ?int $idContrat = null;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotBlank(message: "Date de début est obligatoire")]
+    #[Assert\GreaterThanOrEqual("today", message: "La date doit être égale ou supérieure à aujourd'hui")]
     private \DateTime $datedebut;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: "Date de fin est obligatoire")]
+    #[Assert\NotBlank(message: "Date de fin est obligatoire")]
+    #[Assert\GreaterThanOrEqual("today", message: "La date doit être égale ou supérieure à aujourd'hui")]
+    #[Assert\GreaterThanOrEqual(propertyPath: "datedebut", message: "La date de fin doit être supérieure à la date de début")]
     private \DateTime $datefin;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Choice(
+        choices: ["ParPhoto", "ParHeure", "ParSoiree", "ParEdition"],
+        message: "Type invalide! Types autorisés sont: ParPhoto, ParHeure, ParSoiree, ParEdition."
+    )]
     private ?string $type = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Choice(
+        choices: ["Proposition", "ContreProposition", "EnCours", "Expire"],
+        message: "Etat invalide! Etats autorisés sont: Proposition, ContreProposition, EnCours, Expire."
+    )]
     private ?string $etat = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Salaire (rémunération) obligatoire")]
+    #[Assert\Positive(message: "Le salaire doit être un nombre positif")]
     private ?float $salairedt = null;
 
     #[ORM\Column(length: 65535)]
+    // #[Assert\NotBlank(message: "termes pdf obligatoire")]
     private ?string $termespdf = null;
 
     #[ORM\Column(length: 254)]
+    #[Assert\NotBlank(message: "signature sponsor obligatoire")]
     private ?string $signaturesponsor = null;
 
     #[ORM\Column(length: 254)]
+    // #[Assert\NotBlank(message: "signature photographe obligatoire")]
     private ?string $signaturephotographe = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
