@@ -4,16 +4,12 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row row-clos-2">
-			<div class="col-md-4">
 
-				<h1>Create new Photographie</h1>
 
-				{{ include('photographie/_form.html.twig') }}
+	<h1>Create new Photographie</h1>
 
-				<a href="{{ path('app_photographie_index') }}" class="buttonEdit">back to list</a>
-			</div>
-		</div>
-	</div>
+	{{ include('photographie/_form.html.twig') }}
+
+	<a href="{{ path('app_photographie_index') }}">back to list</a>
+
 {% endblock %}

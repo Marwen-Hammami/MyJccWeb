@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %} #}
 
 {% block title %}Liste Galeries
 {% endblock %}
@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>Liste des Galeries</h1>
 
-	<table class="table">
+	<table>
 		<thead>
 			<tr>
 				<th>IdGalerie</th>
@@ -24,8 +24,8 @@
 					<td>{{ galerie.nom }}</td>
 					<td>{{ galerie.description }}</td>
 					<td>
-						<a href="{{ path('app_galerie_show', {'idGalerie': galerie.idGalerie}) }}" class="buttonShow">show</a>
-						<a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}" class="buttonEdit">edit</a>
+						<a href="{{ path('app_galerie_show', {'idGalerie': galerie.idGalerie}) }}">show</a>
+						<a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}">edit</a>
 					</td>
 				</tr>
 			{% else %}
@@ -36,5 +36,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_galerie_new') }}" class="buttonShow">Create new</a>
+	<a href="{{ path('app_galerie_new') }}">Create new</a>
 {% endblock %}

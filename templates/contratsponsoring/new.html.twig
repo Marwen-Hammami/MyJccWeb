@@ -4,16 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row row-clos-2">
-			<div class="col-md-4">
 
-				<h1>Create new Contratsponsoring</h1>
+	{{ include('contratsponsoring/_form.html.twig') }}
 
-				{{ include('contratsponsoring/_form.html.twig') }}
+	<a href="{{ path('app_contratsponsoring_index') }}">back to list</a>
 
-				<a href="{{ path('app_contratsponsoring_index') }}" class="buttonEdit">back to list</a>
-			</div>
-		</div>
-	</div>
 {% endblock %}

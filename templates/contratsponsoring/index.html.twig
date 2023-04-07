@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>Liste des Contratsponsoring</h1>
 
-	<table class="table">
+	<table>
 		<thead>
 			<tr>
 				<th>IdContrat</th>
@@ -34,8 +34,8 @@
 					<td>{{ contratsponsoring.signaturesponsor }}</td>
 					<td>{{ contratsponsoring.signaturephotographe }}</td>
 					<td>
-						<a href="{{ path('app_contratsponsoring_show', {'idContrat': contratsponsoring.idContrat}) }}" class="buttonShow">show</a>
-						<a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}" class="buttonEdit">edit</a>
+						<a href="{{ path('app_contratsponsoring_show', {'idContrat': contratsponsoring.idContrat}) }}">show</a>
+						<a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a>
 					</td>
 				</tr>
 			{% else %}
@@ -46,5 +46,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_contratsponsoring_new') }}" class="buttonShow">Create new</a>
+	<a href="{{ path('app_contratsponsoring_new') }}">Create new</a>
 {% endblock %}

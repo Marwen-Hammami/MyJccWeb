@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>Liste des Photographies</h1>
 
-	<table class="table">
+	<table>
 		<thead>
 			<tr>
 				<th>IdPhotographie</th>
@@ -24,8 +24,8 @@
 					<td>{{ photographie.description }}</td>
 					<td>{{ photographie.photographiepath }}</td>
 					<td>
-						<a href="{{ path('app_photographie_show', {'idPhotographie': photographie.idPhotographie}) }}" class="buttonShow">show</a>
-						<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}" class="buttonEdit">edit</a>
+						<a href="{{ path('app_photographie_show', {'idPhotographie': photographie.idPhotographie}) }}">show</a>
+						<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
 					</td>
 				</tr>
 			{% else %}
@@ -36,5 +36,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_photographie_new') }}" class="buttonShow">Create new</a>
+	<a href="{{ path('app_photographie_new') }}">Create new</a>
 {% endblock %}

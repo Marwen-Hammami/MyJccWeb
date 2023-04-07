@@ -1,34 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Galerie{% endblock %}
+{% block title %}Galerie
+{% endblock %}
 
 {% block body %}
-    <h1>Galerie</h1>
+	<h1>Galerie</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdGalerie</th>
-                <td>{{ galerie.idGalerie }}</td>
-            </tr>
-            <tr>
-                <th>Couleurhtml</th>
-                <td>{{ galerie.couleurhtml }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ galerie.nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ galerie.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table>
+		<tbody>
+			<tr>
+				<th>IdGalerie</th>
+				<td>{{ galerie.idGalerie }}</td>
+			</tr>
+			<tr>
+				<th>Couleurhtml</th>
+				<td>{{ galerie.couleurhtml }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ galerie.nom }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ galerie.description }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_galerie_index') }}">back to list</a>
+	<a href="{{ path('app_galerie_index') }}">back to list</a>
 
-    <a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}">edit</a>
+	<a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}">edit</a>
 
-    {{ include('galerie/_delete_form.html.twig') }}
+	{{ include('galerie/_delete_form.html.twig') }}
 {% endblock %}
