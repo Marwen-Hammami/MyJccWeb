@@ -13,7 +13,7 @@ class Vote
     private ?int $valeur = null;
 
     #[ORM\Id]
-   
+    #[ORM\Column(name: "ID_User")]  
     private ?int $idUser = null;
 
     #[ORM\Id]
@@ -41,14 +41,27 @@ class Vote
         return $this;
     }
 
-    public function getIdUser(): ?int
+    public function getidUser(): ?int
     {
         return $this->idUser;
     }
 
+    public function setidUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
     public function getIdFilm(): ?int
     {
         return $this->idFilm;
+    }
+
+    public function setIdFilm($idFilm)
+    {
+        $this->idFilm = $idFilm;
+
+        return $this;
     }
 
     public function getCommentaire(): ?string
