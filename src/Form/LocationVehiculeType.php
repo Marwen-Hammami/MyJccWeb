@@ -17,19 +17,15 @@ class LocationVehiculeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {   
-        $currentdate = new \DateTime();
+        
         $builder
            /* ->add('datereservation', TypeDateType::class, [
                 'disabled' => true,
                 'data' => $currentdate,
             ])*/
 
-            ->add('dateDebut', TypeDateType::class, [
-                'data' => $currentdate,
-            ])
-            ->add('dateFin', TypeDateType::class, [
-                'data' => $currentdate,
-            ])
+            ->add('dateDebut')
+            ->add('dateFin')
             ->add('tariftotal')
             ->add('qrpath', TextType::class, [
                 'disabled' => true,

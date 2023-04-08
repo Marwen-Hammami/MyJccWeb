@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use App\Repository\LocationVehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 #[ORM\Entity(repositoryClass: LocationVehiculeRepository::class)]
 class LocationVehicule

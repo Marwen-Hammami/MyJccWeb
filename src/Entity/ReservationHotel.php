@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use App\Repository\ReservationHotelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 #[ORM\Entity(repositoryClass: ReservationHotelRepository::class)]
 class ReservationHotel
