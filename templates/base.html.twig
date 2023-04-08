@@ -23,6 +23,9 @@
 	</head>
 	<body data-sidebar="dark">
 		<div id="layout-wrapper">
+			{% block loading %}
+				{# {{ include('templateBackOffice/loading.html.twig') }} #}
+			{% endblock %}
 			{{ include('templateBackOffice/topBar.html.twig') }}
 			{{ include('templateBackOffice/leftSideBar.html.twig') }}
 
