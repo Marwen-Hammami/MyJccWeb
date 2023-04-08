@@ -2,13 +2,11 @@
 
 {% block title %}Liste des voitures{% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
-{% endblock %}
+
 
 {% block body %}
 <h1>Liste des voitures</h1>
-<table class="table">
+{#<table class="table">
   <thead>
     <tr>
       <th scope="col">Matricule</th>
@@ -32,5 +30,40 @@
     </tr>
     {% endfor %}
   </tbody>
-</table>
+</table>#}
+
+{% for vehicle in list %}
+    <div class="col-xl-4 col-sm-6 ">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-10 ">
+                        <div class="text-lg-center">
+                            <!-- Afficher l'image du véhicule -->
+                        
+                            <h5 class="mb-1 font-size-20 text-truncate">{{ vehicle.marque }} {{ vehicle.type }}</h5>
+                            <a href="javascript: void(0);" class="text-muted">{{ vehicle.matricule }}</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="text-lg-center">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item me-3">
+                                    <h5 class="font-size-14" data-bs-toggle="tooltip" data-bs-placement="top" title="Couleur"><i class="bx bx-brush me-1 text-muted"></i> {{ vehicle.couleur }}</h5>
+                                </li>
+                            </ul>
+                              <a href="{{ path('update_vehicule', {'matricule': vehicle.matricule}) }}" class="btn btn-sm btn-primary float-end"><i class="bx bxs-pencil"></i></a>
+                            <a href="{{ path('vehicule_delete', {'matricule': vehicle.matricule}) }}" class="btn btn-sm btn-danger float-end me-2"><i class="bx bx-trash"></i></a>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endfor %}
+
 {% endblock %}

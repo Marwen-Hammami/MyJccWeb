@@ -1,41 +1,92 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des hôtels{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
-{% endblock %}
-{% block sidebar %}
-    {% include 'main/index.html.twig' %}
-{% endblock %}
 {% block body %}
-
-    <h1>Liste des hôtels</h1>
-    <table class="table">
-        <thead>
+   {#  <h1>Liste des hôtels</h1>
+      <div class="table-responsive">
+        <table class="table table-editable table-nowrap align-middle table-edits">
+          <thead>
             <tr>
-                <th scope="col">Libelle</th>
-                <th scope="col">Adresse</th>
-                <th scope="col">Nombre de chambres</th>
-                <th scope="col">Téléphone</th>
-                <th scope="col">Description</th>
-                <th scope="col">Actions</th>
+                <th>Libelle</th>
+                <th>Adresse</th>
+                <th>Nombre de chambres</th>
+                <th>Téléphone</th>
+                <th>Description</th>
+                <th>Actions</th>
             </tr>
-        </thead>
+         </thead>
         <tbody>
             {% for hotel in list %}
             <tr data-id="{{ hotel.idHotel }}">
-                <td>{{ hotel.libelle }}</td>
-                <td>{{ hotel.adresse }}</td>
-                <td>{{ hotel.nbreChambres }}</td>
-                <td>{{ hotel.telephone }}</td>
-                <td>{{ hotel.description }}</td>
-                <td>
-                    <a href="{{ path('hotel_delete', {'id': hotel.idHotel}) }}" class="buttonD">Supprimer</a>
-                    <a href="{{ path('update_hotel', {'id': hotel.idHotel}) }}" class="button">Modifier</a>
+                <td data-field="name">{{ hotel.libelle }}</td>
+                <td data-field="age">{{ hotel.adresse }}</td>
+                <td data-field="nbreChambres">{{ hotel.nbreChambres }}</td>
+                <td data-field="telephone">{{ hotel.telephone }}</td>
+                <td data-field="description">{{ hotel.description }}</td>
+                <td style="width: 100px">
+                <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{{ path('update_hotel', {'id': hotel.idHotel}) }}" >
+                <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a class="btn btn-outline-secondary btn-sm edit" title="Delete" href="{{ path('hotel_delete', {'id': hotel.idHotel}) }}" >
+                <i class="fas fa-trash"></i>
+                </a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
-    </table>
+    </table> #}
+{% for hotel in list %}
+    <div class="col-xl-4 col-sm-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-10 ">
+                        <div class="text-lg-center">
+                            <!-- Afficher l'image de l'hôtel -->
+                        
+                            <h5 class="mb-1 font-size-15 text-truncate">{{ hotel.libelle }}</h5>
+                            <a href="javascript: void(0);" class="text-muted">{{ hotel.adresse }}</a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div>
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item me-3">
+                                    <h5 class="font-size-14" data-bs-toggle="tooltip" data-bs-placement="top" title="Nombre de chambres"><i class="bx bx-bed me-1 text-muted"></i> {{ hotel.nbreChambres }}</h5>
+                                </li>
+                                <li class="list-inline-item">
+                                    <h5 class="font-size-14" data-bs-toggle="tooltip" data-bs-placement="top" title="Téléphone"><i class="bx bx-phone me-1 text-muted"></i> {{ hotel.telephone }}</h5>
+                                </li>
+                            </ul>
+                              <a href="{{ path('update_hotel', {'id': hotel.idHotel}) }}" class="btn btn-sm btn-primary float-end"><i class="bx bxs-pencil"></i></a>
+                            <a href="{{ path('hotel_delete', {'id': hotel.idHotel}) }}" class="btn btn-sm btn-danger float-end me-2"><i class="bx bx-trash"></i></a>
+                            <button class="btn btn-sm btn-outline-primary float-end me-2" data-bs-toggle="modal" data-bs-target="#hotelModal{{ hotel.idHotel }}"><i class="bx bx-show-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Afficher le modal pour afficher les détails de l'hôtel -->
+    <div class="modal fade" id="hotelModal{{ hotel.idHotel }}" tabindex="-1" aria-labelledby="hotelModalLabel{{ hotel.idHotel }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hotelModalLabel{{ hotel.idHotel }}">{{ hotel.libelle }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ hotel.description }}</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Adresse:</strong> {{ hotel.adresse }}</li>
+                        <li><strong>Téléphone:</strong> {{ hotel.telephone }}</li>
+                        <li><strong>Nombre de chambres disponibles:</strong> {{ hotel.nbreChambres }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 {% endblock %}

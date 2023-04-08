@@ -2,42 +2,44 @@
 
 {% block title %}Liste des réservations{% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/getAllHotels.css') }}">
-{% endblock %}
-
 {% block body %}
 
 <h1>Liste des réservations</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Date de réservation</th>
-      <th scope="col">Date de début</th>
-      <th scope="col">Date de fin</th>
-      <th scope="col">Tarif total</th>
-      <th scope="col">QR code</th>
-      <th scope="col">Hôtel</th>
-      <th scope="col">Utilisateur</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for reservation in list %}
-    <tr data-id="{{ reservation.idReservationh }}">
-      <td>{{ reservation.datereservation|date('Y-m-d') }}</td>
-      <td>{{ reservation.dateDebut|date('Y-m-d') }}</td>
-      <td>{{ reservation.dateFin|date('Y-m-d') }}</td>
-      <td>{{ reservation.tariftotale }}</td>
-      <td>{{ reservation.qrpath }}</td>
-      <td>{{ reservation.idHotel.libelle }}</td>
-      <td>{{ reservation.idUser.prenom }}</td>
-      <td>
-        <a href="{{ path('reservationhotel_delete', {'id': reservation.idReservationh}) }}" class="buttonD">Supprimer</a>
-        <a href="{{ path('update_reservationhotel', {'id': reservation.idReservationh}) }}" class="button">Modifier</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-editable table-nowrap align-middle table-edits">
+            <thead>
+                <tr>
+                    <th>Date de réservation</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Tarif total</th>
+                    {#<th>QR Code</th>#}
+                    <th>Hôtel</th>
+                    <th>Invité(e)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in list %}
+                    <tr data-id="{{ reservation.idReservationh }}">
+                        <td data-field="datereservation">{{ reservation.datereservation|date('d/m/Y') }}</td>
+                        <td data-field="datedebut">{{ reservation.dateDebut|date('d/m/Y') }}</td>
+                        <td data-field="datefin">{{ reservation.dateFin|date('d/m/Y') }}</td>
+                        <td data-field="tariftotale">{{ reservation.tariftotale }} DT</td>
+                       {# <td data-field="qrpath">{{ reservation.qrpath }}</td>#} 
+                        <td data-field="hotel">{{ reservation.idHotel.libelle }}</td>
+                        <td data-field="user">{{ reservation.idUser.nom }} {{reservation.idUser.prenom}}</td>
+                        <td style="width: 100px">
+                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{{ path('update_reservationhotel', {'id': reservation.idReservationh}) }}" >
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a class="btn btn-outline-secondary btn-sm edit" title="Delete" href="{{ path('reservationhotel_delete', {'id': reservation.idReservationh}) }}" >
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

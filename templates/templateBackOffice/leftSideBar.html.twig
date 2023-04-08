@@ -1,0 +1,77 @@
+{# {{ include('templateBackOffice/leftSideBar.html.twig') }} #}
+<div class="vertical-menu">
+	<div
+		data-simplebar class="h-100">
+		<!--- Sidemenu -->
+		<div
+			id="sidebar-menu">
+			<!-- Left Menu Start -->
+			<ul class="metismenu list-unstyled" id="side-menu">
+				<li class="menu-title" key="t-menu">Menu</li>
+
+				<li>
+					<a href="javascript: void(0);" class="waves-effect">
+						<i class="bx bx-home-circle"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Hotels</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							<a href="{{ path('hotel_index') }}" key="t-default">Liste</a>
+						</li>
+						<li>
+							<a href="{{ path('create_hotel') }}" key="t-saas">Ajouter</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript: void(0);" class="waves-effect">
+						<i class="bx bx-home-circle"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">les reservations hotels</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							<a href="{{ path('reservationhotel_index') }}" key="t-default">Liste</a>
+						</li>
+						<li>
+							<a href="{{ path('create_reservationhotel') }}" key="t-saas">Ajouter</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript: void(0);" class="waves-effect">
+						<i class="bx bx-home-circle"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Vehicules</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							<a href="{{ path('vehicule_index') }}" key="t-default">Liste</a>
+						</li>
+						<li>
+							<a href="{{ path('create_vehicule') }}" key="t-saas">Ajouter</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript: void(0);" class="waves-effect">
+						<i class="bx bx-home-circle"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Locations des Vehicules</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							<a href="{{ path('location_vehicule_index') }}" key="t-default">Liste</a>
+						</li>
+						<li>
+							<a href="{{ path('create_location_vehicule') }}" key="t-saas">Ajouter</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+		<!-- Sidebar -->
+	</div>
+</div>

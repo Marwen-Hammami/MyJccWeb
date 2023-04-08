@@ -18,8 +18,18 @@ class HotelType extends AbstractType
             ->add('nbreChambres')
             ->add('telephone')
             ->add('description')
-            ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('cancel', SubmitType::class, ['label' => 'Annuler']) ;
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => 'btn btn-primary float-end'
+                ]
+            ])
+            ->add('cancel', SubmitType::class, [
+                'label' => 'Annuler',
+                'attr' => [
+                    'class' => 'btn btn-secondary me-2 float-end'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
