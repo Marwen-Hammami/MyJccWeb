@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ReservationHotel;
+use App\Entity\User;
 use App\Form\ReservationHotelType;
 use App\Repository\HotelRepository;
 use App\Repository\UserRepository;
@@ -17,13 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ReservationHotelController extends AbstractController
 {
-    #[Route('/reservation/', name: 'app_reservation_hotel')]
-    public function index(): Response
-    {
-        return $this->render('reservation_hotel/index.html.twig', [
-            'controller_name' => 'ReservationHotelController',
-        ]);
-    }
+
 
     #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
     public function createHotel(ManagerRegistry $doctrine, Request $request): Response
@@ -120,4 +115,30 @@ class ReservationHotelController extends AbstractController
         }
     }
 
+    #[Route('/reservation/{email}', name:'mes_reservations')]
+    public function GetReservation(UserRepository $request, string $email): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        $reservations = $entityManager->createQueryBuilder()
+        ->select('r')
+        ->from('App\Entity\ReservationHotel', 'r')
+        ->where('r.idUser = :userId')
+        ->setParameter('userId', $user->getIdUser())
+        ->getQuery()
+        ->getResult();
+    
+        return $this->render('reservation_hotel/index.html.twig', [
+            'user' => $user,
+            'reservations' => $reservations,
+        ]);
+    }
+
 }
+

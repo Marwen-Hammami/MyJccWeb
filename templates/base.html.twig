@@ -23,32 +23,36 @@
 	</head>
 	<body data-sidebar="dark">
 		<div id="layout-wrapper">
+			{% block loading %}
+				{# {{ include('templateBackOffice/loading.html.twig') }} #}
+			{% endblock %}
 			{{ include('templateBackOffice/topBar.html.twig') }}
 			{{ include('templateBackOffice/leftSideBar.html.twig') }}
 
 			<div class="main-content">
 				<div class="page-content">
 					<div class="container-fluid">
+
 						{% block body %}
 							<p>
 								contenu
 							</p>
 						{% endblock %}
+
+						{{ include('templateBackOffice/footer.html.twig') }}
 					</div>
 				</div>
 			</div>
 
 		</div>
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-			<script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-			<script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-			<script src="{{ asset('libs/metismenu/metisMenu.min.js') }}"></script>
-			<script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
-			<script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
-			<script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
-			<script src="{{ asset('js/pages/dashboard.init.js') }}"></script>
-			<script src="{{ asset('js/app.js') }}"></script>
-		{% endblock %}
+		{# JS Scripts #}
+		{{ encore_entry_script_tags('app') }}
+		<script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+		<script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+		<script src="{{ asset('libs/metismenu/metisMenu.min.js') }}"></script>
+		<script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
+		<script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
+		<script src="{{ asset('js/app.js') }}"></script>
+		{% block javascripts %}{% endblock %}
 	</body>
 </html>
