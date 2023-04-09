@@ -1,43 +1,17 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}LocationVehicule index{% endblock %}
+{% extends 'baseFrontOffice.html.twig' %}
 
 {% block body %}
-    <h1>LocationVehicule index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdLocation</th>
-                <th>Datereservation</th>
-                <th>DateDebut</th>
-                <th>DateFin</th>
-                <th>Tariftotal</th>
-                <th>Qrpath</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for location_vehicule in location_vehicules %}
-            <tr>
-                <td>{{ location_vehicule.idLocation }}</td>
-                <td>{{ location_vehicule.datereservation ? location_vehicule.datereservation|date('Y-m-d') : '' }}</td>
-                <td>{{ location_vehicule.dateDebut ? location_vehicule.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ location_vehicule.dateFin ? location_vehicule.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ location_vehicule.tariftotal }}</td>
-                <td>{{ location_vehicule.qrpath }}</td>
-                <td>
-                    <a href="{{ path('app_location_vehicule_show', {'idLocation': location_vehicule.idLocation}) }}">show</a>
-                    <a href="{{ path('app_location_vehicule_edit', {'idLocation': location_vehicule.idLocation}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_location_vehicule_new') }}">Create new</a>
+    <h1>Mes Locations</h1>
+    <div class="row">
+     {% for location in locations %}
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+         <div class="card-header"><i class="fas fa-hotel"></i> {{ location.matricule.marque }}</div>
+            <div class="card-body">
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de début: {{ location.dateDebut|date('d/m/Y') }}</p>
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de fin: {{ location.dateFin|date('d/m/Y') }}</p>
+                <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ location.tariftotal }}€</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}

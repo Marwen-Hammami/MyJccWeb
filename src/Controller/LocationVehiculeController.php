@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LocationVehicule;
+use App\Entity\User;
 use App\Form\LocationVehiculeType;
 use App\Repository\LocationVehiculeRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -101,4 +102,28 @@ class LocationVehiculeController extends AbstractController
         ]);
     }
 
+    #[Route('/location/{email}', name:'mes_locations')]
+    public function GetReservation( string $email): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        $locations = $entityManager->createQueryBuilder()
+        ->select('r')
+        ->from('App\Entity\LocationVehicule', 'r')
+        ->where('r.idUser = :userId')
+        ->setParameter('userId', $user->getIdUser())
+        ->getQuery()
+        ->getResult();
+    
+        return $this->render('location_vehicule/index.html.twig', [
+            'user' => $user,
+            'locations' => $locations,
+        ]);
+    }
 }
