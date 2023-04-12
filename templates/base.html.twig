@@ -1,5 +1,5 @@
 {% set user = app.session.get('user') %}
-{% if user %}
+{% if user and user.role == 'ADMINSTRATEUR' %}
 	<!DOCTYPE html>
 	<html>
 		<head>
@@ -13,11 +13,12 @@
 			<!-- App favicon -->
 			<link rel="shortcut icon" href="{{ asset('images/myjccLogo.png') }}"/>
 
+			{{ encore_entry_link_tags('app') }}
+			<link href="{{ asset('css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+			<link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
+			<link href="{{ asset('css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css"/>
 			{% block stylesheets %}
-				{{ encore_entry_link_tags('app') }}
-				<link href="{{ asset('css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
-				<link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css"/>
-				<link href="{{ asset('css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css"/>
+				{# ici par exemple les tableaux #}
 			{% endblock %}
 		</head>
 		<body data-sidebar="dark">

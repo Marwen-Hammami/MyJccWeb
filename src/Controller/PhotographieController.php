@@ -13,6 +13,31 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/photographie')]
 class PhotographieController extends AbstractController
 {
+    // Debut Chemains de l'administrateur *****************************************************
+    #[Route('/admin', name: 'app_photographie_admin_index', methods: ['GET'])]
+    public function indexAdmin(PhotographieRepository $photographieRepository): Response
+    {
+        return $this->render('photographie/back/index.html.twig', [
+            'photographies' => $photographieRepository->findAll(),
+        ]);
+    }
+    #[Route('/admin/{idPhotographie}', name: 'app_photographie_admin_show', methods: ['GET'])]
+    public function showAdmin(Photographie $photographie): Response
+    {
+        return $this->render('photographie/back/show.html.twig', [
+            'photographie' => $photographie,
+        ]);
+    }
+    #[Route('/admin/{idPhotographie}', name: 'app_photographie_admin_delete', methods: ['POST'])]
+    public function deleteAdmin(Request $request, Photographie $photographie, PhotographieRepository $photographieRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $photographie->getIdPhotographie(), $request->request->get('_token'))) {
+            $photographieRepository->remove($photographie, true);
+        }
+
+        return $this->redirectToRoute('app_photographie_admin_index', [], Response::HTTP_SEE_OTHER);
+    }
+    // Fin Chemains de l'administrateur *******************************************************
     #[Route('/', name: 'app_photographie_index', methods: ['GET'])]
     public function index(PhotographieRepository $photographieRepository): Response
     {
@@ -69,7 +94,7 @@ class PhotographieController extends AbstractController
     #[Route('/{idPhotographie}', name: 'app_photographie_delete', methods: ['POST'])]
     public function delete(Request $request, Photographie $photographie, PhotographieRepository $photographieRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$photographie->getIdPhotographie(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $photographie->getIdPhotographie(), $request->request->get('_token'))) {
             $photographieRepository->remove($photographie, true);
         }
 
