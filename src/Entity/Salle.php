@@ -10,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Salle
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idSalle = null;
+#[ORM\GeneratedValue]
+#[ORM\Column(name: 'id_salle', type: 'integer')]
+private ?int $idSalle = null;
+
+    
 
     #[ORM\Column(length: 254)]
     private ?string $nomsalle=null;

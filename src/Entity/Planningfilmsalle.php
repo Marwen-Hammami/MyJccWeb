@@ -11,7 +11,7 @@ class Planningfilmsalle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'ID_Planning', type: 'integer')]
     private ?int $idPlanning=null;
 
     #[ORM\Column(type: 'date')]
@@ -21,9 +21,12 @@ class Planningfilmsalle
     private ?string $heurediffusion=null;
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
+    #[ORM\JoinColumn(name: 'id_salle', referencedColumnName: 'id_salle')]
     private ?Salle $idSalle=null;
+    
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
+    #[ORM\JoinColumn(name: 'id_film', referencedColumnName: 'id_film')]
     private ?Film $idFilm=null;
 
     

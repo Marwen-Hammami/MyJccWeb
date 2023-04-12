@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planningfilmsalle{% endblock %}
+
+{% block body %}
+    <h1>Planningfilmsalle</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPlanning</th>
+                <td>{{ planningfilmsalle.idPlanning }}</td>
+            </tr>
+            <tr>
+                <th>Datediffusion</th>
+                <td>{{ planningfilmsalle.datediffusion ? planningfilmsalle.datediffusion|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Heurediffusion</th>
+                <td>{{ planningfilmsalle.heurediffusion }}</td>
+            </tr>
+            <tr>
+                <th>Nom salle</th>
+                <td>{{ planningfilmsalle.idSalle.nomSalle }}</td>
+            </tr>
+            <tr>
+                <th>titre</th>
+                <td>{{ planningfilmsalle.idFilm.titre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planningfilmsalle_index') }}">back to list</a>
+
+    <a href="{{ path('app_planningfilmsalle_edit', {'idPlanning': planningfilmsalle.idPlanning}) }}">edit</a>
+
+    {{ include('planningfilmsalle/_delete_form.html.twig') }}
+{% endblock %}

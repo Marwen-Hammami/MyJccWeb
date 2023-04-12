@@ -11,7 +11,7 @@ class Film
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id_film', type: 'integer')]
     private ?int $idFilm =null;
 
     #[ORM\Column(length: 254)]

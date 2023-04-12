@@ -18,6 +18,7 @@ class Reservation
     private ?int $idUser=null;
 
     #[ORM\ManyToOne(inversedBy: 'Reservation')]
+    #[ORM\JoinColumn(name: 'id_plan', referencedColumnName: 'ID_Planning')]
     private ?Planningfilmsalle $idPlan = null;
 
     public function getIdRes(): ?int
