@@ -1,9 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseFrontOffice.html.twig' %}
 
 {% block title %}Edit Photographie
 {% endblock %}
 
 {% block body %}
+	<br/><br/><br/>
 	<h1>Edit Photographie</h1>
 
 	{{ include('photographie/_form.html.twig', {'button_label': 'Update'}) }}

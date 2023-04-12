@@ -1,17 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseFrontOffice.html.twig' %}
 
 {% block title %}Photographie
 {% endblock %}
 
 {% block body %}
+	<br/><br/><br/>
 	<h1>Photographie</h1>
 
 	<table>
 		<tbody>
-			<tr>
-				<th>IdPhotographie</th>
-				<td>{{ photographie.idPhotographie }}</td>
-			</tr>
+			{# <tr>
+							<th>IdPhotographie</th>
+							<td>{{ photographie.idPhotographie }}</td>
+						</tr> #}
 			<tr>
 				<th>Nom</th>
 				<td>{{ photographie.nom }}</td>
@@ -28,8 +29,9 @@
 	</table>
 
 	<a href="{{ path('app_photographie_index') }}">back to list</a>
+	{% if user.role == 'PHOTOGRAPHE' %}
+		<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
+		{{ include('photographie/_delete_form.html.twig') }}
+	{% endif %}
 
-	<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
-
-	{{ include('photographie/_delete_form.html.twig') }}
 {% endblock %}

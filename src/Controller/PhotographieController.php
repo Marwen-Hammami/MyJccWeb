@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Photographie;
+use App\Entity\Galerie;
 use App\Form\PhotographieType;
 use App\Repository\PhotographieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/photographie')]
@@ -39,21 +41,26 @@ class PhotographieController extends AbstractController
     }
     // Fin Chemains de l'administrateur *******************************************************
     #[Route('/', name: 'app_photographie_index', methods: ['GET'])]
-    public function index(PhotographieRepository $photographieRepository): Response
+    public function index(PhotographieRepository $photographieRepository, SessionInterface $session): Response
     {
+
+        $galerie = $session->get('galerie');
+
         return $this->render('photographie/index.html.twig', [
-            'photographies' => $photographieRepository->findAll(),
+            'photographies' => $photographieRepository->findBy(['idGalerie' => $galerie->getIdGalerie()]),
         ]);
     }
 
     #[Route('/new', name: 'app_photographie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PhotographieRepository $photographieRepository): Response
+    public function new(Request $request, PhotographieRepository $photographieRepository, SessionInterface $session): Response
     {
         $photographie = new Photographie();
+
         $form = $this->createForm(PhotographieType::class, $photographie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $photographieRepository->save($photographie, true);
 
             return $this->redirectToRoute('app_photographie_index', [], Response::HTTP_SEE_OTHER);

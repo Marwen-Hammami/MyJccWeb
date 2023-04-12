@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Galerie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,10 @@ class TMPSessionController extends AbstractController
         } else {
             $session->start();
             $session->set('user', $user);
+            if ($user->getRole() === 'PHOTOGRAPHE') {
+                $galerie = $entityManager->getRepository(Galerie::class)->findOneBy(['idPhotographe' => $user->getIdUser()]);
+                $session->set('galerie', $galerie);
+            }
             if ($user->getRole() === 'ADMINSTRATEUR') {
                 return $this->render('templateBackOffice/homePage.html.twig', [
                     'controller_name' => 'TMPSessionController',

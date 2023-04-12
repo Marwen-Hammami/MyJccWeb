@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseFrontOffice.html.twig' %}
 
 {% block title %}New Contratsponsoring
 {% endblock %}
 
 {% block body %}
-
+	<br/><br/><br/>
 	{{ include('contratsponsoring/_form.html.twig') }}
 
 	<a href="{{ path('app_contratsponsoring_index') }}">back to list</a>

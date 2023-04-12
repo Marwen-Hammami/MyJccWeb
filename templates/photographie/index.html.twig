@@ -1,15 +1,16 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'baseFrontOffice.html.twig' %}
+{% set user = app.session.get('user') %}
 {% block title %}Liste des Photographie
 {% endblock %}
 
 {% block body %}
+	<br/><br/><br/>
 	<h1>Liste des Photographies</h1>
 
 	<table>
 		<thead>
 			<tr>
-				<th>IdPhotographie</th>
+				{# <th>IdPhotographie</th> #}
 				<th>Nom</th>
 				<th>Description</th>
 				<th>Photographiepath</th>
@@ -19,13 +20,15 @@
 		<tbody>
 			{% for photographie in photographies %}
 				<tr>
-					<td>{{ photographie.idPhotographie }}</td>
+					{# <td>{{ photographie.idPhotographie }}</td> #}
 					<td>{{ photographie.nom }}</td>
 					<td>{{ photographie.description }}</td>
 					<td>{{ photographie.photographiepath }}</td>
 					<td>
 						<a href="{{ path('app_photographie_show', {'idPhotographie': photographie.idPhotographie}) }}">show</a>
-						<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
+						{% if user.role == 'PHOTOGRAPHE' %}
+							<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% else %}
@@ -35,6 +38,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-	<a href="{{ path('app_photographie_new') }}">Create new</a>
+	{% if user.role == 'PHOTOGRAPHE' %}
+		<a href="{{ path('app_photographie_new') }}">Create new</a>
+	{% endif %}
 {% endblock %}

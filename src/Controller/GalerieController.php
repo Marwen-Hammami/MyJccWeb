@@ -57,7 +57,7 @@ class GalerieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $galerieRepository->save($galerie, true);
 
-            return $this->redirectToRoute('app_galerie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_galerie_show', ['idGalerie' => $galerie->getIdGalerie()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('galerie/edit.html.twig', [
