@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use DateTime;
 
 class PlanningfilmsalleType extends AbstractType
 {
@@ -23,6 +24,7 @@ class PlanningfilmsalleType extends AbstractType
                     new GreaterThan('today'),
                     new NotBlank(),
                 ],
+                'data' => new \DateTime(),
             ])
             ->add('heurediffusion', null, [
                 'constraints' => [
