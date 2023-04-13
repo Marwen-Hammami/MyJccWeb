@@ -2,6 +2,9 @@
 
 {% block body %}
     <h1>Mes Locations</h1>
+    {% if not locations|length %}
+        <p>Location indisponible.</p>
+    {% else %}
     <div class="row">
      {% for location in locations %}
         <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
@@ -14,4 +17,5 @@
         </div>
     {% endfor %}
     </div>
+    {% endif %}
 {% endblock %}

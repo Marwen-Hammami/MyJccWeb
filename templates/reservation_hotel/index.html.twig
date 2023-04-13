@@ -2,6 +2,9 @@
 
 {% block body %}
     <h1>Mes Réservations</h1>
+        {% if not reservations|length %}
+        <p>Reservation indisponible.</p>
+    {% else %}
     <div class="row">
      {% for reservation in reservations %}
         <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
@@ -14,6 +17,7 @@
         </div>
     {% endfor %}
     </div>
+    {% endif %}    
 {% endblock %}
 
 
