@@ -99,4 +99,6 @@ class Vote
 
         return $this;
     }
+
+    
 }

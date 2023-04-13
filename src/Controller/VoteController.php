@@ -16,6 +16,7 @@ class VoteController extends AbstractController
     #[Route('/', name: 'app_vote_index', methods: ['GET'])]
     public function index(VoteRepository $voteRepository): Response
     {
+        
         return $this->render('vote/index.html.twig', [
             'votes' => $voteRepository->findAll(),
         ]);
@@ -74,5 +75,23 @@ class VoteController extends AbstractController
         }
 
         return $this->redirectToRoute('app_vote_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function rate(Request $request): Response
+    {
+        // Get the rating value from the submitted form
+        $rating = $request->request->get('rating');
+
+        // Create a new Vote object and set its rating
+        $vote = new Vote();
+        $vote->setRating($rating);
+
+        // Save the Vote object to the database
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($vote);
+        $entityManager->flush();
+
+        // Redirect back to the page the user came from
+        return $this->redirect($request->headers->get('referer'));
     }
 }
