@@ -29,6 +29,19 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('filmimage')->getData();
+
+            if ($uploadedFile) {
+                $destination = 'C:\xampp\htdocs\myjcc\films'; // update this line   
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename ='http://localhost/myjcc/films/'.$originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                $film->setFilmimage($newFilename);
+            }
+
             $filmRepository->save($film, true);
 
             return $this->redirectToRoute('app_film_index', [], Response::HTTP_SEE_OTHER);
@@ -55,6 +68,19 @@ class FilmController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('filmimage')->getData();
+
+            if ($uploadedFile) {
+                $destination = 'C:\xampp\htdocs\myjcc\films'; // update this line
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename ='http://localhost/myjcc/films/'.$originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                $film->setFilmimage($newFilename);
+            }
+
             $filmRepository->save($film, true);
 
             return $this->redirectToRoute('app_film_index', [], Response::HTTP_SEE_OTHER);
@@ -65,7 +91,6 @@ class FilmController extends AbstractController
             'form' => $form,
         ]);
     }
-
     #[Route('/{idFilm}', name: 'app_film_delete', methods: ['POST'])]
     public function delete(Request $request, Film $film, FilmRepository $filmRepository): Response
     {

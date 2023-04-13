@@ -31,7 +31,13 @@
                 <td>{{ film.prix }}</td>
                 <td>{{ film.idProducteur }}</td>
                 <td>{{ film.acteur }}</td>
-                <td><img src="{{ asset(film.filmimage) }}" alt="film image" style="width: 100px;"></td>
+                <td>
+                    {% if film.filmimage is not null %}
+                        <img src="{{ asset(film.filmimage) }}" alt="film image" style="width: 100px;">
+                    {% else %}
+                        <span>No image</span>
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{{ path('app_film_show', {'idFilm': film.idFilm}) }}">show</a>
                     <a href="{{ path('app_film_edit', {'idFilm': film.idFilm}) }}">edit</a>
