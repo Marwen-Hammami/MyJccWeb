@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des vote{% endblock %}
+
+{% block body %}
+
+<h1>Liste des vote</h1>
+    <div class="table-responsive">
+        <table class="table table-editable table-nowrap align-middle table-edits">
+            <thead>
+                <tr>
+                    <th>Rate</th>
+                    <th>User</th>
+                    <th>Film</th>
+                    <th>Commentaire</th>
+                    {#<th>QR Code</th>#}
+                    <th>Date de vote</th>
+                    <th>Vote</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vote in list %}
+                    <tr data-id="{{ vote.ID_Vote }}">
+                        <td data-field="valeur">{{ vote.valeur }} etoile</td>
+                        <td data-field="user">{{ vote.idUser.nom}} {{vote.idUser.prenom}}</td>
+                        <td data-field="film">{{ vote.idFilm.Titre }}</td>
+                        <td data-field="commentaire">{{ vote.commentaire }}</td>
+                        <td data-field="datevote">{{ vote.datevote|date('d/m/Y') }}</td>
+                        <td data-field="hotel">{{ vote.voteFilm }}</td>
+                        <td style="width: 100px">
+                          ----  <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{{ path('update_vote', {'id': vote.ID_Vote}) }}" >
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                          ----  <a class="btn btn-outline-secondary btn-sm edit" title="Delete" href="{{ path('vote_delete', {'id': vote.ID_Vote}) }}" >
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -5,25 +5,42 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Assert\Range;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 class Vote
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: "ID_Vote")]
+    private ?int $ID_Vote = null;
+
+    public function getID_Vote(): ?int
+{
+    return $this->ID_Vote;
+}
+
     #[ORM\Column]
     private ?int $valeur = null;
 
-    #[ORM\Id]
-    #[ORM\Column(name: "ID_User")]  
-    private ?int $idUser = null;
+    
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
+    
+    private ?User $idUser = null;
 
-    #[ORM\Id]
-    #[ORM\Column(name: "ID_Film")]
-    private ?int $idFilm = null;
+    
+    #[ORM\ManyToOne(targetEntity: Film::class)]
+    #[ORM\JoinColumn(name: 'ID_Film', referencedColumnName: 'ID_Film')]
+    #[Assert\NotNull(message: ' Film est requis')]
+    private ?Film $idFilm = null;
 
     #[ORM\Column(length: 254)]
     private ?string $commentaire = null;
 
     #[ORM\Column(type: 'date')]
+    
     private \DateTime $dateVote;
 
     #[ORM\Column]
@@ -41,23 +58,24 @@ class Vote
         return $this;
     }
 
-    public function getidUser(): ?int
+    public function getIdUser(): ?User
     {
         return $this->idUser;
     }
 
-    public function setidUser($idUser)
+    public function setIdUser(?User $idUser): self
     {
         $this->idUser = $idUser;
 
         return $this;
     }
-    public function getIdFilm(): ?int
+
+    public function getIdFilm(): ?Film
     {
         return $this->idFilm;
     }
 
-    public function setIdFilm($idFilm)
+    public function setIdFilm(?Film $idFilm): self
     {
         $this->idFilm = $idFilm;
 
@@ -99,6 +117,5 @@ class Vote
 
         return $this;
     }
-
     
 }

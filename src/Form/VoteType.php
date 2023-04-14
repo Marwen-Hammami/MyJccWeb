@@ -3,48 +3,44 @@
 namespace App\Form;
 
 use App\Entity\Vote;
+use App\Entity\User;
+use App\Entity\Film;
+use Doctrine\DBAL\Types\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class VoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('valeur', RangeType::class, [
-                'attr' => [
-                    'min' => 0,
-                    'max' => 5,
-                    'step' => 1,
-                ],
-            ])
-
-            ->add('IdUser', EntityType::class, [
+            ->add('valeur')
+            ->add('idUser', EntityType::class,[
+                'label' => "Choisir un invité ",
                 'class' => User::class,
-                'choice_label' => 'prenom',
-                'placeholder' => 'Choose a user',
-                'required' => false,
+                'choice_label' => function($user) {
+                    return $user->getNom() . ' ' . $user->getPrenom();
+                },
+                'placeholder' => 'choisir user',
             ])
-            ->add('ID_film', EntityType::class, [
+            ->add('idFilm', EntityType::class,[
+                'label' => 'Choisir un Film',                
                 'class' => Film::class,
-                'choice_label' => 'titre',
-                'placeholder' => 'Choose a film',
-                'required' => false,
+                'choice_label' => function($film) {
+                    return $film->getTitre();
+                },
+                'placeholder' => 'Film',
             ])
             ->add('commentaire')
-            ->add('dateVote', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'yyyy-MM-dd',
-                'label' => 'Date Vote'
-            ])
-                        
-            ->add('voteFilm', CheckboxType::class, [
-                'required' => false,
-            ]);
+            ->add('voteFilm')
+            ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
+            ->add('cancel', SubmitType::class, ['label' => 'Annuler']) 
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
