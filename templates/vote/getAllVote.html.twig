@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des vote{% endblock %}
+{% block title %}Liste des votes{% endblock %}
 
 {% block body %}
 
@@ -16,6 +16,7 @@
                     {#<th>QR Code</th>#}
                     <th>Date de vote</th>
                     <th>Vote</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,11 +29,11 @@
                         <td data-field="datevote">{{ vote.datevote|date('d/m/Y') }}</td>
                         <td data-field="hotel">{{ vote.voteFilm }}</td>
                         <td style="width: 100px">
-                          ----  <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{{ path('update_vote', {'id': vote.ID_Vote}) }}" >
-                                <i class="fas fa-pencil-alt"></i>
+                            <a  href="{{ path('update_vote', {'id': vote.ID_Vote}) }}" >
+                                edit  |     
                             </a>
-                          ----  <a class="btn btn-outline-secondary btn-sm edit" title="Delete" href="{{ path('vote_delete', {'id': vote.ID_Vote}) }}" >
-                                <i class="fas fa-trash"></i>
+                            <a href="{{ path('vote_delete', {'id': vote.ID_Vote}) }}" >
+                                delete
                             </a>
                         </td>
                     </tr>

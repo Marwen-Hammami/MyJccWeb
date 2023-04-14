@@ -111,4 +111,29 @@ class VoteController extends AbstractController
         return new JsonResponse($data);
     }
 
+    #[Route('/vote/{email}', name:'mes_votes')]
+    public function GetReservation(UserRepository $request, string $email): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+    
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+    
+        $votes = $entityManager->createQueryBuilder()
+        ->select('v')
+        ->from('App\Entity\Vote', 'v')
+        ->where('v.idUser = :userId')
+        ->setParameter('userId', $user->getIdUser())
+        ->getQuery()
+        ->getResult();
+    
+        return $this->render('vote/index.html.twig', [
+            'user' => $user,
+            'votes' => $votes,
+        ]);
+    }
+
 }

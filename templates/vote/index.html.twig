@@ -1,0 +1,20 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block body %}
+    <h1>Mes votes</h1>
+    <div class="row">
+     {% for vote in votes %}
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+         <div class="card-header"><i class="fas fa-hotel"></i> {{ vote.idFilm.titre }}</div>
+            <div class="card-body">
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de vote: {{ vote.datevote|date('d/m/Y') }}</p>
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Rate: {{ vote.valeur }}</p>
+                <p class="card-text"><i class="fas fa-euro-sign"></i> Commentaire: {{ vote.commentaire }}€</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+
+
