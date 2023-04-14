@@ -21,7 +21,7 @@ class Prix
     #[ORM\ManyToOne(targetEntity: Film::class)]
     #[ORM\JoinColumn(name: 'ID_Film', referencedColumnName: 'ID_Film')]
     #[Assert\NotNull(message: ' Film est requis')]
-    private ?int $idFilm = null;
+    private ?Film $idFilm = null;
 
     public function getIdPrix(): ?int
     {

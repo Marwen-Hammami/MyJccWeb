@@ -12,6 +12,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class VoteType extends AbstractType
@@ -19,7 +21,12 @@ class VoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('valeur')
+        ->add('valeur', IntegerType::class, [
+            'label' => 'Rate',
+            'constraints' => [
+                new Valid(),
+            ],
+        ])
             ->add('idUser', EntityType::class,[
                 'label' => "Choisir un invité ",
                 'class' => User::class,

@@ -58,6 +58,9 @@ class VoteController extends AbstractController
     #[Route('/vote/update/{id}', name: 'update_vote')]
     public function updateVote(ManagerRegistry $doctrine, Request $request, $id, VoteRepository $repo)
     {
+        $vote = new vote();
+        $vote->setDateVote(new \DateTime());
+        $form = $this->createForm(VoteType::class, $vote);
         $vote = $repo->find($id);
         $form = $this->createForm(VoteType::class, $vote);
         $form->handleRequest($request);
@@ -67,6 +70,7 @@ class VoteController extends AbstractController
             return $this->redirectToRoute('vote_index');
         }else{
         return $this->render('vote/ModifierVote.html.twig', [
+            'vote' => $vote,
             'form' => $form->createView(),
         ]);
         }
@@ -134,6 +138,16 @@ class VoteController extends AbstractController
             'user' => $user,
             'votes' => $votes,
         ]);
+    }
+
+    /**
+     * @Route("/admin", name="display_admin")
+     */
+    public function indexAdmin(): Response
+    {
+
+        return $this->render('admin/admin.html.twig'
+        );
     }
 
 }

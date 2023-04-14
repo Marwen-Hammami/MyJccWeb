@@ -21,10 +21,15 @@ class Vote
     return $this->ID_Vote;
 }
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 0, max: 5, notInRangeMessage: 'il faut que le rate entre {{ min }} et {{ max }}',)]
     #[ORM\Column]
     private ?int $valeur = null;
 
-    
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
     
@@ -36,13 +41,21 @@ class Vote
     #[Assert\NotNull(message: ' Film est requis')]
     private ?Film $idFilm = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 254)]
     private ?string $commentaire = null;
 
+    
     #[ORM\Column(type: 'date')]
     
     private \DateTime $dateVote;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 0, max: 1, notInRangeMessage: '{{ min }} ou {{ max }}',)]
     #[ORM\Column]
     private ?int $voteFilm = null;
 

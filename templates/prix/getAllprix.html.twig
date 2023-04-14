@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des prix{% endblock %}
+
+{% block body %}
+
+    <div style="display: flex ; margin-left:350px; margin-top:80px;">
+    <a href="{{ path('create_prix') }}"><i class="ri-arrow-left-circle-fill" style="font-size: 50px;"></i></a>
+    </div>
+    <div style="display: flex ; align-items: center;justify-content: center ; margin-top: 100px; padding: 10px;">
+        <h1>Liste des prix</h1>
+    </div>
+    <div style="display: flex ; align-items: center;justify-content: center ; margin-top: 100px; padding: 10px;margin-left: 300px;">
+        <table class="table table-editable table-nowrap align-middle table-edits">
+            <thead>
+                <tr>
+                    <th>Film</th>
+                    <th>Prix</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prix in list %}
+                    <tr data-id="{{ prix.idPrix }}">
+                        <td data-field="film">{{ prix.idFilm.Titre }}</td>
+                        <td data-field="commentaire">{{ prix.typeprix }}</td>
+                        <td style="width: 100px">
+                            <a class="btn btn-success" title="Edit"  href="{{ path('update_prix', {'id': prix.idPrix}) }}" >
+                                Modifier   
+                            </a>
+                        </td>
+                        <td style="width: 100px">
+                            <a class="btn btn-danger" title="Edit"  href="{{ path('prix_delete', {'id': prix.idPrix}) }}" >
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
