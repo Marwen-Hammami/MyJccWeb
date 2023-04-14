@@ -29,7 +29,7 @@ class Vote
     #[ORM\Column]
     private ?int $valeur = null;
 
-    #[Assert\NotBlank]
+    #[Assert\NotNull(message: ' User est requis')]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
     
@@ -41,7 +41,7 @@ class Vote
     #[Assert\NotNull(message: ' Film est requis')]
     private ?Film $idFilm = null;
 
-    #[Assert\NotBlank]
+    #[Assert\NotNull(message: ' commentaire est requis')]
     #[ORM\Column(length: 254)]
     private ?string $commentaire = null;
 
@@ -54,7 +54,7 @@ class Vote
     /**
      * @ORM\Column(type="integer")
      */
-    #[Assert\NotBlank]
+    #[Assert\NotNull(message: ' Vote est requis')]
     #[Assert\Range(min: 0, max: 1, notInRangeMessage: '{{ min }} ou {{ max }}',)]
     #[ORM\Column]
     private ?int $voteFilm = null;

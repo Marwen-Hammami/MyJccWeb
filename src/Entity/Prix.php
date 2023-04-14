@@ -14,6 +14,8 @@ class Prix
     #[ORM\Column(name: "ID_Prix")]
     private ?int $idPrix = null;
 
+    #[Assert\Choice(['OR', 'SILVER', 'BRONZE'],  message : 'choisis entre OR , SILVER ou BRONZE')]
+    [Assert\NotNull(message: 'choisis entre OR , SILVER ou BRONZE')]
     #[ORM\Column(length: 254)]
     private ?string $typeprix = null;
 
