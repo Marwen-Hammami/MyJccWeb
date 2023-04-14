@@ -38,7 +38,11 @@
 									<td>{{ photographie.idPhotographie }}</td>
 									<td>{{ photographie.nom }}</td>
 									<td>{{ photographie.description }}</td>
-									<td>{{ photographie.photographiepath }}</td>
+									<td>
+										<a href="{{ photographie.photographiepath }}" target="_blank">{{ photographie.photographiepath }}</a>
+										<br/>
+										<img src="{{ photographie.photographiepath }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+									</td>
 									<td>
 										<a href="{{ path('app_photographie_admin_show', {'idPhotographie': photographie.idPhotographie}) }}">VoirPlus</a>
 										{# <a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">edit</a> #}

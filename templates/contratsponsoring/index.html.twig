@@ -5,12 +5,12 @@
 
 {% block body %}
 	<br/><br/><br/>
-	<h1>Liste des Contratsponsoring</h1>
+	<h1>Mes Contratsponsoring</h1>
 
 	<table>
 		<thead>
 			<tr>
-				<th>IdContrat</th>
+				{# <th>IdContrat</th> #}
 				<th>Datedebut</th>
 				<th>Datefin</th>
 				<th>Type</th>
@@ -25,7 +25,7 @@
 		<tbody>
 			{% for contratsponsoring in contratsponsorings %}
 				<tr>
-					<td>{{ contratsponsoring.idContrat }}</td>
+					{# <td>{{ contratsponsoring.idContrat }}</td> #}
 					<td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
 					<td>{{ contratsponsoring.datefin ? contratsponsoring.datefin|date('Y-m-d') : '' }}</td>
 					<td>{{ contratsponsoring.type }}</td>
@@ -47,5 +47,5 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_contratsponsoring_new') }}">Create new</a>
+	{# <a href="{{ path('app_contratsponsoring_new') }}">Create new</a> #}
 {% endblock %}

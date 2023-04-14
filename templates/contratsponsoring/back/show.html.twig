@@ -34,15 +34,26 @@
 			</tr>
 			<tr>
 				<th>Termespdf</th>
-				<td>{{ contratsponsoring.termespdf }}</td>
+				<td>
+					<a href="{{ contratsponsoring.termespdf }}" target="_blank">{{ contratsponsoring.termespdf }}</a>
+				</td>
 			</tr>
 			<tr>
 				<th>Signaturesponsor</th>
-				<td>{{ contratsponsoring.signaturesponsor }}</td>
+				<td>
+					<a href="{{ contratsponsoring.signaturesponsor }}" target="_blank">{{ contratsponsoring.signaturesponsor }}</a>
+				</td>
 			</tr>
 			<tr>
 				<th>Signaturephotographe</th>
-				<td>{{ contratsponsoring.signaturephotographe }}</td>
+				<td>
+					<a href="{{ contratsponsoring.signaturephotographe }}" target="_blank">{{ contratsponsoring.signaturephotographe }}</td>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<embed src="{{ contratsponsoring.termespdf }}" type="application/pdf" width="100%" height="1200">
+				</td>
 			</tr>
 		</tbody>
 	</table>

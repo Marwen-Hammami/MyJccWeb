@@ -50,6 +50,17 @@ class PhotographieController extends AbstractController
             'photographies' => $photographieRepository->findBy(['idGalerie' => $galerie->getIdGalerie()]),
         ]);
     }
+    #[Route('/showphotos/{idGalerie}', name: 'app_photographie_show_photos', methods: ['GET'])]
+    public function indexPhotos($idGalerie, PhotographieRepository $photographieRepository, SessionInterface $session): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $galerie = $entityManager->getRepository(Galerie::class)->find($idGalerie);
+
+        return $this->render('galerie/showPhotos.html.twig', [
+            'photographies' => $photographieRepository->findBy(['idGalerie' => $idGalerie]),
+            'galerie' => $galerie,
+        ]);
+    }
 
     #[Route('/new', name: 'app_photographie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PhotographieRepository $photographieRepository, SessionInterface $session): Response

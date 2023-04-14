@@ -1,12 +1,12 @@
 {% extends 'baseFrontOffice.html.twig' %}
 
-{% block title %}New Contratsponsoring
+{% block title %}Proposer un contrat de sponsorisation
 {% endblock %}
 
 {% block body %}
 	<br/><br/><br/>
 	{{ include('contratsponsoring/_form.html.twig') }}
 
-	<a href="{{ path('app_contratsponsoring_index') }}">back to list</a>
+	<a href="{{ path('app_galerie_index') }}">Retour à la lieste des galeries</a>
 
 {% endblock %}

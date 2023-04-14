@@ -18,7 +18,6 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body">
-
 					<h4 class="card-title">Liste des Contrats Sponsoring</h4>
 					<p class="card-title-desc">Liste des contrats de sponsorisation entre les sponsors et les photographes de l'application MyJcc.</p>
 
@@ -47,9 +46,15 @@
 									<td>{{ contratsponsoring.type }}</td>
 									<td>{{ contratsponsoring.etat }}</td>
 									<td>{{ contratsponsoring.salairedt }}</td>
-									<td>{{ contratsponsoring.termespdf }}</td>
-									<td>{{ contratsponsoring.signaturesponsor }}</td>
-									<td>{{ contratsponsoring.signaturephotographe }}</td>
+									<td>
+										<a href="{{ contratsponsoring.termespdf }}" target="_blank">{{ contratsponsoring.termespdf }}</a>
+									</td>
+									<td>
+										<a href="{{ contratsponsoring.signaturesponsor }}" target="_blank">{{ contratsponsoring.signaturesponsor }}</a>
+									</td>
+									<td>
+										<a href="{{ contratsponsoring.signaturephotographe }}" target="_blank">{{ contratsponsoring.signaturephotographe }}</a>
+									</td>
 									<td>
 										<a href="{{ path('app_contratsponsoring_admin_show', {'idContrat': contratsponsoring.idContrat}) }}">VoirPlus</a>
 										{# <a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a> #}

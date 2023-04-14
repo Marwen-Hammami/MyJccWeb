@@ -22,7 +22,13 @@
 			</tr>
 			<tr>
 				<th>Photographiepath</th>
-				<td>{{ photographie.photographiepath }}</td>
+				<td>
+					<a href="{{ photographie.photographiepath }}" target="_blank">{{ photographie.photographiepath }}</a>
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><img src="{{ photographie.photographiepath }}" alt="Image"></td>
 			</tr>
 		</tbody>
 	</table>

@@ -25,6 +25,21 @@
 					</ul>
 				</li>
 				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="bx bx-collection"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Galerie</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							<a href="{{ path('app_galerie_admin_new') }}" key="t-default">Ajouter</a>
+						</li>
+						<li>
+							<a href="{{ path('app_galerie_admin_index') }}" key="t-default">Lister</a>
+						</li>
+					</ul>
+				</li>
+				<li>
 					<a href="{{ path('app_photographie_admin_index') }}" class="waves-effect">
 						<i class="bx bx-images"></i>
 						<span key="t-chat">Photographies</span>

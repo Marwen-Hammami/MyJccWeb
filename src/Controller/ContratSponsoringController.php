@@ -8,6 +8,7 @@ use App\Repository\ContratsponsoringRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/contratsponsoring')]
@@ -47,6 +48,25 @@ class ContratsponsoringController extends AbstractController
         return $this->render('contratsponsoring/index.html.twig', [
             'contratsponsorings' => $contratsponsoringRepository->findAll(),
         ]);
+    }
+    #[Route('/mescontrats', name: 'app_contratsponsoring_index_mes_contrats', methods: ['GET'])]
+    public function indexMesContrats(ContratsponsoringRepository $contratsponsoringRepository, SessionInterface $session): Response
+    {
+        $user = $session->get('user');
+
+        if ($user->getRole() == 'SPONSOR') {
+            # code...
+            return $this->render('contratsponsoring/index.html.twig', [
+                'contratsponsorings' => $contratsponsoringRepository->findBy(['idSponsor' => $user->getIdUser()]),
+            ]);
+        } elseif ($user->getRole() == 'PHOTOGRAPHE') {
+            return $this->render('contratsponsoring/index.html.twig', [
+                'contratsponsorings' => $contratsponsoringRepository->findBy(['idPhotographe' => $user->getIdUser()]),
+            ]);
+        }
+        // return $this->render('contratsponsoring/index.html.twig', [
+        //     'contratsponsorings' => $contratsponsoringRepository->findAll(),
+        // ]);
     }
 
     #[Route('/new', name: 'app_contratsponsoring_new', methods: ['GET', 'POST'])]
