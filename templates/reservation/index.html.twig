@@ -8,7 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>IdRes</th>
+                <th>idPlanning</th>
                 <th>IdUser</th>
                 <th>actions</th>
             </tr>
@@ -16,7 +16,7 @@
         <tbody>
         {% for reservation in reservations %}
             <tr>
-                <td>{{ reservation.idRes }}</td>
+                <td>{{ reservation.idPlan.idPlanning }}</td>
                 <td>{{ reservation.idUser }}</td>
                 <td>
                     <a href="{{ path('app_reservation_show', {'idRes': reservation.idRes}) }}">show</a>

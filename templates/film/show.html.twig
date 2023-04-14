@@ -1,16 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Film{% endblock %}
+{% block title %}{{ film.titre }}{% endblock %}
 
 {% block body %}
-    <h1>Film</h1>
+    <h1>{{ film.titre }}</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>IdFilm</th>
-                <td>{{ film.idFilm }}</td>
-            </tr>
             <tr>
                 <th>Titre</th>
                 <td>{{ film.titre }}</td>
@@ -36,7 +32,7 @@
                 <td>{{ film.prix }}</td>
             </tr>
             <tr>
-                <th>IdProducteur</th>
+                <th>Producteur</th>
                 <td>{{ film.idProducteur }}</td>
             </tr>
             <tr>
@@ -44,15 +40,20 @@
                 <td>{{ film.acteur }}</td>
             </tr>
             <tr>
-                <th>Filmimage</th>
-                <td><img src="{{ asset(film.filmimage) }}" alt="filmimage"></td>
+                
+               <td><img src="{{ asset(film.filmimage) }}" alt="filmimage" style="width: 200px; height: 300px;"></td>
+
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_film_index') }}">back to list</a>
+   <button  onclick="location.href='{{ path('app_film_index') }}'">back to list</button>
 
-    <a href="{{ path('app_film_edit', {'idFilm': film.idFilm}) }}">edit</a>
+<button  onclick="location.href='{{ path('app_film_edit', {'idFilm': film.idFilm}) }}'">edit</button>
 
+
+   <button  onclick="document.getElementById('delete-form').submit(); return confirm('Are you sure you want to delete this film?');">
     {{ include('film/_delete_form.html.twig') }}
+</button>
+
 {% endblock %}

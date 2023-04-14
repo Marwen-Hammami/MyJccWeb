@@ -1,18 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Salle{% endblock %}
+{% block title %}{{ salle.nomsalle }}{% endblock %}
 
 {% block body %}
-    <h1>Salle</h1>
+    <h1>{{ salle.nomsalle }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>IdSalle</th>
-                <td>{{ salle.idSalle }}</td>
-            </tr>
-            <tr>
-                <th>Nomsalle</th>
+                <th>Nom du salle</th>
                 <td>{{ salle.nomsalle }}</td>
             </tr>
             <tr>
@@ -24,19 +20,19 @@
                 <td>{{ salle.capacite }}</td>
             </tr>
             <tr>
-                <th>NumtelSalle</th>
+                <th>Numero telephone </th>
                 <td>{{ salle.numtelSalle }}</td>
             </tr>
             <tr>
-                <th>EmailSalle</th>
+                <th>Email</th>
                 <td>{{ salle.emailSalle }}</td>
             </tr>
             <tr>
-                <th>TempsOuverture</th>
+                <th>Temps d'Ouverture</th>
                 <td>{{ salle.tempsOuverture }}</td>
             </tr>
             <tr>
-                <th>TempsFermuture</th>
+                <th>Temps de Fermuture</th>
                 <td>{{ salle.tempsFermuture }}</td>
             </tr>
             <tr>

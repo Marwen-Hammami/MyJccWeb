@@ -1,21 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Salle index{% endblock %}
+{% block title %}Salles{% endblock %}
 
 {% block body %}
-    <h1>Salle index</h1>
+    <h1>Liste des salles</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>IdSalle</th>
-                <th>Nomsalle</th>
+                <th>Nom de la salle</th>
                 <th>Adresse</th>
-                <th>Capacite</th>
-                <th>NumtelSalle</th>
-                <th>EmailSalle</th>
-                <th>TempsOuverture</th>
-                <th>TempsFermuture</th>
+                <th>Numero telephone</th>
                 <th>Avis</th>
                 <th>actions</th>
             </tr>
@@ -23,27 +18,24 @@
         <tbody>
         {% for salle in salles %}
             <tr>
-                <td>{{ salle.idSalle }}</td>
+
                 <td>{{ salle.nomsalle }}</td>
                 <td>{{ salle.adresse }}</td>
-                <td>{{ salle.capacite }}</td>
                 <td>{{ salle.numtelSalle }}</td>
-                <td>{{ salle.emailSalle }}</td>
-                <td>{{ salle.tempsOuverture }}</td>
-                <td>{{ salle.tempsFermuture }}</td>
                 <td>{{ salle.avis }}</td>
                 <td>
-                    <a href="{{ path('app_salle_show', {'idSalle': salle.idSalle}) }}">show</a>
-                    <a href="{{ path('app_salle_edit', {'idSalle': salle.idSalle}) }}">edit</a>
-                </td>
+    <button onclick="location.href='{{ path('app_salle_show', {'idSalle': salle.idSalle}) }}'">show</button>
+    <button onclick="location.href='{{ path('app_salle_edit', {'idSalle': salle.idSalle}) }}'">modifier</button>
+</td>
+
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="10">aucune salle trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_salle_new') }}">Create new</a>
+    <a href="{{ path('app_salle_new') }}">Ajouter salle</a>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Film index{% endblock %}
+{% block title %}Films{% endblock %}
 
 {% block body %}
     <h1>Liste des films</h1>
@@ -12,10 +12,7 @@
                 <th>Date realisation</th>
                 <th>Genre</th>
                 <th>Resume</th>
-                <th>Duree</th>
-                <th>Prix</th>
-                <th>Producteur</th>
-                <th>Acteur</th>
+                
                 <th>Image</th>
                 <th>actions</th>
             </tr>
@@ -27,10 +24,7 @@
                 <td>{{ film.daterealisation }}</td>
                 <td>{{ film.genre }}</td>
                 <td>{{ film.resume }}</td>
-                <td>{{ film.duree }}</td>
-                <td>{{ film.prix }}</td>
-                <td>{{ film.idProducteur }}</td>
-                <td>{{ film.acteur }}</td>
+                
                 <td>
                     {% if film.filmimage is not null %}
                         <img src="{{ asset(film.filmimage) }}" alt="film image" style="width: 100px;">
@@ -39,9 +33,10 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('app_film_show', {'idFilm': film.idFilm}) }}">show</a>
-                    <a href="{{ path('app_film_edit', {'idFilm': film.idFilm}) }}">edit</a>
-                </td>
+    <button onclick="location.href='{{ path('app_film_show', {'idFilm': film.idFilm}) }}'">show</button>
+    <button onclick="location.href='{{ path('app_film_edit', {'idFilm': film.idFilm}) }}'">edit</button>
+</td>
+
             </tr>
         {% else %}
             <tr>

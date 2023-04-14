@@ -24,7 +24,7 @@ class TMPSessionController extends AbstractController
         } else {
             $session->start();
             $session->set('user', $user);
-            if ($user->getRole() === 'PHOTOGRAPHE') {
+            if ($user->getRole() === 'USER') {
                 $galerie = $entityManager->getRepository(Galerie::class)->findOneBy(['idPhotographe' => $user->getIdUser()]);
                 $session->set('galerie', $galerie);
             }

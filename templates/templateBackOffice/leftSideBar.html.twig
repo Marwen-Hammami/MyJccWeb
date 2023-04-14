@@ -7,30 +7,35 @@
 			id="sidebar-menu">
 			<!-- Left Menu Start -->
 			<ul class="metismenu list-unstyled" id="side-menu">
-				<li class="menu-title" key="t-menu">Sponsors & Photographes</li>
+				<li class="menu-title" key="t-menu">Films & Salles</li>
 
 				<li>
-					<a href="javascript: void(0);" class="has-arrow waves-effect">
-						<i class="bx bx-file"></i>
-						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
-						<span key="t-dashboards">Contrats Sponsoring</span>
-					</a>
-					<ul class="sub-menu" aria-expanded="false">
-						<li>
-						{# href="{{ path('app_contratsponsoring_admin_index') }}" #}
-							<a href="#" key="t-default">Lister</a>
-						</li>
-						<li>
-							<a href="#" key="t-saas">Statistiques Générales</a>
-						</li>
-					</ul>
-				</li>
+                 <a href="{{ path('app_film_index') }}" class="waves-effect">
+                     <i class="bx bx-file"></i>
+                     <span key="t-dashboards">Films</span>
+                 </a>
+                </li>
+
 				<li>
-					<a href="#" class="waves-effect">
-						<i class="bx bx-images"></i>
-						<span key="t-chat">Photographies</span>
-					</a>
-				</li>
+                 <a href="{{ path('app_salle_index') }}" class="waves-effect">
+                     <i class="bx bx-file"></i>
+                     <span key="t-dashboards">Salles Cinéma</span>
+                 </a>
+                </li>
+
+				<li>
+                 <a href="{{ path('app_planningfilmsalle_index') }}" class="waves-effect">
+                     <i class="bx bx-file"></i>
+                     <span key="t-dashboards">Plannings</span>
+                 </a>
+                </li>
+
+				<li>
+                 <a href="{{ path('app_reservation_index') }}" class="waves-effect">
+                     <i class="bx bx-file"></i>
+                     <span key="t-dashboards">Reservations</span>
+                 </a>
+                </li>
 
 
 			</ul>
