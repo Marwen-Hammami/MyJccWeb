@@ -4,13 +4,13 @@
 
 {% block body %}
 
-    <div style="display: flex ; margin-left:350px; margin-top:80px;">
+    <div>
     <a href="{{ path('create_vote') }}"><i class="ri-arrow-left-circle-fill" style="font-size: 50px;"></i></a>
     </div>
-    <div style="display: flex ; align-items: center;justify-content: center ; margin-top: 100px; padding: 10px;">
+    <div>
         <h1>Liste des vote</h1>
     </div>
-    <div style="display: flex ; align-items: center;justify-content: center ; margin-top: 100px; padding: 10px;margin-left: 300px;">
+    <div>
         <table class="table table-editable table-nowrap align-middle table-edits">
             <thead>
                 <tr>
@@ -35,13 +35,13 @@
                         <td data-field="datevote">{{ vote.datevote|date('d/m/Y') }}</td>
                         <td data-field="hotel">{{ vote.voteFilm }}</td>
                         <td style="width: 100px">
-                            <a class="btn btn-success" title="Edit"  href="{{ path('update_vote', {'id': vote.ID_Vote}) }}" >
-                                Modifier   
+                            <a class="btn btn-outline-primary btn-sm edit" title="Edit"  href="{{ path('update_vote', {'id': vote.ID_Vote}) }}" >
+                                <i class="fas fa-pencil-alt"></i>  
                             </a>
                         </td>
                         <td style="width: 100px">
-                            <a class="btn btn-danger" title="Edit"  href="{{ path('vote_delete', {'id': vote.ID_Vote}) }}" >
-                                Supprimer
+                            <a class="btn btn-outline-secondary btn-sm delete" title="Delete"  href="{{ path('vote_delete', {'id': vote.ID_Vote}) }}" >
+                                <i class="fas fa-trash"></i>    
                             </a>
                         </td>
                     </tr>
