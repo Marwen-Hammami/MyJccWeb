@@ -1,0 +1,49 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des locations de véhicules{% endblock %}
+
+
+{% block body %}
+
+<h1>Liste des locations de véhicules</h1>
+    <div class="table-responsive">
+        <table class="table table-editable table-nowrap align-middle table-edits">
+            <thead>
+                <tr>
+                    <th>Date de réservation</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Tarif total</th>
+                    {#<th>QR Code</th>#}
+                    <th>Véhicule</th>
+                    <th>Invité(e)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in list %}
+                    <tr data-id="{{ location.idLocation }}">
+                        <td data-field="datereservation">{{ location.datereservation|date('d/m/Y') }}</td>
+                        <td data-field="datedebut">{{ location.dateDebut|date('d/m/Y') }}</td>
+                        <td data-field="datefin">{{ location.dateFin|date('d/m/Y') }}</td>
+                        <td data-field="tariftotale">{{ location.tariftotal }} DT</td>
+                       {# <td data-field="qrpath">{{ location.qrpath }}</td>#} 
+                        <td data-field="vehicule">{{ location.matricule.marque }}</td>
+                        <td data-field="user">{{ location.idUser.nom }} {{location.idUser.prenom}}</td>
+                        <td style="width: 100px">
+                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{{ path('update_locationvehicule', {'id': location.idLocation}) }}" >
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a class="btn btn-outline-secondary btn-sm edit" title="Delete" href="{{ path('location_vehicule_delete', {'id': location.idLocation}) }}" >
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,21 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block body %}
+    <h1>Mes Locations</h1>
+    {% if not locations|length %}
+        <p>Location indisponible.</p>
+    {% else %}
+    <div class="row">
+     {% for location in locations %}
+        <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+         <div class="card-header"><i class="fas fa-hotel"></i> {{ location.matricule.marque }}</div>
+            <div class="card-body">
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de début: {{ location.dateDebut|date('d/m/Y') }}</p>
+                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de fin: {{ location.dateFin|date('d/m/Y') }}</p>
+                <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ location.tariftotal }}€</p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}
