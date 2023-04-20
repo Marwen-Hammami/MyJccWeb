@@ -14,7 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class VoteType extends AbstractType
 {
@@ -44,7 +45,12 @@ class VoteType extends AbstractType
                 'placeholder' => 'Film',
             ])
             ->add('commentaire')
-            ->add('voteFilm')
+            
+        ->add('voteFilm', CheckboxType::class, [
+            'label' => ' Vote pour ce film',
+            'required' => false,
+        ])
+        
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('cancel', SubmitType::class, ['label' => 'Annuler']) 
         ;
