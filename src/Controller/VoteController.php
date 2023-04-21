@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
+use Doctrine\ORM\EntityRepository;
 
 
 class VoteController extends AbstractController
@@ -150,4 +153,71 @@ class VoteController extends AbstractController
         );
     }
 
+    /**
+    * Returns the number of votes by day and days.
+    *
+    * @return array An array where keys are the dates and values are the number of votes.
+    */
+    public function getVotesByDay()
+{
+    $qb = $this->createQueryBuilder('v');
+    $qb->select(' Date_Vote as day ,COUNT(Vote_Film) as votes')
+       ->groupBy('day');
+
+    $results = $qb->getQuery()->getResult();
+
+    $votesByDay = array();
+    foreach ($results as $result) {
+        $votesByDay[$result['day']] = $result['votes'];
+    }
+
+    return $votesByDay;
+}
+
+/* pourcentage te3 l rate par genre */
+public function yourAction(EntityManagerInterface $entityManager)
+    {
+        $queryBuilder = $entityManager->createQueryBuilder();
+        
+        $queryBuilder->select('f.Genre', 'SUM(v.Valeur) / total_votes.Total')
+            ->from('App\Entity\Film', 'f')
+            ->innerJoin('f.vote', 'v')
+            ->crossJoin('(SELECT SUM(Valeur) AS Total FROM App\Entity\Vote) total_votes')
+            ->groupBy('f.Genre');
+        
+        $results = $queryBuilder->getQuery()->getResult();
+        
+        return new Response(var_export($results, true));
+    }
+
+    /* 3dad l votes par film */
+    public function chartAction(EntityManagerInterface $em): Response
+    {
+        $qb = $em->createQueryBuilder();
+        $qb->select('f.Titre as film_title, COUNT(v.ID_Vote) as num_votes')
+           ->from('App\Entity\Film', 'f')
+           ->join('f.votes', 'v')
+           ->where('v.Vote_Film = 1')
+           ->groupBy('f.Titre');
+
+        $results = $qb->getQuery()->getResult();
+
+        // Create an array of labels and an array of data from the results
+        $labels = array_map(function ($result) {
+            return $result['film_title'];
+        }, $results);
+
+        $data = array_map(function ($result) {
+            return $result['num_votes'];
+        }, $results);
+
+        // Convert the arrays to JSON format for use in the JavaScript chart
+        $labels_json = json_encode($labels);
+        $data_json = json_encode($data);
+
+        return $this->render('chart.html.twig', [
+            'labels' => $labels_json,
+            'data' => $data_json,
+        ]);
+    }
 }
