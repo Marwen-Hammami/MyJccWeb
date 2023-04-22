@@ -6,6 +6,7 @@ use App\Entity\LocationVehicule;
 use App\Entity\User;
 use App\Form\LocationVehiculeType;
 use App\Repository\LocationVehiculeRepository;
+use App\Services\QrcodeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,14 +25,30 @@ class LocationVehiculeController extends AbstractController
     }
 
     #[Route('/locationvehicule/create', name: 'create_location_vehicule')]
-    public function createLocationVehicule(ManagerRegistry $doctrine, Request $request): Response
-    {
+    public function createLocationVehicule(ManagerRegistry $doctrine, Request $request,  QrcodeService $qrcodeService): Response
+    {   
+        $qrCode = null;
+        $typeReservation="Location Vehicule";
+
         $locationVehicule = new LocationVehicule();
         $locationVehicule ->setDateReservation(new \DateTime());
         $locationVehicule->setQrpath('');
         $form = $this->createForm(LocationVehiculeType::class, $locationVehicule);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Générer le contenu du code QR
+            $qrContent = $qrContent = sprintf("Nom d'utilisateur : %s\nDate de réservation : %s\nDate de début : %s\nDate de fin : %s\nVehicule : %s\nTarif total : %s", 
+            $locationVehicule->getIdUser()->getNom(),
+            $locationVehicule->getDatereservation()->format('Y-m-d H:i:s'),
+            $locationVehicule->getDateDebut()->format('Y-m-d'),
+            $locationVehicule->getDateFin()->format('Y-m-d'),
+            $locationVehicule->getMatricule()->getMatricule(),
+            $locationVehicule->getTariftotal()
+            );
+
+            $qrCode = $qrcodeService->qrcode($qrContent,$typeReservation);
+            $locationVehicule->setQrpath($qrCode);
+
             $em = $doctrine->getManager();
             $em->persist($locationVehicule);
             $em->flush();
@@ -45,6 +62,7 @@ class LocationVehiculeController extends AbstractController
 
         return $this->render('location_vehicule/createLocation.html.twig', [
             'form' => $form->createView(),
+            'qrCode' => $qrCode
         ]);
     }
 

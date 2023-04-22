@@ -8,7 +8,7 @@ use App\Form\ReservationHotelType;
 use App\Repository\HotelRepository;
 use App\Repository\UserRepository;
 use App\Repository\ReservationHotelRepository;
-
+use App\Services\QrcodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,20 +16,39 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+
+
+
+
+
 class ReservationHotelController extends AbstractController
 {
 
 
     #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
-    public function createHotel(ManagerRegistry $doctrine, Request $request): Response
+    public function createHotel(ManagerRegistry $doctrine, Request $request, QrcodeService $qrcodeService): Response
     {
+        $qrCode = null;
+        $typeReservation="Reservation Hotel";
+        
         $reservation = new ReservationHotel();
         $reservation->setDateReservation(new \DateTime());
-        $reservation->setQrpath('');
         $form = $this->createForm(ReservationHotelType::class, $reservation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Générer le contenu du code QR
+            $qrContent = $qrContent = sprintf("Nom d'utilisateur : %s\nDate de réservation : %s\nDate de début : %s\nDate de fin : %s\nHôtel : %s\nTarif total : %s", 
+            $reservation->getIdUser()->getNom(),
+            $reservation->getDatereservation()->format('Y-m-d H:i:s'),
+            $reservation->getDateDebut()->format('Y-m-d'),
+            $reservation->getDateFin()->format('Y-m-d'),
+            $reservation->getIdHotel()->getLibelle(),
+            $reservation->getTariftotale()
+            );
             
+            $qrCode = $qrcodeService->qrcode($qrContent,$typeReservation);
+            $reservation->setQrpath($qrCode);
+
             $EM = $doctrine->getManager();
             $EM->persist($reservation);
             $EM->flush();
@@ -44,8 +63,10 @@ class ReservationHotelController extends AbstractController
         return $this->render('reservation_hotel/CreateReservation.html.twig', [
             'reservation' => $reservation,
             'form' => $form->createView(),
+            'qrCode' => $qrCode
         ]);
     }
+    
     #[Route('/reservationhotel/{id}', name: 'reservationhotel_show')]
     public function getReservationHotelByID($id, ReservationHotelRepository $repo, HotelRepository $hotelRepo, UserRepository $userRepo)
     {

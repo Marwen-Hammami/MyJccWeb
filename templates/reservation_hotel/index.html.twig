@@ -14,9 +14,14 @@
                 <p class="card-text"><i class="far fa-calendar-alt"></i> Date de fin: {{ reservation.dateFin|date('d/m/Y') }}</p>
                 <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ reservation.tariftotale }}€</p>
             </div>
+       
         </div>
-    {% endfor %}
+    
     </div>
+     {% if reservation.qrpath %}
+            <img src="{{ reservation.qrpath }}" alt="QR code">
+        {% endif %}
+    {% endfor %}
     {% endif %}    
 {% endblock %}
 

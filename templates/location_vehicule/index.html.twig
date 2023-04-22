@@ -15,6 +15,9 @@
                 <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ location.tariftotal }}€</p>
             </div>
         </div>
+             {% if location.qrpath %}
+            <img src="{{ location.qrpath }}" alt="QR code">
+        {% endif %}
     {% endfor %}
     </div>
     {% endif %}
