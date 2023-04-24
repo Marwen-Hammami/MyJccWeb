@@ -6,40 +6,41 @@ use App\Repository\VoteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\MyJccWeb\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\MyJccWeb\Chartjs\Model\Chart;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class ChartjsController extends AbstractController
 {
-    #[Route('/chartjs', name: 'app_chartjs')]
-    public function index(VoteRepository $voteRepository, ChartBuilderInterface $chartBuilderInterface): Response
+    #[Route('/chartjs2', name: 'app_chartjs')]
+    public function index(VoteRepository $voteRepository, ChartBuilderInterface $chartBuilder): Response
     {
-        $votes = $voteRepository->findAll();
+        // Get the number of votes by day
+    $votesByDay = $voteRepository->getVotesByDay();
 
-        $labels = [];
-        $data = [];
-        foreach ($votes as $vote) {
-            $labels[] = $vote->getDateVote()->format('d/m/Y');
-            $data[] = $vote->getValeur();
-        }
+    // Format the data for the chart
+    $labels = array_keys($votesByDay);
+    $data = array_values($votesByDay);
 
-        $chart = $chartBuilderInterface->createChart(Chart::TYPE_LINE);
-        $chart->setData([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'Votes/Jour',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $data,
-                ],
+    // Create the chart
+    $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+    $chart->setData([
+        'labels' => $labels,
+        'datasets' => [
+            [
+                'label' => 'Number of Votes per Day',
+                'backgroundColor' => 'rgb(255, 99, 132)',
+                'borderColor' => 'rgb(255, 99, 132)',
+                'data' => $data,
             ],
-        ]);
+        ],
+    ]);
+    
     $chart->setOptions([/* ... */]);
 
-        return $this->render('chartjs/index.html.twig', [
-            'controller_name' => 'ChartjsController',
-            'chart' => $chart,
-        ]);
-    }
+    return $this->render('chartjs/index.html.twig', [
+        'controller_name' => 'ChartjsController',
+        'chart' => $chart,
+    ]);
+
+}
 }

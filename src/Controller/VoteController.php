@@ -16,24 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+
+use Doctrine\ORM\EntityRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-use Doctrine\ORM\EntityRepository;
-
-
 class VoteController extends AbstractController
 {
-/*
-    #[Route('/', name: 'app_daily_result_index', methods: ['GET'])]
-    public function index1(VoteRepository $voteRepository): Response
-    {
-        return $this->render('daily_result/index.html.twig', [
-            'daily_results' => $voteRepository->findAll(),
-        ]);
-    }
-*/
-
     #[Route('/vote/create', name: 'create_vote')]
     public function createVote(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -165,47 +154,40 @@ class VoteController extends AbstractController
         );
     }
 
-    /**
-    * Returns the number of votes by day and days.
-    *
-    * @return array An array where keys are the dates and values are the number of votes.
-    */
-    public function getVotesByDay()
-{
-    $qb = $this->createQueryBuilder('v');
-    $qb->select(' Date_Vote as day ,COUNT(Vote_Film) as votes')
-       ->groupBy('day');
 
-    $results = $qb->getQuery()->getResult();
 
-    $votesByDay = array();
-    foreach ($results as $result) {
-        $votesByDay[$result['day']] = $result['votes'];
-    }
-
-    return $votesByDay;
-}
-    /**
-     * @Route("/dashboard", name="dashboard")
-     */
-    public function dashboard(VoteRepository $voteRepository): Response
+#[Route('/chartjs', name: 'app_chartjs')]
+    public function index(VoteRepository $voteRepository, ChartBuilderInterface $chartBuilder): Response
     {
-        $votesByDay = $voteRepository->getVotesByDay();
-        
-        return $this->render('dashboard.html.twig', [
-            'votesByDay' => $votesByDay,
-        ]);
-    }
+        // Get the number of votes by day
+    $votesByDay = $voteRepository->getVotesByDay();
 
+    // Format the data for the chart
+    $labels = array_keys($votesByDay);
+    $data = array_values($votesByDay);
 
+    // Create the chart
+    $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+    $chart->setData([
+        'labels' => $labels,
+        'datasets' => [
+            [
+                'label' => 'Number of Votes per Day',
+                'backgroundColor' => 'rgb(255, 99, 132)',
+                'borderColor' => 'rgb(255, 99, 132)',
+                'data' => $data,
+            ],
+        ],
+    ]);
+    
+    $chart->setOptions([/* ... */]);
 
+    return $this->render('chartjs/index.html.twig', [
+        'controller_name' => 'ChartjsController',
+        'chart' => $chart,
+    ]);
 
-
-
-
-
-
-
+}
 
 /* pourcentage te3 l rate par genre */
 public function yourAction(EntityManagerInterface $entityManager)
