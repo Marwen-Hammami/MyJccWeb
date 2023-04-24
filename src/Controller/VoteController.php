@@ -16,12 +16,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 use Doctrine\ORM\EntityRepository;
 
 
 class VoteController extends AbstractController
 {
+/*
+    #[Route('/', name: 'app_daily_result_index', methods: ['GET'])]
+    public function index1(VoteRepository $voteRepository): Response
+    {
+        return $this->render('daily_result/index.html.twig', [
+            'daily_results' => $voteRepository->findAll(),
+        ]);
+    }
+*/
+
     #[Route('/vote/create', name: 'create_vote')]
     public function createVote(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -173,6 +185,27 @@ class VoteController extends AbstractController
 
     return $votesByDay;
 }
+    /**
+     * @Route("/dashboard", name="dashboard")
+     */
+    public function dashboard(VoteRepository $voteRepository): Response
+    {
+        $votesByDay = $voteRepository->getVotesByDay();
+        
+        return $this->render('dashboard.html.twig', [
+            'votesByDay' => $votesByDay,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
 
 /* pourcentage te3 l rate par genre */
 public function yourAction(EntityManagerInterface $entityManager)
