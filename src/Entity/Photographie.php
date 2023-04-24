@@ -24,7 +24,7 @@ class Photographie
     private ?string $description = null;
 
     #[ORM\Column(length: 254)]
-    #[Assert\NotBlank(message: "Chemain de la photographie est obligatoire")]
+    // #[Assert\NotBlank(message: "Chemain de la photographie est obligatoire")]
     private ?string $photographiepath = null;
 
     #[ORM\ManyToOne(targetEntity: Galerie::class)]

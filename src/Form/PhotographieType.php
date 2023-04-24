@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PhotographieType extends AbstractType
 {
@@ -18,7 +20,14 @@ class PhotographieType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('photographiepath')
+            ->add('photographiepath', FileType::class, [
+                'label' => 'Votre Photographie',
+                'constraints' => [
+                    new Assert\Image(['maxSize' => '5M']),
+                ],
+                'mapped' => false,
+                'required' => true,
+            ])
             ->add('idGalerie', EntityType::class, [
                 'class' => Galerie::class,
                 'choice_label' => 'nom',

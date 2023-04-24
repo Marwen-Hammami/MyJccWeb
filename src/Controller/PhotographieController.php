@@ -6,6 +6,7 @@ use App\Entity\Photographie;
 use App\Entity\Galerie;
 use App\Form\PhotographieType;
 use App\Repository\PhotographieRepository;
+use phpDocumentor\Reflection\PseudoTypes\False_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,10 +72,27 @@ class PhotographieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('photographiepath')->getData();
+            if ($uploadedFile) {
+                $destination = 'C:\xampp\htdocs\myjcc\photographies'; // update this line   
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = 'http://localhost/myjcc/photographies/' . $originalFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                $photographie->setPhotographiepath($newFilename);
 
-            $photographieRepository->save($photographie, true);
+                $photographieRepository->save($photographie, true);
 
-            return $this->redirectToRoute('app_photographie_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_photographie_index', [], Response::HTTP_SEE_OTHER);
+            } else {
+                return $this->renderForm('photographie/new.html.twig', [
+                    'photographie' => $photographie,
+                    'form' => $form,
+                    'isEdit' => 0,
+                ]);
+            }
         }
 
         return $this->renderForm('photographie/new.html.twig', [
@@ -106,6 +124,7 @@ class PhotographieController extends AbstractController
         return $this->renderForm('photographie/edit.html.twig', [
             'photographie' => $photographie,
             'form' => $form,
+            'isEdit' => 1,
         ]);
     }
 
