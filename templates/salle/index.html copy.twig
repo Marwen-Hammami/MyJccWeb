@@ -1,0 +1,32 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Salles{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/salles.css') }}">
+{% endblock %}
+
+{% block body %}
+<br/><br/>
+    <div class="container">
+        <h1 class="text-center mt-5 mb-3"></h1>
+        <div class="row">
+            {% for salle in salles %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ salle.nomsalle }}</h5>
+                            <p class="card-text">{{ salle.adresse }}</p>
+                            <p class="card-text">{{ salle.numtelSalle }}</p>
+                            <p class="card-text">{{ salle.avis }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p>aucune salle trouvée</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

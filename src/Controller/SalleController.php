@@ -20,6 +20,14 @@ class SalleController extends AbstractController
             'salles' => $salleRepository->findAll(),
         ]);
     }
+    #[Route('/salle_user', name: 'app_salle_index_user', methods: ['GET'])]
+    public function index_user(SalleRepository $salleRepository): Response
+    {   
+        return $this->render('salle/index.html copy.twig', [
+            'salles' => $salleRepository->findAll(),
+        ]);
+    }
+
 
     #[Route('/new', name: 'app_salle_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SalleRepository $salleRepository): Response

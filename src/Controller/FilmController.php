@@ -21,6 +21,14 @@ class FilmController extends AbstractController
         ]);
     }
 
+    #[Route('/film_user', name: 'app_film_index_user', methods: ['GET'])]
+    public function index_user(FilmRepository $filmRepository): Response
+    {
+        return $this->render('film/index.html.copy.twig', [
+            'films' => $filmRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_film_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FilmRepository $filmRepository): Response
     {
@@ -57,6 +65,13 @@ class FilmController extends AbstractController
     public function show(Film $film): Response
     {
         return $this->render('film/show.html.twig', [
+            'film' => $film,
+        ]);
+    }
+    #[Route('/{idFilm}/det', name: 'app_film_show_user', methods: ['GET'])]
+    public function show_user(Film $film): Response
+    {
+        return $this->render('film/show.html.copy.twig', [
             'film' => $film,
         ]);
     }

@@ -1,5 +1,4 @@
 {% set user = app.session.get('user') %}
-{% set galerie = app.session.get('galerie') %}
 <header id="gen-header" class="gen-header-style-1 gen-has-sticky">
 	<div class="gen-bottom-header">
 		<div class="container">
@@ -12,53 +11,15 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<div id="gen-menu-contain" class="gen-menu-contain">
 								<ul id="gen-main-menu" class="navbar-nav ml-auto">
-									{% if user.role == 'PHOTOGRAPHE' %}
+									{% if user.role != 'ADMINSTRATEUR' %}
 										<li class="menu-item">
-											<a href="#" aria-current="page">Ma Galerie</a>
+											<a href="{{ path('app_film_index_user') }}" aria-current="page">Films</a>
 											<i class="fa fa-chevron-down gen-submenu-icon"></i>
-											<ul class="sub-menu">
-												<li class="menu-item">
-													<a href="{{ path('app_photographie_new') }}" aria-current="page">Ajouter une photographie</a>
-												</li>
-												<li class="menu-item">
-													<a href="{{ path('app_photographie_index') }}" aria-current="page">Mes Photographies</a>
-												</li>
-												<li class="menu-item">
-													<a href="{{ path('app_galerie_show', {'idGalerie': galerie.idGalerie}) }}" aria-current="page">Préférences</a>
-												</li>
-											</ul>
-										</li>
+									    </li>
 										<li class="menu-item">
-											<a href="#" aria-current="page">Mes Contrats</a>
-										</li>
-									{% elseif user.role == 'SPONSOR' %}
-										<li class="menu-item">
-											<a href="#" aria-current="page">Mes Contrats</a>
-										</li>
-										<li class="menu-item">
-											<a href="#" aria-current="page">Photographies</a>
+											<a href="{{ path('app_salle_index_user') }}" aria-current="page">Salles</a>
 											<i class="fa fa-chevron-down gen-submenu-icon"></i>
-											<ul class="sub-menu">
-												<li class="menu-item">
-													<a href="#" aria-current="page">Lister</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" aria-current="page">Ajouter</a>
-												</li>
-											</ul>
-										</li>
-										<li class="menu-item">
-											<a href="#" aria-current="page">Galeries</a>
-											<i class="fa fa-chevron-down gen-submenu-icon"></i>
-											<ul class="sub-menu">
-												<li class="menu-item">
-													<a href="#" aria-current="page">Lister</a>
-												</li>
-												<li class="menu-item">
-													<a href="#" aria-current="page">Ajouter</a>
-												</li>
-											</ul>
-										</li>
+									    </li>
 									{% endif %}
 								</ul>
 							</div>
