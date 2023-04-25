@@ -10,59 +10,68 @@
             color: #fff;
         }
 
-        table {
-            color: #fff;
-            border-collapse: collapse;
+        .film-details {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding-left: 50px;
         }
 
-        th, td {
-            border: none;
-            padding: 10px;
+        .film-details > div {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .film-details > div > span {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .film-details > div > p {
+            margin: 0;
         }
     </style>
 {% endblock %}
 
 {% block body %}
     <br/><br/><br/>
-    <h1>{{ film.titre }}</h1>
+    <h1 style="padding-left: 50px;">{{ film.titre }} </h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Titre</th>
-                <td>{{ film.titre }}</td>
-            </tr>
-            <tr>
-                <th>Daterealisation</th>
-                <td>{{ film.daterealisation }}</td>
-            </tr>
-            <tr>
-                <th>Genre</th>
-                <td>{{ film.genre }}</td>
-            </tr>
-            <tr>
-                <th>Resume</th>
-                <td>{{ film.resume }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ film.duree }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ film.prix }}</td>
-            </tr>
-            <tr>
-                <th>Producteur</th>
-                <td>{{ film.idProducteur }}</td>
-            </tr>
-            <tr>
-                <th>Acteur</th>
-                <td>{{ film.acteur }}</td>
-            </tr>
-            <tr>
-               <td><img src="{{ asset(film.filmimage) }}" alt="filmimage" style="width: 200px; height: 300px;"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="film-details">
+        <div>
+            <img src="{{ asset(film.filmimage) }}" alt="filmimage" style="width: 200px; height: 300px;">
+        </div>
+        <div>
+            <div>
+                <span>Date de realisation: {{ film.daterealisation }}</span>
+                {# <p>{{ film.daterealisation }}</p> #}
+            </div>
+            <div>
+                <span>Genre: {{ film.genre }}</span>
+                {# <p>{{ film.genre }}</p> #}
+            </div>
+            <div>
+                <span>Resume: {{ film.resume }}</span>
+                {# <p>{{ film.resume }}</p> #}
+            </div>
+            <div>
+                <span>Duree: {{ film.duree }}</span>
+                {# <p>{{ film.duree }}</p> #}
+            </div>
+            <div>
+                <span>Prix: {{ film.prix }} DT</span>
+                {# <p>{{ film.prix }}</p> #}
+            </div>
+            <div>
+                <span>Producteur: {{ film.idProducteur }}</span>
+                {# <p>{{ film.idProducteur }}</p> #}
+            </div>
+            <div>
+                <span>Acteur: {{ film.acteur }}</span>
+                {# <p>{{ film.acteur }}</p> #}
+            </div>
+        </div>
+    </div>
 {% endblock %}
