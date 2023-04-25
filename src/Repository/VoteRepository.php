@@ -64,6 +64,31 @@ class VoteRepository extends ServiceEntityRepository
         return $votesByDay;
     }
 
+        /**
+    * Returns the number of votes by day and days.
+    *
+    * @return array An array where keys are the dates and values are the number of votes.
+    */
+    public function getVotesFilmByDay()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT v.dateVote AS day, SUM(v.voteFilm) AS votes
+            FROM App\Entity\Vote v
+            GROUP BY day
+        ');
+    
+        $results = $query->getResult();
+    
+        $votesByDay = array();
+        foreach ($results as $result) {
+            $day = $result['day']->format('Y-m-d'); // convert date to a string format
+            $votesByDay[$day] = $result['votes'];
+        }
+    
+        return $votesByDay;
+    }
+
 //    /**
 //     * @return Vote[] Returns an array of Vote objects
 //     */

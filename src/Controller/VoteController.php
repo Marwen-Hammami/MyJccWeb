@@ -159,8 +159,7 @@ class VoteController extends AbstractController
 #[Route('/chartjs', name: 'app_chartjs')]
     public function index(VoteRepository $voteRepository, ChartBuilderInterface $chartBuilder): Response
     {
-        // Get the number of votes by day
-    $votesByDay = $voteRepository->getVotesByDay();
+        $votesByDay = $voteRepository->getVotesByDay();
 
     // Format the data for the chart
     $labels = array_keys($votesByDay);
@@ -172,7 +171,7 @@ class VoteController extends AbstractController
         'labels' => $labels,
         'datasets' => [
             [
-                'label' => 'Number of Votes per Day',
+                'label' => 'Number of Rates per Day',
                 'backgroundColor' => 'rgb(255, 99, 132)',
                 'borderColor' => 'rgb(255, 99, 132)',
                 'data' => $data,
@@ -181,13 +180,37 @@ class VoteController extends AbstractController
     ]);
     
     $chart->setOptions([/* ... */]);
+        // Get the number of votes by day
+    $votesByDay2 = $voteRepository->getVotesFilmByDay();
 
-    return $this->render('chartjs/index.html.twig', [
-        'controller_name' => 'ChartjsController',
-        'chart' => $chart,
+    // Format the data for the chart
+    $labels2 = array_keys($votesByDay2);
+    $data2 = array_values($votesByDay2);
+
+    // Create the chart
+    $chart2 = $chartBuilder->createChart(Chart::TYPE_LINE);
+    $chart2->setData([
+        'labels' => $labels2,
+        'datasets' => [
+            [
+                'label' => 'Number of Votes per Day',
+                'backgroundColor' => 'rgb(255, 99, 132)',
+                'borderColor' => 'rgb(255, 99, 132)',
+                'data' => $data2,
+            ],
+        ],
     ]);
+    
+    $chart2->setOptions([/* ... */]);
+
+        return $this->render('chartjs/index.html.twig', [
+            'controller_name' => 'ChartjsController',
+            'chart' => $chart,
+            'chart2' => $chart2,
+        ]);
 
 }
+
 
 /* pourcentage te3 l rate par genre */
 public function yourAction(EntityManagerInterface $entityManager)
