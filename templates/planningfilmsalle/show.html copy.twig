@@ -1,0 +1,62 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Planningfilmsalle{% endblock %}
+
+{% block body %}
+</br></br></br>
+
+<div style="padding-left: 50px;">
+<div>
+        <div>
+            <h5>Titre du film</h5>
+            <p>{{ planningfilmsalle.idFilm.titre }}</p>
+        </div>
+    </div>
+<div>
+        <div>
+            <h5>Nom de la salle</h5>
+            <p>{{ planningfilmsalle.idSalle.nomSalle }}</p>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <h5>Date de diffusion</h5>
+            <p>{{ planningfilmsalle.datediffusion ? planningfilmsalle.datediffusion|date('Y-m-d') : '' }}</p>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <h5>Heure de diffusion</h5>
+            <p>{{ planningfilmsalle.heurediffusion }}</p>
+        </div>
+    </div>
+</div>
+    
+
+<div style="padding-left: 50px;">
+    <button type="button" class="btn btn-danger" style="background-color: #8b0000;" onclick="openWindow()">Réserver</button>
+</div>
+
+<script>
+    function openWindow() {
+        var url = "{{ path('app_reservation_new') }}";
+        var windowName = "Reservation";
+        var windowSize = "width=800,height=600,resizable=yes,scrollbars=yes,status=yes";
+        window.open(url, windowName, windowSize);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+    
+
+{% endblock %}

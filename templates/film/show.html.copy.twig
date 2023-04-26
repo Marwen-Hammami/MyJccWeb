@@ -80,7 +80,7 @@
 
    <div class="card-deck">
   {% for planning in plannings %}
-    <div class="card mb-4">
+    <div class="card mb-4" onclick="location.href='{{ path('app_planningfilmsalle_show_user', {'idPlanning': planning.idPlanning}) }}'" style="cursor: pointer;">
       <div class="card-body">
         <h5 class="card-title">{{ planning.getIdSalle().nomsalle }}</h5>
         <p class="card-text">Date de diffusion : {{ planning.getDatediffusion()|date('Y-m-d') }}</p>
@@ -89,6 +89,7 @@
     </div>
   {% endfor %}
 </div>
+
 {% endblock %}
 
 

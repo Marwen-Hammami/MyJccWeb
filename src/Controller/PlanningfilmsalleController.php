@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\User;
 use App\Entity\Planningfilmsalle;
 use App\Form\PlanningfilmsalleType;
+use App\Repository\UserRepository;
 use App\Repository\PLanningfilmsalleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,22 @@ class PlanningfilmsalleController extends AbstractController
         ]);
     }
 
+    #[Route('/{idPlanning}/user', name: 'app_planningfilmsalle_show_user', methods: ['GET'])]
+    public function show_user(Planningfilmsalle $planningfilmsalle, UserRepository $userRepository): Response
+    {
+        $user = null;
+if ($this->getUser() && $this->getUser()->isAuthenticated()) {
+    $user = $userRepository->find($this->getUser()->getIdUser());
+}
+
+    
+        return $this->render('planningfilmsalle/show.html copy.twig', [
+            'planningfilmsalle' => $planningfilmsalle,
+            'user' => $user,
+        ]);
+    }
+    
+
     #[Route('/{idPlanning}/edit', name: 'app_planningfilmsalle_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Planningfilmsalle $planningfilmsalle, PLanningfilmsalleRepository $pLanningfilmsalleRepository): Response
     {
@@ -75,5 +92,7 @@ class PlanningfilmsalleController extends AbstractController
 
         return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
     
 }
