@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Contratsponsoring;
+use App\Entity\User;
 use App\Form\ContratsponsoringType;
 use App\Repository\ContratsponsoringRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\PdfGenerator;
+use DateTime;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[Route('/contratsponsoring')]
 class ContratsponsoringController extends AbstractController
@@ -70,13 +75,33 @@ class ContratsponsoringController extends AbstractController
     }
 
     #[Route('/new', name: 'app_contratsponsoring_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ContratsponsoringRepository $contratsponsoringRepository): Response
+    public function new(Request $request, ContratsponsoringRepository $contratsponsoringRepository, PdfGenerator $pdfGenerator): Response
     {
         $contratsponsoring = new Contratsponsoring();
         $form = $this->createForm(ContratsponsoringType::class, $contratsponsoring);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //$contratsponsoringRepository->findAll()
+            $entityManager = $this->getDoctrine()->getManager();
+            $sponsor = new User();
+            $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $contratsponsoring->getIdSponsor()]);
+            $photographe = new User();
+            $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $contratsponsoring->getIdPhotographe()]);
+            // Load the image file
+            // $imagePath = $contratsponsoring->get();
+            // $image = new File($imagePath);
+
+            // // Convert the image to base64
+            // $imageData = base64_encode(file_get_contents($image));
+            // le nom du contrat
+            $currentDate = new DateTime();
+            $timestamp = $currentDate->format('YmdHisu'); // format the date as YYYYmmddHHiiSSuuu
+            //creation du contrat
+            $pdfContent = $pdfGenerator->generatePdf($contratsponsoring, $sponsor, $photographe, "contrat-" . $timestamp . ".pdf");
+
+            $contratsponsoring->setTermespdf("http://localhost/myjcc/contrats/" . "contrat-" . $timestamp . ".pdf");
+
             $contratsponsoringRepository->save($contratsponsoring, true);
 
             return $this->redirectToRoute('app_contratsponsoring_index', [], Response::HTTP_SEE_OTHER);

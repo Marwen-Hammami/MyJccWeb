@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contrat de sponsoring</title>
+	</head>
+	<body>
+		<h1>Contrat Sponsoring :
+			{{ contratsponsoring.etat }}
+		</h1>
+		<table>
+			<tr>
+				<th>Sponsor</th>
+				<th>Email</th>
+			</tr>
+			<tr>
+				<td>{{ sponsor.nom }}
+					{{ sponsor.prenom }}</td>
+				<td>{{ photographe.nom }}
+					{{ photographe.prenom }}</td>
+			</tr>
+			<tr>
+				<td>{{ sponsor.email }}</td>
+				<td>{{ photographe.email }}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><img src="data:image/png;base64,{{ sponsorImageB64 }}" width="150" height="150"></td>
+				<td colspan="2"><img src="data:image/png;base64,{{ photographeImageB64 }}" width="150" height="150"></td>
+			</tr>
+		</table>
+
+		<p>Date de début du contrat :
+			{{ contratsponsoring.datedebut|date('Y-m-d') }}</p>
+		<p>Date de fin du contrat :
+			{{ contratsponsoring.datefin|date('Y-m-d') }}</p>
+		<p>Type de contrat :
+			{{ contratsponsoring.type }}</p>
+		<p>Salaire en Dt:
+			{{ contratsponsoring.salairedt }}</p>
+
+		<p>Le :
+			{{ "now"|date("Y-m-d") }}</p>
+		<p>Signature Sponsor :</p>
+
+		<table>
+			<tr>
+				<th>Signature du Sponsor</th>
+				<th>Signature du Photographe</th>
+			</tr>
+			<tr>
+				<td><img src="https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"></td>
+				<td><img src="https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"></td>
+			</tr>
+		</table>
+	</body>
+</html>
