@@ -236,7 +236,31 @@ class VoteController extends AbstractController
  
         /******************************************************** */
 
+        $votesByFilm = $voteRepository->getVotesPerFilm();
     
+    // Format the data for the chart
+    $labels = array_column($votesByFilm, 'film_title');
+    $data = array_column($votesByFilm, 'num_votes');
+    
+    // Create the chart
+    $chart4 = $chartBuilder->createChart(Chart::TYPE_PIE);
+    $chart4->setData([
+        'labels' => $labels,
+        'datasets' => [
+            [
+                'backgroundColor' => [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                ],
+                'data' => $data,
+            ],
+        ],
+    ]);
+    
+    $chart4->setOptions([/* ... */]);
 
         /******************************************************** */
         return $this->render('chartjs/index.html.twig', [
