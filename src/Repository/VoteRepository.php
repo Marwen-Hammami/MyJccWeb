@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @extends ServiceEntityRepository<Vote>
@@ -88,6 +91,53 @@ class VoteRepository extends ServiceEntityRepository
     
         return $votesByDay;
     }
+
+    /* pourcentage l rate par genre */
+    public function getRatePerGenre()
+{
+    $entityManager = $this->getEntityManager();
+    
+    $sql = "SELECT f.genre AS genre, SUM(v.valeur) / total_votes.total AS rate
+        FROM film f
+        INNER JOIN vote v ON f.ID_film = v.ID_Film
+        CROSS JOIN (SELECT SUM(valeur) AS total FROM vote) total_votes
+        GROUP BY f.genre";
+
+    $rsm = new ResultSetMapping();
+    $rsm->addScalarResult('genre', 'genre');
+    $rsm->addScalarResult('rate', 'rate');
+    $query = $entityManager->createNativeQuery($sql, $rsm);
+
+
+
+    
+    $results = $query->getResult();
+    
+    return $results;
+}
+
+/* 3dad l votes par film */
+public function getVotesPerFilm()
+{
+    $entityManager = $this->getEntityManager();
+    
+    $sql = "SELECT f.Titre as film_title, COUNT(v.ID_Vote) as num_votes
+            FROM Film f
+            JOIN Vote v ON f.ID_film = v.ID_Film
+            WHERE v.Vote_Film = 1
+            GROUP BY f.Titre";
+
+    $rsm = new ResultSetMapping();
+    $rsm->addScalarResult('film_title', 'film_title');
+    $rsm->addScalarResult('num_votes', 'num_votes');
+    $query = $entityManager->createNativeQuery($sql, $rsm);
+
+    $results = $query->getResult();
+    
+    return $results;
+}
+
+    
 
 //    /**
 //     * @return Vote[] Returns an array of Vote objects

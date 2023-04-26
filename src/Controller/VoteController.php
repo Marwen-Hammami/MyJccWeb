@@ -180,6 +180,8 @@ class VoteController extends AbstractController
     ]);
     
     $chart->setOptions([/* ... */]);
+
+        /**************************** */
         // Get the number of votes by day
     $votesByDay2 = $voteRepository->getVotesFilmByDay();
 
@@ -203,59 +205,53 @@ class VoteController extends AbstractController
     
     $chart2->setOptions([/* ... */]);
 
+        /******************************************************** */
+
+     // Get the rate per genre
+     $votesByGenre = $voteRepository->getRatePerGenre();
+    
+    // Format the data for the chart
+    $labels = array_column($votesByGenre, 'genre');
+    $data = array_column($votesByGenre, 'rate');
+    
+    // Create the chart
+    $chart3 = $chartBuilder->createChart(Chart::TYPE_PIE);
+    $chart3->setData([
+        'labels' => $labels,
+        'datasets' => [
+            [
+                'backgroundColor' => [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                ],
+                'data' => $data,
+            ],
+        ],
+    ]);
+    
+    $chart3->setOptions([/* ... */]);
+ 
+        /******************************************************** */
+
+    
+
+        /******************************************************** */
         return $this->render('chartjs/index.html.twig', [
             'controller_name' => 'ChartjsController',
             'chart' => $chart,
             'chart2' => $chart2,
+            'chart3' => $chart3,
+            'chart4' => $chart4,
         ]);
 
 }
 
 
-/* pourcentage te3 l rate par genre */
-public function yourAction(EntityManagerInterface $entityManager)
-    {
-        $queryBuilder = $entityManager->createQueryBuilder();
-        
-        $queryBuilder->select('f.Genre', 'SUM(v.Valeur) / total_votes.Total')
-            ->from('App\Entity\Film', 'f')
-            ->innerJoin('f.vote', 'v')
-            ->crossJoin('(SELECT SUM(Valeur) AS Total FROM App\Entity\Vote) total_votes')
-            ->groupBy('f.Genre');
-        
-        $results = $queryBuilder->getQuery()->getResult();
-        
-        return new Response(var_export($results, true));
-    }
 
-    /* 3dad l votes par film */
-    public function chartAction(EntityManagerInterface $em): Response
-    {
-        $qb = $em->createQueryBuilder();
-        $qb->select('f.Titre as film_title, COUNT(v.ID_Vote) as num_votes')
-           ->from('App\Entity\Film', 'f')
-           ->join('f.votes', 'v')
-           ->where('v.Vote_Film = 1')
-           ->groupBy('f.Titre');
 
-        $results = $qb->getQuery()->getResult();
-
-        // Create an array of labels and an array of data from the results
-        $labels = array_map(function ($result) {
-            return $result['film_title'];
-        }, $results);
-
-        $data = array_map(function ($result) {
-            return $result['num_votes'];
-        }, $results);
-
-        // Convert the arrays to JSON format for use in the JavaScript chart
-        $labels_json = json_encode($labels);
-        $data_json = json_encode($data);
-
-        return $this->render('chart.html.twig', [
-            'labels' => $labels_json,
-            'data' => $data_json,
-        ]);
-    }
+    
+    
 }
