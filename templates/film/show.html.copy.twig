@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/planning.css') }}">
     <style>
         body {
             background-color: #000;
@@ -74,4 +75,24 @@
             </div>
         </div>
     </div>
+
+
+
+   <div class="card-deck">
+  {% for planning in plannings %}
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">{{ planning.getIdSalle().nomsalle }}</h5>
+        <p class="card-text">Date de diffusion : {{ planning.getDatediffusion()|date('Y-m-d') }}</p>
+        <p class="card-text">Heure de diffusion : {{ planning.getHeurediffusion() }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
+
+
+
+
+
+

@@ -55,6 +55,13 @@ class SalleController extends AbstractController
             'salle' => $salle,
         ]);
     }
+    #[Route('/{idSalle}/det', name: 'app_salle_show_user', methods: ['GET'])]
+    public function show_user(Salle $salle): Response
+    {
+        return $this->render('salle/show.html copy.twig', [
+            'salle' => $salle,
+        ]);
+    }
 
     #[Route('/{idSalle}/edit', name: 'app_salle_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Salle $salle, SalleRepository $salleRepository): Response

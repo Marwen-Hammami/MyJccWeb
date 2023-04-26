@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\Film;
 use App\Entity\Planningfilmsalle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +38,17 @@ class PLanningfilmsalleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByFilm(Film $film): array
+{
+    return $this->createQueryBuilder('pf')
+        ->where('pf.idFilm = :film')
+        ->setParameter('film', $film)
+        ->getQuery()
+        ->getResult();
+}
+
+   
+
 
 //    /**
 //     * @return Planningfilmsalle[] Returns an array of Planningfilmsalle objects

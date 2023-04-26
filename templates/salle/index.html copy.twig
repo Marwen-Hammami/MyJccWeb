@@ -13,12 +13,12 @@
         <div class="row">
             {% for salle in salles %}
                 <div class="col-md-4 mb-3">
-                    <div class="card">
+                    <div class="card" onclick="location.href='{{ path('app_salle_show_user', {'idSalle': salle.idSalle}) }}'">
                         <div class="card-body">
                             <h5 class="card-title">{{ salle.nomsalle }}</h5>
                             <p class="card-text">{{ salle.adresse }}</p>
                             <p class="card-text">{{ salle.numtelSalle }}</p>
-                            <p class="card-text">{{ salle.avis }}</p>
+                            <p class="card-text">rating: {{ salle.avis }} *</p>
                         </div>
                     </div>
                 </div>

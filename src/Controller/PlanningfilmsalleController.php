@@ -75,4 +75,5 @@ class PlanningfilmsalleController extends AbstractController
 
         return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 }

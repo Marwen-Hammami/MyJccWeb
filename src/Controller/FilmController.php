@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\Planningfilmsalle;
 use App\Form\Film1Type;
 use App\Repository\FilmRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -71,8 +72,11 @@ class FilmController extends AbstractController
     #[Route('/{idFilm}/det', name: 'app_film_show_user', methods: ['GET'])]
     public function show_user(Film $film): Response
     {
+        $plannings = $this->getDoctrine()->getRepository(Planningfilmsalle::class)->findByFilm($film);
+
         return $this->render('film/show.html.copy.twig', [
             'film' => $film,
+            'plannings' => $plannings,
         ]);
     }
 
