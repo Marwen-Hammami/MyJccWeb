@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twilio\Http\CurlClient;
+use Twilio\Rest\Client;
 
 class LocationVehiculeController extends AbstractController
 {
@@ -52,6 +54,25 @@ class LocationVehiculeController extends AbstractController
             $em = $doctrine->getManager();
             $em->persist($locationVehicule);
             $em->flush();
+              // Envoyer un SMS pour confirmer la réservation   
+              $to = '+21626360693' ;//$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
+              $message = 'Votre réservation a bien été enregistrée.';
+              $account_sid = 'AC18f0474fed3312dea0aabb4161679485';
+              $auth_token = '2fe4a4c730de99f6d64f31fc6b5b74c0';
+              $twilio_number = '+12763303738';
+              $curlOptions = array(
+                  CURLOPT_SSL_VERIFYHOST => false,
+                  CURLOPT_SSL_VERIFYPEER => false
+              );
+              $client = new Client($account_sid,$auth_token);
+              $client->setHttpClient(new CurlClient($curlOptions));
+              $client->messages->create('+21626360693',
+              array(
+                  'from' =>$twilio_number,
+                  'body' =>$message
+              )
+              );
+              echo'message envoyer' ;
             return $this->redirectToRoute('location_vehicule_index');
         }
         $cancelButtonClicked = isset($request->request->get('reservation')['cancel']);
