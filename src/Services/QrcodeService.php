@@ -23,7 +23,7 @@ class QrcodeService
 
     public function qrcode($query, $typeReservation)
     {
-        $path = dirname(__DIR__, 2).'/public/images/';
+        $path = dirname(__DIR__, 2).'/public/images/qr-code/';
         
 
          // set qrcode
@@ -35,10 +35,10 @@ class QrcodeService
          ->margin(10)
          ->labelText($typeReservation)
          ->labelAlignment(new LabelAlignmentCenter())
-        // ->labelMargin(new Margin(15, 5, 5, 5))
-        // ->logoPath($path.'myjcc.png')
-        // ->logoResizeToWidth('100')
-        // ->logoResizeToHeight('100')
+         ->labelMargin(new Margin(15, 5, 5, 5))
+         ->logoPath($path.'myjcc.png')
+         ->logoResizeToWidth('100')
+         ->logoResizeToHeight('100')
          ->backgroundColor(new Color(221, 158, 3))
          ->build()
             ;
@@ -51,9 +51,9 @@ class QrcodeService
         }
 
         //Save img png
-        $result->saveToFile($path.'qr-code/'.$namePng);
+        $result->saveToFile($path.$namePng);
   
-        return $path.'qr-code/'.$namePng;
+        return $path.$namePng;
     }
 
 }

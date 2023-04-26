@@ -18,9 +18,11 @@
         </div>
     
     </div>
-     {% if reservation.qrpath %}
-            <img src="{{ reservation.qrpath }}" alt="QR code">
-        {% endif %}
+{% if reservation.qrpath %}
+    {% set imagePath = reservation.qrpath %}
+    {% set imageName = imagePath|split('/')|last %}
+    <img src="{{ asset('images/qr-code/' ~ imageName) }}" alt="QR code">
+{% endif %}
     {% endfor %}
     {% endif %}    
 {% endblock %}

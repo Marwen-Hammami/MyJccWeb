@@ -15,9 +15,12 @@
                 <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ location.tariftotal }}€</p>
             </div>
         </div>
-             {% if location.qrpath %}
-            <img src="{{ location.qrpath }}" alt="QR code">
-        {% endif %}
+{% if location.qrpath %}
+    {% set imagePath = location.qrpath %}
+    {% set imageName = imagePath|split('/')|last %}
+    <img src="{{ asset('images/qr-code/' ~ imageName) }}" alt="QR code">
+{% endif %}
+
     {% endfor %}
     </div>
     {% endif %}

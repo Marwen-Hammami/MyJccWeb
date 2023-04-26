@@ -62,12 +62,12 @@ class ReservationHotelController extends AbstractController
                 );
                 $client = new Client($account_sid,$auth_token);
                 $client->setHttpClient(new CurlClient($curlOptions));
-                $client->messages->create('+21626360693',
+               /* $client->messages->create('+21626360693',
                 array(
                     'from' =>$twilio_number,
                     'body' =>$message
                 )
-                );
+                );*/
                 echo'message envoyer' ;
 
                 //$sendsms->sendSMS($to, $message);
