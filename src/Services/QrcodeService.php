@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Label\Margin\Margin;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\Builder\BuilderInterface;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
+use Endroid\QrCode\Label\Margin\Margin;
 
 class QrcodeService
 {
@@ -23,7 +23,7 @@ class QrcodeService
 
     public function qrcode($query, $typeReservation)
     {
-        $path = dirname(__DIR__, 2).'/public/images/qr-code/';
+        $path = dirname(__DIR__, 2).'/public/images/';
         
 
          // set qrcode
@@ -31,15 +31,16 @@ class QrcodeService
          ->data($query)
          ->encoding(new Encoding('UTF-8'))
          ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-         ->size(100)
+         ->size(250)
          ->margin(10)
          ->labelText($typeReservation)
          ->labelAlignment(new LabelAlignmentCenter())
-         ->labelMargin(new Margin(15, 5, 5, 5))
+         ->labelMargin(new Margin(5, 5, 5, 5))
          ->logoPath($path.'myjcc.png')
          ->logoResizeToWidth('100')
          ->logoResizeToHeight('100')
-         ->backgroundColor(new Color(221, 158, 3))
+         ->backgroundColor(new Color(255, 255, 255))
+        // ->labelColor(new Color(0, 0, 0))
          ->build()
             ;
 
@@ -51,9 +52,9 @@ class QrcodeService
         }
 
         //Save img png
-        $result->saveToFile($path.$namePng);
+        $result->saveToFile($path.'qr-code/'.$namePng);
   
-        return $path.$namePng;
+        return $path.'qr-code/'.$namePng;
     }
 
 }

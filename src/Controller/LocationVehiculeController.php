@@ -66,12 +66,12 @@ class LocationVehiculeController extends AbstractController
               );
               $client = new Client($account_sid,$auth_token);
               $client->setHttpClient(new CurlClient($curlOptions));
-              $client->messages->create('+21626360693',
-              array(
+          /*    $client->messages->create('+21626360693',
+             array(
                   'from' =>$twilio_number,
                   'body' =>$message
               )
-              );
+              );*/
               echo'message envoyer' ;
             return $this->redirectToRoute('location_vehicule_index');
         }
@@ -133,7 +133,7 @@ class LocationVehiculeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('locationvehicule_index');
+            return $this->redirectToRoute('location_vehicule_index');
         }
 
         return $this->render('location_vehicule/ModifierLocationVehicule.html.twig', [
