@@ -67,9 +67,6 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "simperfit/twilio-bundle": {
-        "version": "0.5.0"
-    },
     "symfony/console": {
         "version": "5.4",
         "recipe": {
@@ -287,5 +284,8 @@
     },
     "twig/extra-bundle": {
         "version": "v3.5.1"
+    },
+    "vresh/twilio-bundle": {
+        "version": "0.5.0"
     }
 }

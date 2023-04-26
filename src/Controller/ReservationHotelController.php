@@ -8,26 +8,23 @@ use App\Form\ReservationHotelType;
 use App\Repository\HotelRepository;
 use App\Repository\UserRepository;
 use App\Repository\ReservationHotelRepository;
-use App\Service\SendEmailServices;
 use App\Services\QrcodeService;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
-
-
-
-
+use Twilio\Http\CurlClient;
+use Twilio\Rest\Client;
 
 class ReservationHotelController extends AbstractController
 {
 
 
         #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
-        public function createHotel(ManagerRegistry $doctrine, Request $request, QrcodeService $qrcodeService, SendEmailServices $sms): Response
+        public function createReservationHotel(ManagerRegistry $doctrine, Request $request, QrcodeService $qrcodeService): Response
         {
             $qrCode = null;
             $typeReservation="Reservation Hotel";
@@ -53,10 +50,29 @@ class ReservationHotelController extends AbstractController
                 $EM = $doctrine->getManager();
                 $EM->persist($reservation);
                 $EM->flush();
-                // Envoyer un SMS pour confirmer la réservation
-                $toNumber = '+21626360693';
-                $message = 'Votre réservation a été confirmée. Merci de votre confiance !';
-                $sms->sendSms($toNumber, $message);               
+                // Envoyer un SMS pour confirmer la réservation   
+                $to = '+21626360693' ;//$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
+                $message = 'Votre réservation a bien été enregistrée.';
+                $account_sid = 'AC18f0474fed3312dea0aabb4161679485';
+                $auth_token = '2fe4a4c730de99f6d64f31fc6b5b74c0';
+                $twilio_number = '+12763303738';
+                $curlOptions = array(
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_SSL_VERIFYPEER => false
+                );
+                $client = new Client($account_sid,$auth_token);
+                $client->setHttpClient(new CurlClient($curlOptions));
+                $client->messages->create('+21626360693',
+                array(
+                    'from' =>$twilio_number,
+                    'body' =>$message
+                )
+                );
+                echo'message envoyer' ;
+
+                //$sendsms->sendSMS($to, $message);
+              //  $twilioService->sendSMS($to, $message);    
+
                 return $this->redirectToRoute('reservationhotel_index');
             }
             $cancelButtonClicked = isset($request->request->get('reservation')['cancel']);
