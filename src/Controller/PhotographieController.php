@@ -16,6 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/photographie')]
 class PhotographieController extends AbstractController
 {
+    #[Route('/EditeurImage', name: 'app_contratsponsoring_EditeurImage', methods: ['GET'])]
+    public function EditeurImage(): Response
+    {
+        return $this->render('photographie/ImageEditor.html.twig');
+    }
     // Debut Chemains de l'administrateur *****************************************************
     #[Route('/admin', name: 'app_photographie_admin_index', methods: ['GET'])]
     public function indexAdmin(PhotographieRepository $photographieRepository): Response
