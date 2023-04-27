@@ -27,5 +27,13 @@
             <p>no records found</p>
         {% endfor %}
     </div>
+    {% if app.flashes('success') %}
+    <div class="alert alert-success">
+        {% for message in app.flashes('success') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
 
 {% endblock %}

@@ -29,4 +29,27 @@
             {% endfor %}
         </div>
     </div>
+    <div class="row justify-content-center mb-3">
+    <div class="col-md-1 mb-3 ml-auto">
+        <button class="btn btn-primary btn-block" style="background-color: #8b0000;" onclick="openMap()">Map</button>
+    </div>
+</div>
+
+<script>
+function openMap() {
+    var url = "/map";
+    var windowName = "map";
+    var features = "width=600,height=400,resizable,scrollbars";
+    window.open(url, windowName, features);
+}
+</script>
+
+
+
+
+
+
+
+
+
 {% endblock %}

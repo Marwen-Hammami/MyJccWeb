@@ -10,6 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Message\PlanningCreatedMessage;
+use App\Message\PlanningDeletedMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
+
+
+
 
 #[Route('/planningfilmsalle')]
 class PlanningfilmsalleController extends AbstractController
@@ -23,7 +29,7 @@ class PlanningfilmsalleController extends AbstractController
     }
 
     #[Route('/new', name: 'app_planningfilmsalle_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PLanningfilmsalleRepository $pLanningfilmsalleRepository): Response
+    public function new(Request $request, PLanningfilmsalleRepository $pLanningfilmsalleRepository, MessageBusInterface $bus): Response
     {
         $planningfilmsalle = new Planningfilmsalle();
         $form = $this->createForm(PlanningfilmsalleType::class, $planningfilmsalle);
@@ -31,6 +37,9 @@ class PlanningfilmsalleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pLanningfilmsalleRepository->save($planningfilmsalle, true);
+
+            $bus->dispatch(new PlanningCreatedMessage($planningfilmsalle));
+            $this->addFlash('success', 'The planning has been created successfully!');
 
             return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -84,15 +93,19 @@ if ($this->getUser() && $this->getUser()->isAuthenticated()) {
     }
 
     #[Route('/{idPlanning}', name: 'app_planningfilmsalle_delete', methods: ['POST'])]
-    public function delete(Request $request, Planningfilmsalle $planningfilmsalle, PLanningfilmsalleRepository $pLanningfilmsalleRepository): Response
+    public function delete(Request $request, Planningfilmsalle $planningfilmsalle, PLanningfilmsalleRepository $pLanningfilmsalleRepository, MessageBusInterface $bus): Response
     {
         if ($this->isCsrfTokenValid('delete'.$planningfilmsalle->getIdPlanning(), $request->request->get('_token'))) {
             $pLanningfilmsalleRepository->remove($planningfilmsalle, true);
+
+            $bus->dispatch(new PlanningDeletedMessage($planningfilmsalle));
+            $this->addFlash('success', 'The planning has been deleted successfully!');
         }
 
         return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
     }
+}
 
 
     
-}
+

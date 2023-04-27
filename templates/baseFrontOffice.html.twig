@@ -1,6 +1,5 @@
-{# {% set user = app.session.get('user') %}  #}
-{# {% if user and user.role != 'ADMINSTRATEUR' %}  #}
-{% if true %}
+{% set user = app.session.get('user') %}
+{% if user and user.role != 'ADMINSTRATEUR' %}
 	<!DOCTYPE html>
 	<html>
 		<head>
