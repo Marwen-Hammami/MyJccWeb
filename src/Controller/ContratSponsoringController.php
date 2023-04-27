@@ -179,12 +179,31 @@ class ContratsponsoringController extends AbstractController
     }
 
     #[Route('/{idContrat}/edit', name: 'app_contratsponsoring_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Contratsponsoring $contratsponsoring, ContratsponsoringRepository $contratsponsoringRepository): Response
+    public function edit(Request $request, Contratsponsoring $contratsponsoring, ContratsponsoringRepository $contratsponsoringRepository, PdfGenerator $pdfGenerator, SessionInterface $session): Response
     {
+        $contratsponsoring->setSignaturephotographe("-");
         $form = $this->createForm(ContratsponsoringType::class, $contratsponsoring);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $session->get('user');
+            $idUser = $user->getIdUser();
+            //récupérer la signature
+            $contratsponsoring->setSignaturephotographe("http://localhost/myjcc/contrats/signatures/Signature" . $idUser . '.png');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $sponsor = new User();
+            $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $contratsponsoring->getIdSponsor()]);
+            $photographe = new User();
+            $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $contratsponsoring->getIdPhotographe()]);
+
+            $currentDate = new DateTime();
+            $timestamp = $currentDate->format('YmdHisu'); // format the date as YYYYmmddHHiiSSuuu
+            //creation du contrat
+            $pdfContent = $pdfGenerator->generatePdf($contratsponsoring, $sponsor, $photographe, "contrat-" . $timestamp . ".pdf");
+
+            $contratsponsoring->setTermespdf("http://localhost/myjcc/contrats/" . "contrat-" . $timestamp . ".pdf");
+
             $contratsponsoringRepository->save($contratsponsoring, true);
 
             return $this->redirectToRoute('app_contratsponsoring_index', [], Response::HTTP_SEE_OTHER);

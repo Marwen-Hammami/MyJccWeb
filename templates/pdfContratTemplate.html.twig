@@ -49,7 +49,12 @@
 			</tr>
 			<tr>
 				<td><img src="data:image/png;base64,{{ signatureSponsorB64 }}" width="150" height="150"></td>
-				<td></td>
+				<td>
+					{% if signaturePhotographeB64 != '-' %}
+						<img src="data:image/png;base64,{{ signaturePhotographeB64 }}" width="150" height="150">
+					{% endif %}
+
+				</td>
 			</tr>
 		</table>
 	</body>

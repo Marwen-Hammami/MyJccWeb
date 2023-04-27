@@ -5,14 +5,14 @@
 
 {% block body %}
 	<br/><br/><br/>
-	<h1>Contratsponsoring</h1>
+	<h1>Contrat Sponsoring Détails</h1>
 
 	<table>
 		<tbody>
-			<tr>
-				<th>IdContrat</th>
-				<td>{{ contratsponsoring.idContrat }}</td>
-			</tr>
+			{# <tr>
+																																					<th>IdContrat</th>
+																																					<td>{{ contratsponsoring.idContrat }}</td>
+																																				</tr> #}
 			<tr>
 				<th>Datedebut</th>
 				<td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
@@ -35,16 +35,22 @@
 			</tr>
 			<tr>
 				<th>Termespdf</th>
-				<td>{{ contratsponsoring.termespdf }}</td>
+				<td>
+					<embed src="{{ contratsponsoring.termespdf }}" width="800px" height="1100px"/>
+				</td>
 			</tr>
-			<tr>
-				<th>Signaturesponsor</th>
-				<td>{{ contratsponsoring.signaturesponsor }}</td>
-			</tr>
-			<tr>
-				<th>Signaturephotographe</th>
-				<td>{{ contratsponsoring.signaturephotographe }}</td>
-			</tr>
+			{# <tr>
+							<th>Signaturesponsor</th>
+							<td>
+								<img src="{{ contratsponsoring.signaturesponsor }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+							</td>
+						</tr>
+						<tr>
+							<th>Signaturephotographe</th>
+							<td>
+								<img src="{{ contratsponsoring.signaturephotographe }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+							</td>
+						</tr> #}
 		</tbody>
 	</table>
 

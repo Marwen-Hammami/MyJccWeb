@@ -17,8 +17,8 @@
 				<th>Etat</th>
 				<th>Salairedt</th>
 				<th>Termespdf</th>
-				<th>Signaturesponsor</th>
-				<th>Signaturephotographe</th>
+				{# <th>Signaturesponsor</th>
+																				<th>Signaturephotographe</th> #}
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -31,9 +31,11 @@
 					<td>{{ contratsponsoring.type }}</td>
 					<td>{{ contratsponsoring.etat }}</td>
 					<td>{{ contratsponsoring.salairedt }}</td>
-					<td>{{ contratsponsoring.termespdf }}</td>
-					<td>{{ contratsponsoring.signaturesponsor }}</td>
-					<td>{{ contratsponsoring.signaturephotographe }}</td>
+					<td>
+						<a href="{{ contratsponsoring.termespdf }}" target="_blank">Voir le Contrat</a>
+					</td>
+					{# <td>{{ contratsponsoring.signaturesponsor }}</td> #}
+					{# <td>{{ contratsponsoring.signaturephotographe }}</td> #}
 					<td>
 						<a href="{{ path('app_contratsponsoring_show', {'idContrat': contratsponsoring.idContrat}) }}">show</a>
 						<a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a>
