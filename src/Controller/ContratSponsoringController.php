@@ -14,7 +14,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\PdfGenerator;
 use DateTime;
+use SebastianBergmann\Environment\Console;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/contratsponsoring')]
 class ContratsponsoringController extends AbstractController
@@ -73,15 +75,70 @@ class ContratsponsoringController extends AbstractController
         //     'contratsponsorings' => $contratsponsoringRepository->findAll(),
         // ]);
     }
+    //********************************************************************
+    //Nom Signature Signature - idCurrentUser */
+    #[Route('/save-signature', name: 'save_signature', methods: ['POST'])]
+    public function saveSignatureAction(Request $request, SessionInterface $session)
+    {
+        $user = $session->get('user');
+        $idUser = $user->getIdUser();
+        // Get the signatureDataURL parameter from the AJAX request
+        $signatureDataURL = $request->request->get('signatureDataURL');
+        // var_dump($signatureDataURL);
 
+        // remove the "data:image/png;base64," prefix from the data URL
+        // $dataURL = str_replace("data:image/png;base64,", "", $signatureDataURL);
+        $dataURL = substr($signatureDataURL, 22);
+        $dataURL = str_replace(' ', '+', $dataURL);
+
+        $decoded = "";
+        $block_size = 256; // initial block size
+        $length = strlen($dataURL);
+        for ($i = 0; $i < $length; $i += $block_size) {
+            $chunk = substr($dataURL, $i, $block_size);
+            $decoded .= base64_decode($chunk);
+            $new_block_size = ceil(strlen($chunk) / 4) * 4; // next block size
+            if ($new_block_size > $block_size) {
+                $block_size = $new_block_size;
+            }
+        }
+
+        // var_dump($dataURL);
+        // decode the base64-encoded image data
+        // $imageData = base64_decode($dataURL);
+        // create an image resource from the decoded data
+        $imageResource = imagecreatefromstring($decoded);
+        // save the image to a file
+        // header('Content-Type: image/png');
+        imagesavealpha($imageResource, true);
+        imagepng(
+            $imageResource,
+            'C:/xampp/htdocs/myjcc/contrats/signatures/Signature' . $idUser . '.png'
+        );
+        if (!$imageResource) {
+            die('Failed to create image resource');
+        }
+        // clean up
+        imagedestroy($imageResource);
+
+        // Return a response to the AJAX request
+        return new JsonResponse(['status' => 'success']);
+    }
     #[Route('/new', name: 'app_contratsponsoring_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ContratsponsoringRepository $contratsponsoringRepository, PdfGenerator $pdfGenerator): Response
+    public function new(Request $request, ContratsponsoringRepository $contratsponsoringRepository, PdfGenerator $pdfGenerator, SessionInterface $session): Response
     {
         $contratsponsoring = new Contratsponsoring();
+        $contratsponsoring->setSignaturephotographe("-");
+        $contratsponsoring->setSignaturesponsor("-");
         $form = $this->createForm(ContratsponsoringType::class, $contratsponsoring);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $session->get('user');
+            $idUser = $user->getIdUser();
+            //récupérer la signature
+            $contratsponsoring->setSignaturesponsor("http://localhost/myjcc/contrats/signatures/Signature" . $idUser . '.png');
+
             //$contratsponsoringRepository->findAll()
             $entityManager = $this->getDoctrine()->getManager();
             $sponsor = new User();

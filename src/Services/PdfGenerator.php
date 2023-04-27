@@ -19,10 +19,12 @@ class PdfGenerator
     {
         $sponsorImagePath = $sponsor->getPhotob64();
         $photographeImagePath = $photographe->getPhotob64();
+        $signatureSponsor = $contratsponsoring->getSignaturesponsor();
 
         // Convertir les images à base64
         $sponsorImageB64 = base64_encode(file_get_contents($sponsorImagePath));
         $photographeImageB64 = base64_encode(file_get_contents($photographeImagePath));
+        $signatureSponsorB64 = base64_encode(file_get_contents($signatureSponsor));
 
         $html = $this->twig->render('pdfContratTemplate.html.twig', [
             'contratsponsoring' => $contratsponsoring,
@@ -30,6 +32,7 @@ class PdfGenerator
             'sponsorImageB64' => $sponsorImageB64,
             'photographe' => $photographe,
             'photographeImageB64' => $photographeImageB64,
+            'signatureSponsorB64' => $signatureSponsorB64,
         ]);
 
         $dompdf = new Dompdf();

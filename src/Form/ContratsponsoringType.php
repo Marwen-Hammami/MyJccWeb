@@ -55,9 +55,9 @@ class ContratsponsoringType extends AbstractType
                 // 'placeholder' => 'Sélectionner',
             ])
             ->add('salairedt')
-            ->add('termespdf')
-            ->add('signaturesponsor')
-            ->add('signaturephotographe')
+            // ->add('termespdf')
+            // ->add('signaturesponsor')
+            // ->add('signaturephotographe')
             ->add('idSponsor', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'nom',

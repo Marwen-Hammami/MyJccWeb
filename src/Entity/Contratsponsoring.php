@@ -52,7 +52,7 @@ class Contratsponsoring
     private ?string $termespdf = null;
 
     #[ORM\Column(length: 254)]
-    #[Assert\NotBlank(message: "signature sponsor obligatoire")]
+    #[Assert\NotBlank(message: "Votre signature de Sponsor est obligatoire")]
     private ?string $signaturesponsor = null;
 
     #[ORM\Column(length: 254)]

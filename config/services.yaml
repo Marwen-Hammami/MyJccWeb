@@ -7,6 +7,8 @@ parameters:
   file_directory: "C:/xampp/htdocs/myjcc"
 
 services:
+  App\Service\SignatureService:
+    autowire: true
   # default configuration for services in *this* file
   _defaults:
     autowire: true # Automatically injects dependencies in your services.
