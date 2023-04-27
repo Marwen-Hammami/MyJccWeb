@@ -5,6 +5,8 @@ namespace App\Services;
 use Dompdf\Dompdf;
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 class PdfGenerator
 {
@@ -23,6 +25,10 @@ class PdfGenerator
         $signaturePhotographe = $contratsponsoring->getSignaturephotographe();
 
         // Convertir les images à base64
+        // $Headerwave = base64_encode(file_get_contents('/public/images/Headerwave.png'));
+        // $HeaderwavePath = $this->getParameter('kernel.project_dir') . '/public/images/Headerwave.png';
+        // $Headerwave = base64_encode(file_get_contents($HeaderwavePath));
+        // $HeaderwaveB64 = base64_encode(file_get_contents($Headerwave));
         $sponsorImageB64 = base64_encode(file_get_contents($sponsorImagePath));
         $photographeImageB64 = base64_encode(file_get_contents($photographeImagePath));
         $signatureSponsorB64 = base64_encode(file_get_contents($signatureSponsor));
