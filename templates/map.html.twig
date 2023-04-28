@@ -35,14 +35,14 @@
       var mymap = L.map('mapid');
       var cinemasList = document.getElementById('cinemas-list');
     
-      // Try to get the user's current location with high accuracy
+      
       navigator.geolocation.watchPosition(function(position) {
-        // If the user's location is found, center the map there
+        
         mymap.setView([position.coords.latitude, position.coords.longitude], 13);
-        // Add a marker to the map at the user's location
+        
         var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(mymap);
 
-        // Calculate the distance between the user and each cinema
+        
         var cinemasDistances = [];
         for (var i = 0; i < cinemas.length; i++) {
           var distance = L.latLng(position.coords.latitude, position.coords.longitude)
@@ -50,19 +50,19 @@
           cinemasDistances.push({index: i, distance: distance});
         }
 
-        // Sort the cinemas by distance
+        
         cinemasDistances.sort(function(a, b) {
           return a.distance - b.distance;
         });
 
-        // Add the three nearest cinemas to the list
+        
         for (var i = 0; i < 3; i++) {
           var cinemaIndex = cinemasDistances[i].index;
           var cinemaName = cinemas[cinemaIndex][0];
           cinemasList.innerHTML += '<li>' + cinemaName + '</li>';
         }
       }, function(error) {
-        // If the user doesn't allow geolocation, center the map on Tunis
+        
         console.warn('Error(' + error.code + '): ' + error.message);
         mymap.setView([36.8065, 10.1815], 13);
       }, { enableHighAccuracy: true, timeout: 2000, maximumAge: 0 });
@@ -72,7 +72,7 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(mymap);
     
-    // List of cinemas in Tunis and their coordinates
+    
     var cinemas = [    ['Ciné Jamil', 36.8101, 10.1652],
       ['Ciné Madart', 36.8003, 10.1823],
       ['Le Colisée', 36.7948, 10.1745],
@@ -90,7 +90,7 @@
       ['Cinéma ABC', 36.7896, 10.1784]
     ];
     
-    // Add markers for each cinema on the map
+    
     for (var i = 0; i < cinemas.length; i++) {
       var marker = L.marker([cinemas[i][1], cinemas[i][2]]).addTo(mymap);
       marker.bindPopup(cinemas[i][0]);
