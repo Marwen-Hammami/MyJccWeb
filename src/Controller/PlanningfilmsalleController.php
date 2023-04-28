@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Message\PlanningCreatedMessage;
 use App\Message\PlanningDeletedMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
+use CalendarBundle\Entity\Event;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 
 
@@ -26,6 +29,38 @@ class PlanningfilmsalleController extends AbstractController
         return $this->render('planningfilmsalle/index.html.twig', [
             'planningfilmsalles' => $pLanningfilmsalleRepository->findAll(),
         ]);
+    }
+    #[Route('/plancal', name: 'app_planningfilmsalle_index_user', methods: ['GET'])]
+    public function index_plan(PLanningfilmsalleRepository $pLanningfilmsalleRepository): Response
+{
+    // Retrieve the Planning entities from the repository
+    $entityManager = $this->getDoctrine()->getManager();
+    $plannings = $entityManager->getRepository(Planningfilmsalle::class)->findAll();
+
+    // Create an array of events from the Planning entities
+    $events = [];
+    foreach ($plannings as $planning) {
+        // Set the start and end dates based on the datediffusion attribute
+        $start = new \DateTime($planning->getDatediffusion()->format('Y-m-d'));
+        $end = (clone $start)->modify('+2 hours');
+
+        // Create an event with the Planning entity data
+        $event = new Event(
+            $planning->getIdFilm()->getTitre(),
+            $start,
+            $end
+        );
+
+        // Add the event to the array
+        $events[] = $event;
+    }
+
+    // Render the view with the events array
+    return $this->render('planningfilmsalle/index.html copy.twig', [
+        'events' => $events,
+        'plannings' => $plannings
+    ]);
+
     }
 
     #[Route('/new', name: 'app_planningfilmsalle_new', methods: ['GET', 'POST'])]
