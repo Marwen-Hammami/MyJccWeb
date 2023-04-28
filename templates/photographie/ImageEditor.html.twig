@@ -69,7 +69,10 @@ reader.addEventListener('load', () => {
 preview.src = reader.result;
 downloadBtn.href = reader.result;
 downloadBtn.download = file.name;
-// changer largeur et hauteur du slider avec celle de l ' image
+
+});
+
+preview.addEventListener('load', () => { // changer largeur et hauteur du slider avec celle de l ' image
 heightSlider.value = preview.height;
 heightLabel.innerText = `Hauteur: ${
 heightSlider.value
@@ -78,6 +81,7 @@ widthSlider.value = preview.width;
 widthLabel.innerText = `Largeur: ${
 widthSlider.value
 }px`;
+
 });
 
 reader.readAsDataURL(file);
