@@ -150,18 +150,13 @@ public function findVoteByNsc($commentaire)
 
     return $query->getResult();
 }
-
-// public function findByFirstNameAndLastName(string $firstName, string $lastName)
-// {
-//     $queryBuilder = $this->createQueryBuilder('v')
-//         ->leftJoin('v.user', 'u')
-//         ->where('u.firstName LIKE :firstName')
-//         ->andWhere('u.lastName LIKE :lastName')
-//         ->setParameter('firstName', '%'.$firstName.'%')
-//         ->setParameter('lastName', '%'.$lastName.'%');
-
-//     return $queryBuilder->getQuery()->getResult();
-// }
+public function paginationQuery()
+   {
+       return $this->createQueryBuilder('v')
+           ->orderBy('v.id', 'ASC')
+           ->getQuery()
+       ;
+   }
 
     
 

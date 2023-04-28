@@ -17,70 +17,42 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 class VoteController extends AbstractController
 {
+
     #[Route('/recherche_ajax', name: 'recherche_ajax')]
     public function rechercheAjax(Request $request, VoteRepository $voteRepository): JsonResponse
     {
         $requestString = $request->query->get('searchValue');
-    $resultats = $voteRepository->findVoteByNsc($requestString);
+        $resultats = $voteRepository->findVoteByNsc($requestString);
 
-    $formattedResultats = array_map(function ($resultat) {
-        return [
-            'ID_Vote' => $resultat->getID_Vote(),
-            'commentaire' => $resultat->getCommentaire(),
-            // Add other fields here as needed
-        ];
-    }, $resultats);
+        $formattedResultats = array_map(function ($resultat) {
+            return [
+                'ID_Vote' => $resultat->getID_Vote(),
+                'commentaire' => $resultat->getCommentaire(),
+                // Add other fields here as needed
+            ];
+        }, $resultats);
 
-    return new JsonResponse($formattedResultats);
+        return new JsonResponse($formattedResultats);
     }
-    
-    
-    
-        #[Route('/search', name: 'app_user_search')]
-        public function search(voteRepository $voteRepository, Request $request): Response
-    
-        {
-                $list = $voteRepository->findAll();
-                return $this->render('vote/search.html.twig', [
-                    'votes' => $list,
-                ]);
-            
-        }
-
-
-    
-
-//     public function search(Request $request): JsonResponse
-// {
-//     $firstName = $request->query->get('firstName');
-//     $lastName = $request->query->get('lastName');
-
-//     $votes = $this->getDoctrine()->getRepository(Vote::class)
-//         ->findByFirstNameAndLastName($firstName, $lastName);
-
-//     $data = [];
-
-//     foreach ($votes as $vote) {
-//         $data[] = [
-//             'firstName' => $vote->getIdUser()->getPrenom(),
-//             'lastName' => $vote->getIdUser()->getNom(),
-//             'vote' => $vote->getAllVote(),
-//         ];
-//     }
-
-//     return $this->json([
-//         'data' => $data,
-//     ]);
-// }
 
 
 
+    #[Route('/search', name: 'app_user_search')]
+    public function search(voteRepository $voteRepository, Request $request): Response
+
+    {
+        $list = $voteRepository->findAll();
+        return $this->render('vote/search.html.twig', [
+            'votes' => $list,
+        ]);
+    }
     #[Route('/vote/create', name: 'create_vote')]
     public function createVote(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -89,7 +61,7 @@ class VoteController extends AbstractController
         $form = $this->createForm(VoteType::class, $vote);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $EM = $doctrine->getManager();
             $EM->persist($vote);
             $EM->flush();
@@ -108,9 +80,16 @@ class VoteController extends AbstractController
     }
 
     #[Route('/votes', name: 'vote_index')]
-    public function getAllVote(voteRepository $repo): Response
+    public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
-        $list = $repo->findAll();
+
+        $queryBuilder = $repo->createQueryBuilder('a')
+            ->orderBy('a.ID_Vote', 'ASC');
+        $list = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            2 /*limit per page*/
+        );
         return $this->render('vote/getAllVote.html.twig', [
             'controller_name' => 'VoteRepository',
             'list' => $list,
@@ -130,11 +109,11 @@ class VoteController extends AbstractController
             $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('vote_index');
-        }else{
-        return $this->render('vote/ModifierVote.html.twig', [
-            'vote' => $vote,
-            'form' => $form->createView(),
-        ]);
+        } else {
+            return $this->render('vote/ModifierVote.html.twig', [
+                'vote' => $vote,
+                'form' => $form->createView(),
+            ]);
         }
     }
 
@@ -152,19 +131,19 @@ class VoteController extends AbstractController
     public function getVoteByID($id, VoteRepository $repo, FilmRepository $FilmRepo, UserRepository $userRepo)
     {
         $vote = $repo->find($id);
-        
+
         $qb = $FilmRepo->createQueryBuilder('f');
         $qb->select('f.titre')
-           ->where('f.idFilm = :idFilm')
-           ->setParameter('idFilm', $vote->getIdFilm()->getIdFilm());
+            ->where('f.idFilm = :idFilm')
+            ->setParameter('idFilm', $vote->getIdFilm()->getIdFilm());
         $FilmName = $qb->getQuery()->getOneOrNullResult();
-    
+
         $qb = $userRepo->createQueryBuilder('u');
         $qb->select('u.nom')
-           ->where('u.id = :userId')
-           ->setParameter('userId', $vote->getIdUser()->getIdUser());
+            ->where('u.id = :userId')
+            ->setParameter('userId', $vote->getIdUser()->getIdUser());
         $userName = $qb->getQuery()->getOneOrNullResult();
-    
+
         $data = [
             'valeur' => $vote->getValeur(),
             'user' => $userName['nom'],
@@ -173,34 +152,34 @@ class VoteController extends AbstractController
             'dateVote' => $vote->getDateVote(),
             'vote' => $vote->getVoteFilm(),
         ];
-        
+
         return new JsonResponse($data);
     }
 
-    // #[Route('/vote/{email}', name:'mes_votes')]
-    // public function GetReservation(UserRepository $request, string $email): Response
-    // {
-    //     $entityManager = $this->getDoctrine()->getManager();
-    //     $userRepository = $this->getDoctrine()->getRepository(User::class);
-    //     $user = $userRepository->findOneBy(['email' => $email]);
-    
-    //     if (!$user) {
-    //         throw $this->createNotFoundException('User not found');
-    //     }
-    
-    //     $votes = $entityManager->createQueryBuilder()
-    //     ->select('v')
-    //     ->from('App\Entity\Vote', 'v')
-    //     ->where('v.idUser = :userId')
-    //     ->setParameter('userId', $user->getIdUser())
-    //     ->getQuery()
-    //     ->getResult();
-    
-    //     return $this->render('vote/index.html.twig', [
-    //         'user' => $user,
-    //         'votes' => $votes,
-    //     ]);
-    // }
+    #[Route('/vote/{email}', name: 'mes_votes')]
+    public function GetReservation(UserRepository $request, string $email): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $email]);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $votes = $entityManager->createQueryBuilder()
+            ->select('v')
+            ->from('App\Entity\Vote', 'v')
+            ->where('v.idUser = :userId')
+            ->setParameter('userId', $user->getIdUser())
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('vote/index.html.twig', [
+            'user' => $user,
+            'votes' => $votes,
+        ]);
+    }
 
     /**
      * @Route("/admin", name="display_admin")
@@ -208,117 +187,118 @@ class VoteController extends AbstractController
     public function indexAdmin(): Response
     {
 
-        return $this->render('admin/admin.html.twig'
+        return $this->render(
+            'admin/admin.html.twig'
         );
     }
 
 
 
-#[Route('/chartjs', name: 'app_chartjs')]
+    #[Route('/chartjs', name: 'app_chartjs')]
     public function index(VoteRepository $voteRepository, ChartBuilderInterface $chartBuilder): Response
     {
         $votesByDay = $voteRepository->getVotesByDay();
 
-    // Format the data for the chart
-    $labels = array_keys($votesByDay);
-    $data = array_values($votesByDay);
+        // Format the data for the chart
+        $labels = array_keys($votesByDay);
+        $data = array_values($votesByDay);
 
-    // Create the chart
-    $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
-    $chart->setData([
-        'labels' => $labels,
-        'datasets' => [
-            [
-                'label' => 'Number of Rates per Day',
-                'backgroundColor' => 'rgb(255, 99, 132)',
-                'borderColor' => 'rgb(255, 99, 132)',
-                'data' => $data,
+        // Create the chart
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Number of Rates per Day',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $data,
+                ],
             ],
-        ],
-    ]);
-    
-    $chart->setOptions([/* ... */]);
+        ]);
+
+        $chart->setOptions([/* ... */]);
 
         /**************************** */
         // Get the number of votes by day
-    $votesByDay2 = $voteRepository->getVotesFilmByDay();
+        $votesByDay2 = $voteRepository->getVotesFilmByDay();
 
-    // Format the data for the chart
-    $labels2 = array_keys($votesByDay2);
-    $data2 = array_values($votesByDay2);
+        // Format the data for the chart
+        $labels2 = array_keys($votesByDay2);
+        $data2 = array_values($votesByDay2);
 
-    // Create the chart
-    $chart2 = $chartBuilder->createChart(Chart::TYPE_LINE);
-    $chart2->setData([
-        'labels' => $labels2,
-        'datasets' => [
-            [
-                'label' => 'Number of Votes per Day',
-                'backgroundColor' => 'rgb(255, 99, 132)',
-                'borderColor' => 'rgb(255, 99, 132)',
-                'data' => $data2,
+        // Create the chart
+        $chart2 = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart2->setData([
+            'labels' => $labels2,
+            'datasets' => [
+                [
+                    'label' => 'Number of Votes per Day',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $data2,
+                ],
             ],
-        ],
-    ]);
-    
-    $chart2->setOptions([/* ... */]);
+        ]);
+
+        $chart2->setOptions([/* ... */]);
 
         /******************************************************** */
 
-     // Get the rate per genre
-     $votesByGenre = $voteRepository->getRatePerGenre();
-    
-    // Format the data for the chart
-    $labels = array_column($votesByGenre, 'genre');
-    $data = array_column($votesByGenre, 'rate');
-    
-    // Create the chart
-    $chart3 = $chartBuilder->createChart(Chart::TYPE_PIE);
-    $chart3->setData([
-        'labels' => $labels,
-        'datasets' => [
-            [
-                'backgroundColor' => [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
+        // Get the rate per genre
+        $votesByGenre = $voteRepository->getRatePerGenre();
+
+        // Format the data for the chart
+        $labels = array_column($votesByGenre, 'genre');
+        $data = array_column($votesByGenre, 'rate');
+
+        // Create the chart
+        $chart3 = $chartBuilder->createChart(Chart::TYPE_PIE);
+        $chart3->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'backgroundColor' => [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                    ],
+                    'data' => $data,
                 ],
-                'data' => $data,
             ],
-        ],
-    ]);
-    
-    $chart3->setOptions([/* ... */]);
- 
+        ]);
+
+        $chart3->setOptions([/* ... */]);
+
         /******************************************************** */
 
         $votesByFilm = $voteRepository->getVotesPerFilm();
-    
-    // Format the data for the chart
-    $labels = array_column($votesByFilm, 'film_title');
-    $data = array_column($votesByFilm, 'num_votes');
-    
-    // Create the chart
-    $chart4 = $chartBuilder->createChart(Chart::TYPE_PIE);
-    $chart4->setData([
-        'labels' => $labels,
-        'datasets' => [
-            [
-                'backgroundColor' => [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
+
+        // Format the data for the chart
+        $labels = array_column($votesByFilm, 'film_title');
+        $data = array_column($votesByFilm, 'num_votes');
+
+        // Create the chart
+        $chart4 = $chartBuilder->createChart(Chart::TYPE_PIE);
+        $chart4->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'backgroundColor' => [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                    ],
+                    'data' => $data,
                 ],
-                'data' => $data,
             ],
-        ],
-    ]);
-    
-    $chart4->setOptions([/* ... */]);
+        ]);
+
+        $chart4->setOptions([/* ... */]);
 
         /******************************************************** */
         return $this->render('chartjs/index.html.twig', [
@@ -328,12 +308,5 @@ class VoteController extends AbstractController
             'chart3' => $chart3,
             'chart4' => $chart4,
         ]);
-
-}
-
-
-
-
-    
-    
+    }
 }
