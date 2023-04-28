@@ -110,16 +110,16 @@ canvas.height = heightSlider.value;
 context.restore();
 switch (angle) {
 case 0: context.rotate(0);
-context.drawImage(img, 0, 0);
+context.drawImage(img, 0, 0, widthSlider.value, heightSlider.value);
 break;
 case 90: context.rotate(Math.PI / 2);
-context.drawImage(img, 0, - canvas.width);
+context.drawImage(img, 0, - widthSlider.value, widthSlider.value, heightSlider.value);
 break;
 case 180: context.rotate(Math.PI);
-context.drawImage(img, - canvas.width, - canvas.height);
+context.drawImage(img, - widthSlider.value, - heightSlider.value, widthSlider.value, heightSlider.value);
 break;
 case 270: context.rotate(3 * Math.PI / 2);
-context.drawImage(img, - canvas.height, 0);
+context.drawImage(img, - heightSlider.value, 0, widthSlider.value, heightSlider.value);
 break;
 // code block
 } // Draw the image onto the canvas at the new size
