@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
+
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(name: "ID_User")]
-    private ?int $idUser = null;
+#[ORM\GeneratedValue]
+#[ORM\Column(name: "ID_User", type: Types::INTEGER)]
+private ?int $idUser = null;
 
     #[ORM\Column(length: 30)]
     private ?string $nom = null;

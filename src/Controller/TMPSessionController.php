@@ -24,10 +24,7 @@ class TMPSessionController extends AbstractController
         } else {
             $session->start();
             $session->set('user', $user);
-            if ($user->getRole() === 'PHOTOGRAPHE') {
-                $galerie = $entityManager->getRepository(Galerie::class)->findOneBy(['idPhotographe' => $user->getIdUser()]);
-                $session->set('galerie', $galerie);
-            }
+            
             if ($user->getRole() === 'ADMINSTRATEUR') {
                 return $this->render('templateBackOffice/homePage.html.twig', [
                     'controller_name' => 'TMPSessionController',
