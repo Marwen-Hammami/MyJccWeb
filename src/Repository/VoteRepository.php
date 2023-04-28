@@ -137,6 +137,32 @@ public function getVotesPerFilm()
     return $results;
 }
 
+
+public function findVoteByNsc($commentaire)
+{
+    
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery(
+        'SELECT v
+         FROM App\Entity\Vote v
+         WHERE v.commentaire LIKE :commentaire'
+    )->setParameter('commentaire', '%'.$commentaire.'%');
+
+    return $query->getResult();
+}
+
+// public function findByFirstNameAndLastName(string $firstName, string $lastName)
+// {
+//     $queryBuilder = $this->createQueryBuilder('v')
+//         ->leftJoin('v.user', 'u')
+//         ->where('u.firstName LIKE :firstName')
+//         ->andWhere('u.lastName LIKE :lastName')
+//         ->setParameter('firstName', '%'.$firstName.'%')
+//         ->setParameter('lastName', '%'.$lastName.'%');
+
+//     return $queryBuilder->getQuery()->getResult();
+// }
+
     
 
 //    /**

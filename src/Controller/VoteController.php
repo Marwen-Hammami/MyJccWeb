@@ -23,6 +23,64 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class VoteController extends AbstractController
 {
+    #[Route('/recherche_ajax', name: 'recherche_ajax')]
+    public function rechercheAjax(Request $request, VoteRepository $voteRepository): JsonResponse
+    {
+        $requestString = $request->query->get('searchValue');
+    $resultats = $voteRepository->findVoteByNsc($requestString);
+
+    $formattedResultats = array_map(function ($resultat) {
+        return [
+            'ID_Vote' => $resultat->getID_Vote(),
+            'commentaire' => $resultat->getCommentaire(),
+            // Add other fields here as needed
+        ];
+    }, $resultats);
+
+    return new JsonResponse($formattedResultats);
+    }
+    
+    
+    
+        #[Route('/search', name: 'app_user_search')]
+        public function search(voteRepository $voteRepository, Request $request): Response
+    
+        {
+                $list = $voteRepository->findAll();
+                return $this->render('vote/search.html.twig', [
+                    'votes' => $list,
+                ]);
+            
+        }
+
+
+    
+
+//     public function search(Request $request): JsonResponse
+// {
+//     $firstName = $request->query->get('firstName');
+//     $lastName = $request->query->get('lastName');
+
+//     $votes = $this->getDoctrine()->getRepository(Vote::class)
+//         ->findByFirstNameAndLastName($firstName, $lastName);
+
+//     $data = [];
+
+//     foreach ($votes as $vote) {
+//         $data[] = [
+//             'firstName' => $vote->getIdUser()->getPrenom(),
+//             'lastName' => $vote->getIdUser()->getNom(),
+//             'vote' => $vote->getAllVote(),
+//         ];
+//     }
+
+//     return $this->json([
+//         'data' => $data,
+//     ]);
+// }
+
+
+
     #[Route('/vote/create', name: 'create_vote')]
     public function createVote(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -119,30 +177,30 @@ class VoteController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/vote/{email}', name:'mes_votes')]
-    public function GetReservation(UserRepository $request, string $email): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepository->findOneBy(['email' => $email]);
+    // #[Route('/vote/{email}', name:'mes_votes')]
+    // public function GetReservation(UserRepository $request, string $email): Response
+    // {
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $userRepository = $this->getDoctrine()->getRepository(User::class);
+    //     $user = $userRepository->findOneBy(['email' => $email]);
     
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
+    //     if (!$user) {
+    //         throw $this->createNotFoundException('User not found');
+    //     }
     
-        $votes = $entityManager->createQueryBuilder()
-        ->select('v')
-        ->from('App\Entity\Vote', 'v')
-        ->where('v.idUser = :userId')
-        ->setParameter('userId', $user->getIdUser())
-        ->getQuery()
-        ->getResult();
+    //     $votes = $entityManager->createQueryBuilder()
+    //     ->select('v')
+    //     ->from('App\Entity\Vote', 'v')
+    //     ->where('v.idUser = :userId')
+    //     ->setParameter('userId', $user->getIdUser())
+    //     ->getQuery()
+    //     ->getResult();
     
-        return $this->render('vote/index.html.twig', [
-            'user' => $user,
-            'votes' => $votes,
-        ]);
-    }
+    //     return $this->render('vote/index.html.twig', [
+    //         'user' => $user,
+    //         'votes' => $votes,
+    //     ]);
+    // }
 
     /**
      * @Route("/admin", name="display_admin")
