@@ -28,51 +28,53 @@ class LocationVehiculeController extends AbstractController
 
     #[Route('/locationvehicule/create', name: 'create_location_vehicule')]
     public function createLocationVehicule(ManagerRegistry $doctrine, Request $request,  QrcodeService $qrcodeService): Response
-    {   
+    {
         $qrCode = null;
-        $typeReservation="Location Vehicule";
+        $typeReservation = "Location Vehicule";
 
         $locationVehicule = new LocationVehicule();
-        $locationVehicule ->setDateReservation(new \DateTime());
+        $locationVehicule->setDateReservation(new \DateTime());
         $locationVehicule->setQrpath('');
         $form = $this->createForm(LocationVehiculeType::class, $locationVehicule);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Générer le contenu du code QR
-            $qrContent = $qrContent = sprintf("Nom d'utilisateur : %s\nDate de réservation : %s\nDate de début : %s\nDate de fin : %s\nVehicule : %s\nTarif total : %s", 
-            $locationVehicule->getIdUser()->getNom(),
-            $locationVehicule->getDatereservation()->format('Y-m-d H:i:s'),
-            $locationVehicule->getDateDebut()->format('Y-m-d'),
-            $locationVehicule->getDateFin()->format('Y-m-d'),
-            $locationVehicule->getMatricule()->getMatricule(),
-            $locationVehicule->getTariftotal()
+            $qrContent = $qrContent = sprintf(
+                "Nom d'utilisateur : %s\nDate de réservation : %s\nDate de début : %s\nDate de fin : %s\nVehicule : %s\nTarif total : %s",
+                $locationVehicule->getIdUser()->getNom(),
+                $locationVehicule->getDatereservation()->format('Y-m-d H:i:s'),
+                $locationVehicule->getDateDebut()->format('Y-m-d'),
+                $locationVehicule->getDateFin()->format('Y-m-d'),
+                $locationVehicule->getMatricule()->getMatricule(),
+                $locationVehicule->getTariftotal()
             );
 
-            $qrCode = $qrcodeService->qrcode($qrContent,$typeReservation);
-            $locationVehicule->setQrpath($qrCode);
-
+            // $qrCode = $qrcodeService->qrcode($qrContent, $typeReservation);
+            //$locationVehicule->setQrpath($qrCode);
+            $locationVehicule->setQrpath('');
             $em = $doctrine->getManager();
             $em->persist($locationVehicule);
             $em->flush();
-              // Envoyer un SMS pour confirmer la réservation   
-              $to = '+21626360693' ;//$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
-              $message = 'Votre réservation a bien été enregistrée.';
-              $account_sid = 'AC18f0474fed3312dea0aabb4161679485';
-              $auth_token = '2fe4a4c730de99f6d64f31fc6b5b74c0';
-              $twilio_number = '+12763303738';
-              $curlOptions = array(
-                  CURLOPT_SSL_VERIFYHOST => false,
-                  CURLOPT_SSL_VERIFYPEER => false
-              );
-              $client = new Client($account_sid,$auth_token);
-              $client->setHttpClient(new CurlClient($curlOptions));
-          /*    $client->messages->create('+21626360693',
-             array(
-                  'from' =>$twilio_number,
-                  'body' =>$message
-              )
-              );*/
-              echo'message envoyer' ;
+            // Envoyer un SMS pour confirmer la réservation   
+            $to = '+21626360693'; //$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
+            $message = 'Votre réservation a bien été enregistrée.';
+            $account_sid = 'AC2f48e072059373fff260153fe29a64ee';
+            $auth_token = '7fd10a61b380c6beda8024055e4ec71f';
+            $twilio_number = '+16206341403';
+            $curlOptions = array(
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false
+            );
+            $client = new Client($account_sid, $auth_token);
+            $client->setHttpClient(new CurlClient($curlOptions));
+            $client->messages->create(
+                '+21626360693',
+                array(
+                    'from' => $twilio_number,
+                    'body' => $message
+                )
+            );
+            echo 'message envoyer';
             return $this->redirectToRoute('location_vehicule_index');
         }
         $cancelButtonClicked = isset($request->request->get('reservation')['cancel']);
@@ -98,7 +100,7 @@ class LocationVehiculeController extends AbstractController
             'tariftotal' => $locationVehicule->getTariftotal(),
             'qrpath' => $locationVehicule->getQrpath(),
             //'matricule' => $locationVehicule->getMatricule(),
-           // 'idUser' => $locationVehicule->getIdUser(),
+            // 'idUser' => $locationVehicule->getIdUser(),
         ];
         return new JsonResponse($data);
     }
@@ -141,25 +143,25 @@ class LocationVehiculeController extends AbstractController
         ]);
     }
 
-    #[Route('/location/{email}', name:'mes_locations')]
-    public function GetReservation( string $email): Response
+    #[Route('/location/{email}', name: 'mes_locations')]
+    public function GetReservation(string $email): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => $email]);
-    
+
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
-    
+
         $locations = $entityManager->createQueryBuilder()
-        ->select('r')
-        ->from('App\Entity\LocationVehicule', 'r')
-        ->where('r.idUser = :userId')
-        ->setParameter('userId', $user->getIdUser())
-        ->getQuery()
-        ->getResult();
-    
+            ->select('r')
+            ->from('App\Entity\LocationVehicule', 'r')
+            ->where('r.idUser = :userId')
+            ->setParameter('userId', $user->getIdUser())
+            ->getQuery()
+            ->getResult();
+
         return $this->render('location_vehicule/index.html.twig', [
             'user' => $user,
             'locations' => $locations,
