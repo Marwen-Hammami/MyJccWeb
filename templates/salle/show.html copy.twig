@@ -1,0 +1,66 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}{{ salle.nomsalle }}{% endblock %}
+
+{% block body %}
+<br/><br/><br/>
+    <h1 style = "padding-left: 50px">{{ salle.nomsalle }}</h1>
+
+    <div class="salle-details">
+        <div class="salle-detail">
+            <div class="salle-detail__label">Nom de la salle:</div>
+            <div class="salle-detail__value">{{ salle.nomsalle }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Adresse:</div>
+            <div class="salle-detail__value">{{ salle.adresse }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Capacité:</div>
+            <div class="salle-detail__value">{{ salle.capacite }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Numéro de téléphone:</div>
+            <div class="salle-detail__value">{{ salle.numtelSalle }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Email:</div>
+            <div class="salle-detail__value">{{ salle.emailSalle }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Temps d'ouverture:</div>
+            <div class="salle-detail__value">{{ salle.tempsOuverture }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Temps de fermeture:       </div>
+            <div class="salle-detail__value">{{ salle.tempsFermuture }}</div>
+        </div>
+        <div class="salle-detail">
+            <div class="salle-detail__label">Avis:</div>
+            <div class="salle-detail__value">{{ salle.avis }}</div>
+        </div>
+    </div>
+
+    <style>
+        .salle-details {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            padding-left: 50px;
+        }
+
+        .salle-detail {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .salle-detail__label {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .salle-detail__value {
+            margin-left: 10px;
+        }
+    </style>
+{% endblock %}

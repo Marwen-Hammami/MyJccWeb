@@ -11,14 +11,14 @@ class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: "ID_res")]
-    private ?int $idRes = null;
+    #[ORM\Column]
+    private ?int $idRes=null;
 
     #[ORM\Column]
-    private ?int $idUser = null;
+    private ?int $idUser=null;
 
-    #[ORM\ManyToOne(targetEntity: Planningfilmsalle::class)]
-    #[ORM\JoinColumn(name: 'ID_Planningfilmsalle', referencedColumnName: 'ID_Planning')]
+    #[ORM\ManyToOne(inversedBy: 'Reservation')]
+    #[ORM\JoinColumn(name: 'id_plan', referencedColumnName: 'ID_Planning')]
     private ?Planningfilmsalle $idPlan = null;
 
     public function getIdRes(): ?int
@@ -49,4 +49,6 @@ class Reservation
 
         return $this;
     }
+
+
 }

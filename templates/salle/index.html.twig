@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salles{% endblock %}
+
+{% block body %}
+    <h1>Liste des salles</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom de la salle</th>
+                <th>Adresse</th>
+                <th>Numero telephone</th>
+                <th>Avis</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for salle in salles %}
+            <tr>
+
+                <td>{{ salle.nomsalle }}</td>
+                <td>{{ salle.adresse }}</td>
+                <td>{{ salle.numtelSalle }}</td>
+                <td>{{ salle.avis }}</td>
+                <td>
+    <button onclick="location.href='{{ path('app_salle_show', {'idSalle': salle.idSalle}) }}'">show</button>
+    <button onclick="location.href='{{ path('app_salle_edit', {'idSalle': salle.idSalle}) }}'">modifier</button>
+</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">aucune salle trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_salle_new') }}">Ajouter salle</a>
+{% endblock %}

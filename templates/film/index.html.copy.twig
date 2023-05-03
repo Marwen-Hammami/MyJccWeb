@@ -1,0 +1,39 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Films{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/netflix-style.css') }}" />
+{% endblock %}
+
+{% block body %}
+<br/><br/><br/>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 ">
+        {% for film in films %}
+       <div class="col">
+            <div class="card h-100" onclick="location.href='{{ path('app_film_show_user', {'idFilm': film.idFilm}) }}'" style="cursor: pointer;">
+                <img src="{{ asset(film.filmimage) }}" class="card-img-top" alt="film image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ film.titre }}</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{ film.daterealisation }}</small>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <p>no records found</p>
+        {% endfor %}
+    </div>
+    {% if app.flashes('success') %}
+    <div class="alert alert-success">
+        {% for message in app.flashes('success') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+{% endblock %}

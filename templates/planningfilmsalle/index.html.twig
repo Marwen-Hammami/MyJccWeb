@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plannings{% endblock %}
+
+{% block body %}
+    <h1>Liste des plannings</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date diffusion</th>
+                <th>Heure diffusion</th>    
+                <th>salle</th>
+                <th>film</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for planningfilmsalle in planningfilmsalles %}
+            <tr>
+                <td>{{ planningfilmsalle.datediffusion ? planningfilmsalle.datediffusion|date('Y-m-d') : '' }}</td>
+                <td>{{ planningfilmsalle.heurediffusion }}</td>
+                <td>{{ planningfilmsalle.idSalle.nomSalle }}</td>
+
+                <td>{{ planningfilmsalle.idFilm.titre }}</td>
+                <td>
+                    <a href="{{ path('app_planningfilmsalle_show', {'idPlanning': planningfilmsalle.idPlanning}) }}">show</a>
+                    <a href="{{ path('app_planningfilmsalle_edit', {'idPlanning': planningfilmsalle.idPlanning}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planningfilmsalle_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+{% endblock %}
+{% block body %}
+<br/><br/><br/>
+   
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar-holder');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+    defaultView: 'dayGridMonth',
+    events: [
+      {% for planning in plannings %}
+        {
+          title: '{{ planning.idFilm.titre }}',
+          start: '{{ planning.datediffusion|date('Y-m-d') }}T{{ planning.heurediffusion }}',
+          end: '{{ planning.datediffusion|date('Y-m-d') }}T{{ planning.heurediffusion|date_modify('+2 hours')|date('H:i:s') }}',
+          salle: '{{ planning.idSalle.nomsalle }}'
+        },
+      {% endfor %}
+    ],
+    eventRender: function(info) {
+      
+      var el = info.el;
+      
+      
+      var title = info.event.title;
+      
+      
+      var salle = info.event.extendedProps.salle;
+      
+      
+      var infoEl = document.createElement('div');
+      infoEl.classList.add('event-info');
+      
+      
+      infoEl.innerHTML = '<p>' + title + '</p><p>' + salle + '</p>';
+      
+      
+      el.appendChild(infoEl);
+    }
+  });
+  
+  calendar.render();
+});
+</script>
+
+<div id="calendar-holder" style="height: 400px; width: 1000px; margin: 0 auto; overflow: hidden;"></div>
+
+
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+    
+{% endblock %}
+
+{% endblock %}

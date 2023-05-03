@@ -55,7 +55,18 @@
 										</ul>
 									</li>
 									{% elseif user.role == 'SPECTATEUR' %}
-									
+									<li class="menu-item">
+											<a href="{{ path('app_film_index_user') }}" aria-current="page">Films</a>
+											<i class="fa fa-chevron-down gen-submenu-icon"></i>
+									    </li>
+										<li class="menu-item">
+											<a href="{{ path('app_salle_index_user') }}" aria-current="page">Salles</a>
+											<i class="fa fa-chevron-down gen-submenu-icon"></i>
+									    </li>
+										<li class="menu-item">
+											<a href="{{ path('app_planningfilmsalle_index_user') }}" aria-current="page">Calendrier</a>
+											<i class="fa fa-chevron-down gen-submenu-icon"></i>
+									    </li>
 
 									{% endif %}
 								</ul>

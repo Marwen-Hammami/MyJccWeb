@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Films{% endblock %}
+
+{% block body %}
+    <h1>Liste des films</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date realisation</th>
+                <th>Genre</th>
+                <th>Resume</th>
+                
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.titre }}</td>
+                <td>{{ film.daterealisation }}</td>
+                <td>{{ film.genre }}</td>
+                <td>{{ film.resume }}</td>
+                
+                <td>
+                    {% if film.filmimage is not null %}
+                        <img src="{{ asset(film.filmimage) }}" alt="film image" style="width: 100px;">
+                    {% else %}
+                        <span>No image</span>
+                    {% endif %}
+                </td>
+                <td>
+    <button onclick="location.href='{{ path('app_film_show', {'idFilm': film.idFilm}) }}'">show</button>
+    <button onclick="location.href='{{ path('app_film_edit', {'idFilm': film.idFilm}) }}'">edit</button>
+</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_film_new') }}">Create new</a>
+{% endblock %}

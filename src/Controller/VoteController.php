@@ -76,12 +76,12 @@ class VoteController extends AbstractController
             $EM = $doctrine->getManager();
             $EM->persist($vote);
             $EM->flush();
-            return $this->redirectToRoute('vote_index');
+            return $this->redirectToRoute('app_user_search');
         }
         $cancelButtonClicked = isset($request->request->get('vote')['cancel']);
 
         if ($cancelButtonClicked) {
-            return $this->redirectToRoute('vote_index');
+            return $this->redirectToRoute('app_user_search');
         }
 
         return $this->render('vote/Createvote.html.twig', [
@@ -90,7 +90,7 @@ class VoteController extends AbstractController
         ]);
     }
 
-    // #[Route('/votes', name: 'vote_index')]
+    // #[Route('/votes', name: 'app_user_search')]
     // public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
     // {
 
@@ -110,7 +110,7 @@ class VoteController extends AbstractController
     #[Route('/vote/update/{id}', name: 'update_vote')]
     public function updateVote(ManagerRegistry $doctrine, Request $request, $id, VoteRepository $repo)
     {
-        
+
         $vote = new vote();
         $vote->setDateVote(new \DateTime());
         $form = $this->createForm(VoteType::class, $vote);
@@ -119,16 +119,16 @@ class VoteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
-            return $this->redirectToRoute('vote_index');
-        }else{
+            return $this->redirectToRoute('app_user_search');
+        } else {
             return $this->render('vote/ModifierVote.html.twig', [
                 'vote' => $vote,
                 'form' => $form->createView(),
             ]);
-            }
+        }
     }
-        
-    
+
+
 
     #[Route('/vote/delete/{id}', name: 'vote_delete')]
     public function DeleteVote(VoteRepository $repo, ManagerRegistry $doctrine, $id): Response
@@ -137,7 +137,7 @@ class VoteController extends AbstractController
         $em = $doctrine->getManager();
         $em->remove($objet);
         $em->flush();
-        return  $this->redirectToRoute('vote_index');
+        return  $this->redirectToRoute('app_user_search');
     }
 
     #[Route('/vote/{id}', name: 'vote_show')]
@@ -147,8 +147,8 @@ class VoteController extends AbstractController
 
         $qb = $FilmRepo->createQueryBuilder('f');
         $qb->select('f.titre')
-            ->where('f.idFilm = :idFilm')
-            ->setParameter('idFilm', $vote->getIdFilm()->getIdFilm());
+            ->where('f.id_film = :id_film')
+            ->setParameter('id_film', $vote->getIdFilm()->getIdFilm());
         $FilmName = $qb->getQuery()->getOneOrNullResult();
 
         $qb = $userRepo->createQueryBuilder('u');

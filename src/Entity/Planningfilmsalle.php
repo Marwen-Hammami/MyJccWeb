@@ -11,24 +11,25 @@ class Planningfilmsalle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: "ID_Planning")]
-    private ?int $idPlanning = null;
+    #[ORM\Column(name: 'ID_Planning', type: 'integer')]
+    private ?int $idPlanning=null;
 
     #[ORM\Column(type: 'date')]
     private \DateTime $datediffusion;
 
     #[ORM\Column(length: 254)]
-    private ?string $heurediffusion = null;
+    private ?string $heurediffusion=null;
 
-    #[ORM\ManyToOne(targetEntity: Salle::class)]
-    #[ORM\JoinColumn(name: 'ID_Salle', referencedColumnName: 'ID_salle')]
-    private ?Salle $idSalle = null;
+    #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
+    #[ORM\JoinColumn(name: 'id_salle', referencedColumnName: 'id_salle')]
+    private ?Salle $idSalle=null;
+    
 
-    #[ORM\ManyToOne(targetEntity: Film::class)]
-    #[ORM\JoinColumn(name: 'ID_film', referencedColumnName: 'ID_Film')]
-    private ?Film $idFilm = null;
+    #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
+    #[ORM\JoinColumn(name: 'id_film', referencedColumnName: 'id_film')]
+    private ?Film $idFilm=null;
 
-
+    
     public function getIdPlanning(): ?int
     {
         return $this->idPlanning;
@@ -81,4 +82,6 @@ class Planningfilmsalle
 
         return $this;
     }
+
+
 }
