@@ -1,0 +1,49 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Photographie détails
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<h1>Photographie Détails</h1>
+
+	<table>
+		<tbody>
+			{# <tr>
+																																		<th>IdPhotographie</th>
+																																		<td>{{ photographie.idPhotographie }}</td>
+																																			</tr> #}
+			<tr>
+				<th>Nom</th>
+				<td>{{ photographie.nom }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ photographie.description }}</td>
+			</tr>
+			<tr>
+				<th>Photographiepath</th>
+				<td>
+					<a href="{{ photographie.photographiepath }}" target="_blank">
+						<img src="{{ photographie.photographiepath }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="d-flex flex-wrap gap-3">
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<button type="button" class="btn btn-outline-secondary">
+				<a href="{{ path('app_photographie_index') }}">Retour à la liste</a>
+			</button>
+			{% if user.role == 'PHOTOGRAPHE' %}
+				<button type="button" class="btn btn-outline-secondary">
+					<a href="{{ path('app_photographie_edit', {'idPhotographie': photographie.idPhotographie}) }}">Editer</a>
+				</button>
+				<a href="{{ path('app_photographie_index') }}">{{ include('photographie/_delete_form.html.twig') }}</a>
+			{% endif %}
+
+		</div>
+	</div>
+
+{% endblock %}

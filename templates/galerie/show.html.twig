@@ -1,0 +1,36 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Galerie
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<h1>Galerie</h1>
+
+	<table>
+		<tbody>
+			{# <tr>
+							<th>IdGalerie</th>
+							<td>{{ galerie.idGalerie }}</td>
+						</tr> #}
+			<tr>
+				<th>Couleurhtml</th>
+				<td>{{ galerie.couleurhtml }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ galerie.nom }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ galerie.description }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	{# <a href="{{ path('app_photographie_index') }}">back to list</a> #}
+
+	<a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}">edit</a>
+
+	{# {{ include('galerie/_delete_form.html.twig') }} #}
+{% endblock %}

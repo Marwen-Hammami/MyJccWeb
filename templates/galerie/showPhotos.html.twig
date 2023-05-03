@@ -1,0 +1,91 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Galerie
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<h1>Galerie</h1>
+
+	<table>
+		<tbody>
+			<tr>
+				<th>Couleurhtml</th>
+				<td>{{ galerie.couleurhtml }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ galerie.nom }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ galerie.description }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="{{ path('app_galerie_index') }}">Retour à la liste des galeries</a><br/><br/>
+	<a href="{{ path('app_contratsponsoring_new') }}">Proposer un contrat</a><br/>
+
+	<!-- Slick Slider start -->
+	<section class="gen-section-padding-2 pt-0 pb-0">
+		<div class="container">
+			<div class="home-singal-silder">
+				<div class="gen-nav-movies gen-banner-movies">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="slider slider-for">
+								{% for photographie in photographies %}
+									<!-- Slider Items -->
+									<div class="slider-item" style="background: url('{{ photographie.photographiepath }}')">
+										<div class="gen-slick-slider h-100">
+											<div class="gen-movie-contain h-100">
+												<div class="container h-100">
+													<div class="row align-items-center h-100">
+														<div class="col-lg-6">
+															<div class="gen-movie-info">
+																<h3>{{ photographie.nom }}</h3>
+																<p>{{ photographie.description }}</p>
+															</div>
+															<div class="gen-movie-action">
+																<div class="gen-btn-container button-2">
+																	<a class="gen-button" href="{{ photographie.photographiepath }}" target="_blank">
+																		<i aria-hidden="true" class="fas fa-plus-circle"></i>
+																		<span class="text">Agrandir</span>
+																	</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% else %}
+									pas de photos
+								{% endfor %}
+								<!-- Slider Items -->
+							</div>
+							<div class="slider slider-nav">
+								{% for photographie in photographies %}
+									<div class="slider-nav-contain">
+										<div class="gen-nav-img">
+											<img src={{ photographie.photographiepath }} alt="steamlab-image">
+										</div>
+										<div class="movie-info">
+											<h3>{{ photographie.nom }}</h3>
+										</div>
+									</div>
+								{% else %}
+									pas de photos
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Slick Slider End -->
+	<br/>
+
+{% endblock %}

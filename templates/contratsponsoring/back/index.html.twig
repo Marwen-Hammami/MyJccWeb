@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Contrats Sponsoring
+{% endblock %}
+
+{% block stylesheets %}
+	<!-- DataTables -->
+	<link href="{{ asset('libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css"/>
+	<link
+	href="{{ asset('libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css"/>
+
+	<!-- Responsive datatable examples -->
+	<link href="{{ asset('libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Liste des Contrats Sponsoring</h4>
+					<p class="card-title-desc">Liste des contrats de sponsorisation entre les sponsors et les photographes de l'application MyJcc.</p>
+
+					<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+						<thead>
+							<tr>
+								<th>IdContrat</th>
+								<th>Datedebut</th>
+								<th>Datefin</th>
+								<th>Type</th>
+								<th>Etat</th>
+								<th>Salairedt</th>
+								<th>Termespdf</th>
+								<th>Signaturesponsor</th>
+								<th>Signaturephotographe</th>
+								<th>actions</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% for contratsponsoring in contratsponsorings %}
+								<tr>
+									<td>{{ contratsponsoring.idContrat }}</td>
+									<td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
+									<td>{{ contratsponsoring.datefin ? contratsponsoring.datefin|date('Y-m-d') : '' }}</td>
+									<td>{{ contratsponsoring.type }}</td>
+									<td>{{ contratsponsoring.etat }}</td>
+									<td>{{ contratsponsoring.salairedt }}</td>
+									<td>
+										<a href="{{ contratsponsoring.termespdf }}" target="_blank">{{ contratsponsoring.termespdf }}</a>
+									</td>
+									<td>
+										<a href="{{ contratsponsoring.signaturesponsor }}" target="_blank">{{ contratsponsoring.signaturesponsor }}</a>
+									</td>
+									<td>
+										<a href="{{ contratsponsoring.signaturephotographe }}" target="_blank">{{ contratsponsoring.signaturephotographe }}</a>
+									</td>
+									<td>
+										<a href="{{ path('app_contratsponsoring_admin_show', {'idContrat': contratsponsoring.idContrat}) }}">VoirPlus</a>
+										{# <a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a> #}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="10">no records found</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- end col -->
+	</div>
+
+	{# <a href="{{ path('app_contratsponsoring_new') }}">Create new</a> #}
+{% endblock %}
+
+{% block javascripts %}
+	<!-- Required datatable js -->
+	<script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+
+	<!-- Buttons examples -->
+	<script src="{{ asset('libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('libs/jszip/jszip.min.js') }}"></script>
+	<script src="{{ asset('libs/pdfmake/build/pdfmake.min.js') }}"></script>
+	<script src="{{ asset('libs/pdfmake/build/vfs_fonts.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+
+	<!-- Responsive examples -->
+	<script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+	<script src="{{ asset('libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
+	<!-- Datatable init js -->
+	<script src="{{ asset('js/pages/datatables.init.js') }}"></script>
+
+{% endblock %}

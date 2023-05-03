@@ -1,0 +1,62 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Contratsponsoring
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<h1>Contrat Sponsoring Détails</h1>
+
+	<table>
+		<tbody>
+			{# <tr>
+																																					<th>IdContrat</th>
+																																					<td>{{ contratsponsoring.idContrat }}</td>
+																																				</tr> #}
+			<tr>
+				<th>Datedebut</th>
+				<td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Datefin</th>
+				<td>{{ contratsponsoring.datefin ? contratsponsoring.datefin|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{{ contratsponsoring.type }}</td>
+			</tr>
+			<tr>
+				<th>Etat</th>
+				<td>{{ contratsponsoring.etat }}</td>
+			</tr>
+			<tr>
+				<th>Salairedt</th>
+				<td>{{ contratsponsoring.salairedt }}</td>
+			</tr>
+			<tr>
+				<th>Termespdf</th>
+				<td>
+					<embed src="{{ contratsponsoring.termespdf }}" width="800px" height="1100px"/>
+				</td>
+			</tr>
+			{# <tr>
+							<th>Signaturesponsor</th>
+							<td>
+								<img src="{{ contratsponsoring.signaturesponsor }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+							</td>
+						</tr>
+						<tr>
+							<th>Signaturephotographe</th>
+							<td>
+								<img src="{{ contratsponsoring.signaturephotographe }}" alt="Image" style="max-width: 300px; max-height: 300px;">
+							</td>
+						</tr> #}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_contratsponsoring_index') }}">back to list</a>
+
+	<a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a>
+
+	{{ include('contratsponsoring/_delete_form.html.twig') }}
+{% endblock %}

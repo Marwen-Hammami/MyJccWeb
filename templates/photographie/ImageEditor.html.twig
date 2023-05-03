@@ -1,0 +1,173 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Editeur Photographie
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<table>
+		<tr>
+			<th>Actions</th>
+			<th>Image</th>
+		</tr>
+		<tr>
+			<td>
+				{# choisir image #}
+				<input type="file" id="image-input" accept="image/*"><br/>
+				{# Retourner l'image #}
+				<label style="margin-top: 20px;" for="rotate-btn">Effectuer une rotation
+				</label>
+				<button id="rotate-btn">Tourner 90°</button>
+				{# sliders de la hauteur et la largeur de l'image #}
+				<div>
+					<label for="width-slider" id="width-label">Largeur: 1280px</label>
+					<input type="range" id="width-slider" min="10" max="2560" step="1" value="1280">
+				</div>
+				<div>
+					<label for="height-slider" id="height-label">Hauteur: 720px</label>
+					<input type="range" id="height-slider" min="10" max="1440" step="1" value="720">
+				</div>
+				{# choisir extention de l iamge #}
+				<div>
+					<p>Merci de choisir l'extention pour l'exportation:</p>
+					<input type="radio" id="png-radio" name="extension" value="png" checked>
+					<label for="png-radio">PNG</label>
+					<input type="radio" id="jpg-radio" name="extension" value="jpg">
+					<label for="jpg-radio">JPG</label>
+					<input type="radio" id="jpeg-radio" name="extension" value="jpeg">
+					<label for="jpeg-radio">JPEG</label>
+					<input type="radio" id="webp-radio" name="extension" value="webp">
+					<label for="webp-radio">WebP</label>
+				</div><br/>
+				<button id="download-btn">Exporter L'image</button>
+			</td>
+			<td style="max-width: 1280px; max-height: 720px;">
+				<img style="max-width: 1280px; max-height: 720px;" id="image-preview">
+			</td>
+		</tr>
+	</table>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		// récupération des éléments grace a leurs id
+const input = document.getElementById('image-input');
+const preview = document.getElementById('image-preview');
+const downloadBtn = document.getElementById('download-btn');
+const radioGroup = document.getElementsByName('extension');
+const widthSlider = document.getElementById('width-slider');
+const heightSlider = document.getElementById('height-slider');
+const heightLabel = document.getElementById('height-label');
+const widthLabel = document.getElementById('width-label');
+const rotate = document.getElementById('rotate-btn');
+
+input.addEventListener('change', () => {
+const file = input.files[0];
+const reader = new FileReader();
+
+reader.addEventListener('load', () => {
+preview.src = reader.result;
+downloadBtn.href = reader.result;
+downloadBtn.download = file.name;
+
+});
+
+preview.addEventListener('load', () => { // changer largeur et hauteur du slider avec celle de l ' image
+heightSlider.value = preview.height;
+heightLabel.innerText = `Hauteur: ${
+heightSlider.value
+}px`;
+widthSlider.value = preview.width;
+widthLabel.innerText = `Largeur: ${
+widthSlider.value
+}px`;
+
+});
+
+reader.readAsDataURL(file);
+});
+let angle = 0;
+
+// retourner l'image de 90°
+rotate.addEventListener('click', (event) => {
+event.preventDefault();
+if (angle < 270) {
+angle += 90;
+} else {
+angle = 0;
+} preview.style.transform = `rotate(${angle}deg)`;
+});
+
+// Bouton de Téléchargement de l'image listener
+downloadBtn.addEventListener('click', (event) => {
+event.preventDefault();
+const downloadLink = document.createElement('a');
+const canvas = document.createElement('canvas');
+const context = canvas.getContext('2d');
+const img = new Image();
+img.src = downloadBtn.href;
+img.onload = function () {
+canvas.width = widthSlider.value; // Appliquer la nouvelle largeur de l'image
+canvas.height = heightSlider.value;
+// Appliquer la nouvelle hauteur de l'image
+// rotation
+context.restore();
+switch (angle) {
+case 0: context.rotate(0);
+context.drawImage(img, 0, 0, widthSlider.value, heightSlider.value);
+break;
+case 90: context.rotate(Math.PI / 2);
+heightSlider.value = preview.height;
+heightLabel.innerText = `Hauteur: ${
+widthSlider.value
+}px`;
+widthSlider.value = preview.width;
+widthLabel.innerText = `Largeur: ${
+heightSlider.value
+}px`;
+// canvas.width = widthSlider.value;
+// canvas.height = heightSlider.value;
+context.drawImage(img, 0, - widthSlider.value, widthSlider.value, heightSlider.value);
+break;
+case 180: context.rotate(Math.PI);
+context.drawImage(img, - widthSlider.value, - heightSlider.value, widthSlider.value, heightSlider.value);
+break;
+case 270: context.rotate(3 * Math.PI / 2);
+context.drawImage(img, - heightSlider.value, 0, widthSlider.value, heightSlider.value);
+break;
+// code block
+} // Draw the image onto the canvas at the new size
+downloadLink.href = canvas.toDataURL (`image/${
+getSelectedExtension()
+}`); // Convert the canvas to a data URL with the selected extension
+downloadLink.download = downloadBtn.download.replace(/\.[^/.]+$/, `.${
+getSelectedExtension()
+}`); // Update the download file name with the selected extension
+downloadLink.click(); // Trigger the download link
+};
+});
+
+// Vérifier quelle est l'extention de fichier selectionnée
+function getSelectedExtension() {
+for (let i = 0; i < radioGroup.length; i++) {
+if (radioGroup[i].checked) {
+return radioGroup[i].value;
+}
+}
+}
+
+// Listener sur le slider qui permet de modifier la largeur de l'image
+widthSlider.addEventListener('input', () => {
+widthLabel.innerText = `Largeur: ${
+widthSlider.value
+}px`;
+});
+
+// Listener sur le slider qui permet de modifier la hauteur de l'image
+heightSlider.addEventListener('input', () => {
+heightLabel.innerText = `Hauteur: ${
+heightSlider.value
+}px`;
+});
+	</script>
+{% endblock %}

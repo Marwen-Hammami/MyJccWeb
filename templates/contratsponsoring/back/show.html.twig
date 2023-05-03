@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contratsponsoring
+{% endblock %}
+
+{% block body %}
+	<h1>Contratsponsoring</h1>
+
+	<table>
+		<tbody>
+			<tr>
+				<th>IdContrat</th>
+				<td>{{ contratsponsoring.idContrat }}</td>
+			</tr>
+			<tr>
+				<th>Datedebut</th>
+				<td>{{ contratsponsoring.datedebut ? contratsponsoring.datedebut|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Datefin</th>
+				<td>{{ contratsponsoring.datefin ? contratsponsoring.datefin|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{{ contratsponsoring.type }}</td>
+			</tr>
+			<tr>
+				<th>Etat</th>
+				<td>{{ contratsponsoring.etat }}</td>
+			</tr>
+			<tr>
+				<th>Salairedt</th>
+				<td>{{ contratsponsoring.salairedt }}</td>
+			</tr>
+			<tr>
+				<th>Termespdf</th>
+				<td>
+					<a href="{{ contratsponsoring.termespdf }}" target="_blank">{{ contratsponsoring.termespdf }}</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Signaturesponsor</th>
+				<td>
+					<a href="{{ contratsponsoring.signaturesponsor }}" target="_blank">{{ contratsponsoring.signaturesponsor }}</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Signaturephotographe</th>
+				<td>
+					<a href="{{ contratsponsoring.signaturephotographe }}" target="_blank">{{ contratsponsoring.signaturephotographe }}</td>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<embed src="{{ contratsponsoring.termespdf }}" type="application/pdf" width="100%" height="1200">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_contratsponsoring_admin_index') }}">Retour à la liste</a>
+
+	{# <a href="{{ path('app_contratsponsoring_edit', {'idContrat': contratsponsoring.idContrat}) }}">edit</a> #}
+
+	{{ include('contratsponsoring/back/_delete_form.html.twig') }}
+{% endblock %}

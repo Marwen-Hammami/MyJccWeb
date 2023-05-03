@@ -1,0 +1,92 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Proposer un contrat de sponsorisation
+{% endblock %}
+
+{% block body %}
+	<div style="margin-left: 50px;margin-right: 50px;">
+		<h1 style="margin-bottom: 10px;">Votre Signature :</h1>
+		<canvas id="signature-pad" width="250" height="150" style="background-color: #ffc9c9;"></canvas>
+
+		{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+		{{ form_widget(form) }}
+		<button id="save-signature">{{ button_label|default('Save') }}</button>
+		{{ form_end(form) }}
+
+		<a href="{{ path('app_galerie_index') }}">Retour à la lieste des galeries</a>
+	</div>
+{% endblock %}
+
+{# code javascript pour la signature du sponsor #}
+{% block javascripts %}
+	<script type="text/javascript">
+		var canvas = document.getElementById('signature-pad');
+var context = canvas.getContext('2d');
+
+// set up some variables to keep track of the signature
+var isDrawing = false;
+var lastX,
+lastY;
+var hasDrawing = false;
+// add variable to track if there is any drawing on the canvas
+
+// handle mouse/touch events for drawing
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('touchstart', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('mouseup', endDrawing);
+canvas.addEventListener('touchend', endDrawing);
+
+function startDrawing(e) {
+isDrawing = true;
+lastX = e.offsetX || e.touches[0].clientX;
+lastY = e.offsetY || e.touches[0].clientY;
+}
+
+function draw(e) {
+if (! isDrawing) {
+return;
+}
+hasDrawing = true; // set flag to true when there is any drawing on the canvas
+saveButton.disabled = false;
+var x = (e.clientX || e.touches[0].clientX) - 50;
+var y = (e.clientY || e.touches[0].clientY) - 155; // subtract 100 from y-coordinate
+context.beginPath();
+context.moveTo(lastX, lastY);
+context.lineTo(x, y);
+context.stroke();
+lastX = x;
+lastY = y;
+}
+
+function endDrawing(e) {
+isDrawing = false;
+}
+
+// handle the "save signature" button
+var saveButton = document.getElementById('save-signature');
+saveButton.disabled = true; // initially disable the button
+
+saveButton.addEventListener('click', function () {
+var dataURL = canvas.toDataURL();
+
+// Make an AJAX request to the Controller
+$.ajax({
+url: "{{ path('save_signature') }}",
+type: "POST",
+data: {
+signatureDataURL: dataURL
+},
+success: function (response) { // Handle the response from the Controller
+console.log(response);
+},
+error: function (xhr) { // Handle any errors that occur during the AJAX request
+console.log(xhr.responseText);
+}
+});
+console.log("Signature saved:", dataURL);
+
+});
+	</script>
+{% endblock %}

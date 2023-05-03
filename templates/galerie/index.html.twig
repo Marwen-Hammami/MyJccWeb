@@ -1,0 +1,41 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Liste Galeries
+{% endblock %}
+
+{% block body %}
+	<br/><br/><br/>
+	<h1>Liste des Galeries</h1>
+
+	<table>
+		<thead>
+			<tr>
+				{# <th>IdGalerie</th> #}
+				<th>Couleurhtml</th>
+				<th>Nom</th>
+				<th>Description</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for galerie in galeries %}
+				<tr>
+					{# <td>{{ galerie.idGalerie }}</td> #}
+					<td>{{ galerie.couleurhtml }}</td>
+					<td>{{ galerie.nom }}</td>
+					<td>{{ galerie.description }}</td>
+					<td>
+						<a href="{{ path('app_photographie_show_photos', {'idGalerie': galerie.idGalerie}) }}">Voir les photos de la galerie</a>
+						{# <a href="{{ path('app_galerie_edit', {'idGalerie': galerie.idGalerie}) }}">edit</a> #}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{# <a href="{{ path('app_galerie_new') }}">Create new</a> #}
+{% endblock %}
