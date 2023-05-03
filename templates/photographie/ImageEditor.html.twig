@@ -117,6 +117,16 @@ case 0: context.rotate(0);
 context.drawImage(img, 0, 0, widthSlider.value, heightSlider.value);
 break;
 case 90: context.rotate(Math.PI / 2);
+heightSlider.value = preview.height;
+heightLabel.innerText = `Hauteur: ${
+widthSlider.value
+}px`;
+widthSlider.value = preview.width;
+widthLabel.innerText = `Largeur: ${
+heightSlider.value
+}px`;
+// canvas.width = widthSlider.value;
+// canvas.height = heightSlider.value;
 context.drawImage(img, 0, - widthSlider.value, widthSlider.value, heightSlider.value);
 break;
 case 180: context.rotate(Math.PI);
