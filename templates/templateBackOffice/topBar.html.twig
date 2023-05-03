@@ -1,5 +1,5 @@
 {# {{ include('templateBackOffice/topBar.html.twig') }} #}
-
+{% set user = app.session.get('user') %}
 <header id="page-topbar">
 	<div class="navbar-header">
 		<div
@@ -30,8 +30,9 @@
 
 			<div class="dropdown d-inline-block">
 				<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<img class="rounded-circle header-profile-user" src="{{ asset('images/users/avatar-1.jpg') }}" alt="Header Avatar"/>
-					<span class="d-none d-xl-inline-block ms-1" key="t-henry">Henry</span>
+					<img class="rounded-circle header-profile-user" src="{{ user.photob64 }}" alt="Header Avatar"/>
+					<span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ user.nom }}
+						{{ user.prenom }}</span>
 					<i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
 				</button>
 				<div

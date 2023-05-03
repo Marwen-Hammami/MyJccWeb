@@ -1,4 +1,5 @@
 {% set user = app.session.get('user') %}
+{% set galerie = app.session.get('galerie') %}
 <header id="gen-header" class="gen-header-style-1 gen-has-sticky">
 	<div class="gen-bottom-header">
 		<div class="container">
@@ -11,9 +12,36 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<div id="gen-menu-contain" class="gen-menu-contain">
 								<ul id="gen-main-menu" class="navbar-nav ml-auto">
-									<li class="menu-item">
-										<a href=></a>
-									</li>
+									{% if user.role == 'PHOTOGRAPHE' %}
+										<li class="menu-item">
+											<a href="#" aria-current="page">Ma Galerie</a>
+											<i class="fa fa-chevron-down gen-submenu-icon"></i>
+											<ul class="sub-menu">
+												<li class="menu-item">
+													<a href="{{ path('app_photographie_new') }}" aria-current="page">Ajouter une photographie</a>
+												</li>
+												<li class="menu-item">
+													<a href="{{ path('app_photographie_index') }}" aria-current="page">Mes Photographies</a>
+												</li>
+												<li class="menu-item">
+													<a href="{{ path('app_galerie_show', {'idGalerie': galerie.idGalerie}) }}" aria-current="page">Préférences</a>
+												</li>
+												<li class="menu-item">
+													<a href="{{ path('app_contratsponsoring_EditeurImage') }}" aria-current="page">Editeur Photographies</a>
+												</li>
+											</ul>
+										</li>
+										<li class="menu-item">
+											<a href="{{ path('app_contratsponsoring_index_mes_contrats') }}" aria-current="page">Mes Contrats</a>
+										</li>
+									{% elseif user.role == 'SPONSOR' %}
+										<li class="menu-item">
+											<a href="{{ path('app_contratsponsoring_index_mes_contrats') }}" aria-current="page">Mes Contrats</a>
+										</li>
+										<li class="menu-item">
+											<a href="{{ path('app_galerie_index') }}" aria-current="page">Explorer Galeries</a>
+										</li>
+										{% elseif user.role == 'INVITE' %}
 										<li class="menu-item">
 										<a href="#" aria-current="page">Mes Réservations</a>
 										<i class="fa fa-chevron-down gen-submenu-icon"></i>
@@ -26,6 +54,10 @@
 											</li>
 										</ul>
 									</li>
+									{% elseif user.role == 'SPECTATEUR' %}
+									
+
+									{% endif %}
 								</ul>
 							</div>
 						</div>
@@ -48,7 +80,7 @@
 							</div>
 							<div class="gen-account-holder">
 								<a href="javascript:void(0)" id="gen-user-btn">
-									<i class="fa fa-user"></i>
+									<img class="rounded-circle header-profile-user" src="{{ user.photob64 }}" alt="Header Avatar" width="40" height="50"/>
 								</a>
 								<div class="gen-account-menu">
 									<ul class="gen-account-menu">

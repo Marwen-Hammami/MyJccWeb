@@ -8,6 +8,7 @@ use App\Form\ReservationHotelType;
 use App\Repository\HotelRepository;
 use App\Repository\UserRepository;
 use App\Repository\ReservationHotelRepository;
+use App\Services\QrcodeService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,37 +16,78 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Twilio\Http\CurlClient;
+use Twilio\Rest\Client;
 
 class ReservationHotelController extends AbstractController
 {
 
 
-    #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
-    public function createHotel(ManagerRegistry $doctrine, Request $request): Response
-    {
-        $reservation = new ReservationHotel();
-        $reservation->setDateReservation(new \DateTime());
-        $reservation->setQrpath('');
-        $form = $this->createForm(ReservationHotelType::class, $reservation);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
+        public function createReservationHotel(ManagerRegistry $doctrine, Request $request, QrcodeService $qrcodeService): Response
+        {
+            $qrCode = null;
+            $typeReservation="Reservation Hotel";
             
-            $EM = $doctrine->getManager();
-            $EM->persist($reservation);
-            $EM->flush();
-            return $this->redirectToRoute('reservationhotel_index');
-        }
-        $cancelButtonClicked = isset($request->request->get('reservation')['cancel']);
+            $reservation = new ReservationHotel();
+            $reservation->setDateReservation(new \DateTime());
+            $form = $this->createForm(ReservationHotelType::class, $reservation);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Générer le contenu du code QR
+                $qrContent = $qrContent = sprintf("Nom d'utilisateur : %s\nDate de réservation : %s\nDate de début : %s\nDate de fin : %s\nHôtel : %s\nTarif total : %s", 
+                $reservation->getIdUser()->getNom(),
+                $reservation->getDatereservation()->format('Y-m-d H:i:s'),
+                $reservation->getDateDebut()->format('Y-m-d'),
+                $reservation->getDateFin()->format('Y-m-d'),
+                $reservation->getIdHotel()->getLibelle(),
+                $reservation->getTariftotale()
+                );
+                
+                $qrCode = $qrcodeService->qrcode($qrContent,$typeReservation);
+                $reservation->setQrpath($qrCode);
 
-        if ($cancelButtonClicked) {
-            return $this->redirectToRoute('reservationhotel_index');
-        }
+                $EM = $doctrine->getManager();
+                $EM->persist($reservation);
+                $EM->flush();
+                // Envoyer un SMS pour confirmer la réservation   
+                $to = '+21626360693' ;//$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
+                $message = 'Votre réservation a bien été enregistrée.';
+                $account_sid = 'AC18f0474fed3312dea0aabb4161679485';
+                $auth_token = '2fe4a4c730de99f6d64f31fc6b5b74c0';
+                $twilio_number = '+12763303738';
+                $curlOptions = array(
+                    CURLOPT_SSL_VERIFYHOST => false,
+                    CURLOPT_SSL_VERIFYPEER => false
+                );
+                $client = new Client($account_sid,$auth_token);
+                $client->setHttpClient(new CurlClient($curlOptions));
+               /* $client->messages->create('+21626360693',
+                array(
+                    'from' =>$twilio_number,
+                    'body' =>$message
+                )
+                );*/
+                echo'message envoyer' ;
 
-        return $this->render('reservation_hotel/CreateReservation.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form->createView(),
-        ]);
-    }
+                //$sendsms->sendSMS($to, $message);
+              //  $twilioService->sendSMS($to, $message);    
+
+                return $this->redirectToRoute('reservationhotel_index');
+            }
+            $cancelButtonClicked = isset($request->request->get('reservation')['cancel']);
+
+            if ($cancelButtonClicked) {
+                return $this->redirectToRoute('reservationhotel_index');
+            }
+
+            return $this->render('reservation_hotel/CreateReservation.html.twig', [
+                'reservation' => $reservation,
+                'form' => $form->createView(),
+                'qrCode' => $qrCode
+            ]);
+        }
+    
     #[Route('/reservationhotel/{id}', name: 'reservationhotel_show')]
     public function getReservationHotelByID($id, ReservationHotelRepository $repo, HotelRepository $hotelRepo, UserRepository $userRepo)
     {

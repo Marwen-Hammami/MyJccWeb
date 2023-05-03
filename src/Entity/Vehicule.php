@@ -5,27 +5,52 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
 class Vehicule
 {
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 20, name: 'matricule')]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[Assert\NotBlank(message: 'Le matricule est obligatoire.')]
+    #[Assert\Regex(
+        pattern: '/^\w{3,} Tunisie \w{4,}$/',
+        message: 'Le matricule doit être au format "XXX Tunisie YYYY"'
+    )]
     private ?string $matricule = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message: 'Le type de véhicule est obligatoire.')]
     private ?string $type = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'La marque est obligatoire.')]
     private ?string $marque = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message: 'La couleur est obligatoire.')]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z]+$/',
+        message: 'La couleur ne doit contenir que des lettres.'
+    )]
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'La couleur ne doit pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $couleur = null;
+
+
 
     public function getMatricule(): ?string
     {
         return $this->matricule;
+    }
+    
+    public function setMatricule($matricule)
+    {
+        $this->matricule = $matricule;
+
+        return $this;
     }
 
     public function getType(): ?string
@@ -63,4 +88,6 @@ class Vehicule
 
         return $this;
     }
+
+
 }

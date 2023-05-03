@@ -33,8 +33,12 @@ class VoteController extends AbstractController
 
         $formattedResultats = array_map(function ($resultat) {
             return [
-                'ID_Vote' => $resultat->getID_Vote(),
+                'valeur' => $resultat->getValeur(),
+                'idUser' => $resultat->getIdUser(),
+                'idFilm' => $resultat->getIdFilm(),
                 'commentaire' => $resultat->getCommentaire(),
+                'datevote' => $resultat->getDateVote(new \DateTime()),
+                'voteFilm' => $resultat->getVoteFilm(),
                 // Add other fields here as needed
             ];
         }, $resultats);
@@ -45,12 +49,19 @@ class VoteController extends AbstractController
 
 
     #[Route('/search', name: 'app_user_search')]
-    public function search(voteRepository $voteRepository, Request $request): Response
-
+    public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
-        $list = $voteRepository->findAll();
-        return $this->render('vote/search.html.twig', [
-            'votes' => $list,
+
+        $queryBuilder = $repo->createQueryBuilder('a')
+            ->orderBy('a.ID_Vote', 'ASC');
+        $list = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            2 /*limit per page*/
+        );
+        return $this->render('vote/getAllVote.html.twig', [
+            'controller_name' => 'VoteRepository',
+            'list' => $list,
         ]);
     }
     #[Route('/vote/create', name: 'create_vote')]
@@ -79,43 +90,45 @@ class VoteController extends AbstractController
         ]);
     }
 
-    #[Route('/votes', name: 'vote_index')]
-    public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
-    {
+    // #[Route('/votes', name: 'vote_index')]
+    // public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
+    // {
 
-        $queryBuilder = $repo->createQueryBuilder('a')
-            ->orderBy('a.ID_Vote', 'ASC');
-        $list = $paginator->paginate(
-            $queryBuilder, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
-        );
-        return $this->render('vote/getAllVote.html.twig', [
-            'controller_name' => 'VoteRepository',
-            'list' => $list,
-        ]);
-    }
+    //     $queryBuilder = $repo->createQueryBuilder('a')
+    //         ->orderBy('a.ID_Vote', 'ASC');
+    //     $list = $paginator->paginate(
+    //         $queryBuilder, /* query NOT result */
+    //         $request->query->getInt('page', 1), /*page number*/
+    //         2 /*limit per page*/
+    //     );
+    //     return $this->render('vote/getAllVote.html.twig', [
+    //         'controller_name' => 'VoteRepository',
+    //         'list' => $list,
+    //     ]);
+    // }
 
     #[Route('/vote/update/{id}', name: 'update_vote')]
     public function updateVote(ManagerRegistry $doctrine, Request $request, $id, VoteRepository $repo)
     {
+        
         $vote = new vote();
         $vote->setDateVote(new \DateTime());
         $form = $this->createForm(VoteType::class, $vote);
         $vote = $repo->find($id);
-        $form = $this->createForm(VoteType::class, $vote);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('vote_index');
-        } else {
+        }else{
             return $this->render('vote/ModifierVote.html.twig', [
                 'vote' => $vote,
                 'form' => $form->createView(),
             ]);
-        }
+            }
     }
+        
+    
 
     #[Route('/vote/delete/{id}', name: 'vote_delete')]
     public function DeleteVote(VoteRepository $repo, ManagerRegistry $doctrine, $id): Response
