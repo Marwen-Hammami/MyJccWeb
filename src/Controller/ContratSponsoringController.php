@@ -17,10 +17,53 @@ use DateTime;
 use SebastianBergmann\Environment\Console;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/contratsponsoring')]
 class ContratsponsoringController extends AbstractController
 {
+    //Routes for Code name One //////////////////////////////////////////
+
+    //afficher toutes les contarts
+    // http://127.0.0.1:8000/contratsponsoring/mobileAll
+    #[Route('/mobileAll', name: 'app_contratsponsoring_mobile_index')]
+    public function indexMobile(ContratsponsoringRepository $contratRepository, SerializerInterface $serializer)
+    {
+        $contrats = $contratRepository->findAll();
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //afficher un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileDetails/1
+    #[Route('/mobileDetails/{idContrat}', name: 'app_contratsponsoring_show_mobile', methods: ['GET'])]
+    public function Mobileshow(Contratsponsoring $contratsponsoring, SerializerInterface $serializer)
+    {
+        $json = $serializer->serialize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //supprimer un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileDelete/64
+    #[Route('/mobileDelete/{id}', name: 'app_contratsponsoring_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository(Contratsponsoring::class)->find($id);
+
+        $em->remove($contrat);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($contrat, 'json', ['groups' => "contratsponsoring"]);
+        return new Response("Contrat Sponsoring supprimé avec succès" . json_encode($jsonContent));
+    }
+
+    ////////////////////////////////////////////////////////////////////
+
     // Debut Chemains de l'administrateur *****************************************************
     #[Route('/admin', name: 'app_contratsponsoring_admin_index', methods: ['GET'])]
     public function indexAdmin(ContratsponsoringRepository $contratsponsoringRepository): Response
