@@ -1,0 +1,146 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+        
+        <meta charset="utf-8" />
+        <title>Inscription</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{asset('/images/logo/myjcc.png')}}">
+        {# <link rel="stylesheet" href="{{asset('vendors/bootstrap/bootstrap.min.css')}}"> #}
+        <!-- Bootstrap Css -->
+        <link href="{{asset('/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{asset('/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{asset('/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body>
+        <div class="account-pages my-5 pt-sm-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="card overflow-hidden">
+                            <div class="bg-primary bg-soft">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="text-primary p-4">
+                                            <h5 class="text-primary">S’inscrire !</h5>
+                                            <p>C’est rapide et facile.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 align-self-end">
+                                                                        <a href="{{path('app_login')}}" class="auth-logo-light">
+                                        <img src="{{asset('/images/logo/myjcc.png')}}" alt="" class="img-fluid">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0"> 
+                                <div class="auth-logo">
+
+                                </div>
+                                <div class="p-2">
+                                    								{% if app.session.flashBag.has('success') %}
+<div class="alert alert-success">
+{{ app.session.flashBag.get('success')[0] }}
+</div>
+{% endif %}
+{% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger">
+        {{ app.session.flashBag.get('error')[0] }}
+    </div>
+
+ 
+
+{% endif %}
+
+{{form_start(form,{'attr': {'novalidate': 'novalidate'}})}}
+
+<div class="col-md-12 form-group">
+                        {{form_row(form.email,{'attr': {'placeholder':'Email','class':'form-control'}})}}
+</div>
+ <p></p>
+<div class="col-md-12 form-group">
+
+                        {{form_row(form.nom,{'attr': {'placeholder':'Nom','class':'form-control'}})}}
+</div>
+ <p></p>
+<div class="col-md-12 form-group">
+                        {{form_row(form.prenom,{'attr': {'placeholder':'Prenom','class':'form-control'}})}}
+</div>  
+ <p></p>
+<div class="col-md-12 form-group">
+                        {{form_row(form.motdepasse,{'attr': {'placeholder':'Mot de Passe','class':'form-control'}})}}
+</div>  
+ <p>Genre :</p>
+<div class="col-md-12 form-group">
+                        {{ form_widget(form.genre) }}
+</div>  
+ <p></p>
+ <div class="col-md-12 form-group">
+                        {{form_row(form.numtel,{'attr': {'placeholder':'Numero du Tel','class':'form-control'}})}}
+</div> 
+ <p></p> 
+ <div class="col-md-12 form-group">
+                        {{form_row(form.photob64,{'attr': {'placeholder':'Image','class':'form-control-lg'}})}}
+</div>  
+
+                                        <div class="mt-3 d-grid">
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit" >Créer un compte</button>
+                                        </div>
+
+                                 {{form_end(form)}}
+					</div>
+				</div>
+			</div>
+		</div>
+                                        </div>
+
+                                        
+
+                        <div class="mt-5 text-center">
+                            
+                            <div>
+                                <p>Vous avez un compte déja ? <a href="{{path('app_login')}}" class="fw-medium text-primary"> Connectez Vous </a> </p>
+                                <p>© <script>document.write(new Date().getFullYear())</script> MyJCC. Created with <i class="mdi mdi-heart text-danger"></i> by VCoders</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end account-pages -->
+
+        <!-- JAVASCRIPT -->
+        <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
+        <script src="{{asset('/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('/libs/metismenu/metisMenu.min.js')}}"></script>
+        <script src="{{asset('/libs/simplebar/simplebar.min.js')}}"></script>
+        <script src="{{asset('/libs/node-waves/waves.min.js')}}"></script>
+        
+        <!-- App js -->
+        <script src="{{asset('/js/app.js')}}"></script>
+    </body>
+
+<!-- Mirrored from themesbrand.com/skote-symfony/layouts/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 24 Mar 2023 21:30:00 GMT -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

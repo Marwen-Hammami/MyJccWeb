@@ -1,0 +1,329 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+<head>
+        
+        <meta charset="utf-8" />
+        <title>Liste des Utilisateurs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="Themesbrand" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{asset('/images/logo/myjcc.png')}}">
+        {# <link rel="stylesheet" href="{{asset('vendors/bootstrap/bootstrap.min.css')}}"> #}
+        <!-- Bootstrap Css -->
+        <link href="{{asset('/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{asset('/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{asset('/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+
+    </head>
+
+<div class="card-body">
+</div>
+    <a href="{{ path('app_user') }}">Retour</a>
+
+
+
+   
+
+    <div class="row">
+                            <div class="col-xl-4">
+                                <div class="card overflow-hidden">
+                                    <div class="bg-primary bg-soft">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <div class="text-primary p-3">
+                                                    <h5 class="text-primary">Bienvenue !</h5>
+                                                    <p>Voici votre espace simplifié</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 align-self-end">
+                                                <img src="{{asset('images/profile-img.png')}}" alt="" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="avatar-md profile-user-wid mb-4">
+                                                    <img src="{{asset('img/userProfile' ~ user.photob64)}}" alt="" class="img-thumbnail rounded-circle">
+                                                </div>
+                                                <h5 class="font-size-15 text-truncate">{{ user.username }}</h5>
+                                            </div>
+
+                                            <div class="col-sm-8">
+                                                <div class="pt-4">
+                                                   
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <h5 class="font-size-15"></h5>
+                                                            <p class="text-muted mb-0"></p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h5 class="font-size-15"></h5>
+                                                            <p class="text-muted mb-0"></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <a href="contacts-profile.html" class="btn btn-primary waves-effect waves-light btn-sm"> {{ include('user/_delete_form.html.twig') }} <i class="mdi mdi-arrow-right ms-1"></i></a>
+                                                    </div>
+                                                        <div class="mt-4">
+                                                        <a href="{{ path('app_user_edit', {'idUser': user.idUser}) }}" class="btn btn-primary waves-effect waves-light btn-sm">Modifier <i class="mdi mdi-arrow-right ms-1"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Informations Personnelles</h4>
+
+                                        <p class="text-muted mb-4"></p>
+                                        <div class="table-responsive">
+                                            <table class="table table-nowrap mb-0">
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th scope="row">Nom :</th>
+                                                        <td>{{ user.username}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Genre :</th>
+                                                        <td>{{ user.genre}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Email :</th>
+                                                        <td>{{ user.email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Role :</th>
+                                                        <td>{{ user.Role}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Numero du Téléphone :</th>
+                                                        <td>{{ user.numtel}}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-5">Experience</h4>
+                                        <div class="">
+                                            <ul class="verti-timeline list-unstyled">
+                                                <li class="event-list active">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle bx-fade-right"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="bx bx-server h4 text-primary"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">Back end Developer</a></h5>
+                                                                <span class="text-primary">2016 - 19</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="event-list">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="bx bx-code h4 text-primary"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">Front end Developer</a></h5>
+                                                                <span class="text-primary">2013 - 16</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="event-list">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <i class="bx bx-edit h4 text-primary"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">UI /UX Designer</a></h5>
+                                                                <span class="text-primary">2011 - 13</span>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>  
+                                <!-- end card -->
+                            </div>         
+                            
+                            <div class="col-xl-8">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">Completed Projects</p>
+                                                        <h4 class="mb-0">125</h4>
+                                                    </div>
+        
+                                                    <div class="flex-shrink-0 align-self-center">
+                                                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                            <span class="avatar-title">
+                                                                <i class="bx bx-check-circle font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">Pending Projects</p>
+                                                        <h4 class="mb-0">12</h4>
+                                                    </div>
+        
+                                                    <div class="flex-shrink-0 align-self-center">
+                                                        <div class="avatar-sm mini-stat-icon rounded-circle bg-primary">
+                                                            <span class="avatar-title">
+                                                                <i class="bx bx-hourglass font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="text-muted fw-medium mb-2">Total Revenue</p>
+                                                        <h4 class="mb-0">$36,524</h4>
+                                                    </div>
+        
+                                                    <div class="flex-shrink-0 align-self-center">
+                                                        <div class="avatar-sm mini-stat-icon rounded-circle bg-primary">
+                                                            <span class="avatar-title">
+                                                                <i class="bx bx-package font-size-24"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body" style="position: relative;">
+                                        <h4 class="card-title mb-4">Revenue</h4>
+                                        <div id="revenue-chart" class="apex-charts" dir="ltr" style="min-height: 345px;"><div id="apexcharts3j2gzfvv" class="apexcharts-canvas apexcharts3j2gzfvv apexcharts-theme-light" style="width: 838px; height: 330px;"><svg id="SvgjsSvg1116" width="838" height="330" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1118" class="apexcharts-inner apexcharts-graphical" transform="translate(54.244996070861816, 30)"><defs id="SvgjsDefs1117"><linearGradient id="SvgjsLinearGradient1123" x1="0" y1="0" x2="0" y2="1"><stop id="SvgjsStop1124" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop><stop id="SvgjsStop1125" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop><stop id="SvgjsStop1126" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop></linearGradient><clipPath id="gridRectMask3j2gzfvv"><rect id="SvgjsRect1128" width="779.7550039291382" height="259.81759814834595" x="-3" y="-1" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMask3j2gzfvv"><rect id="SvgjsRect1129" width="777.7550039291382" height="261.81759814834595" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath></defs><rect id="SvgjsRect1127" width="9.027141712506612" height="257.81759814834595" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke-dasharray="3" fill="url(#SvgjsLinearGradient1123)" class="apexcharts-xcrosshairs" y2="257.81759814834595" filter="none" fill-opacity="0.9"></rect><g id="SvgjsG1145" class="apexcharts-xaxis" transform="translate(0, 0)"><g id="SvgjsG1146" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)"><text id="SvgjsText1148" font-family="Helvetica, Arial, sans-serif" x="32.23979183038076" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1149">Jan</tspan><title>Jan</title></text><text id="SvgjsText1151" font-family="Helvetica, Arial, sans-serif" x="96.71937549114227" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1152">Feb</tspan><title>Feb</title></text><text id="SvgjsText1154" font-family="Helvetica, Arial, sans-serif" x="161.19895915190378" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1155">Mar</tspan><title>Mar</title></text><text id="SvgjsText1157" font-family="Helvetica, Arial, sans-serif" x="225.6785428126653" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1158">Apr</tspan><title>Apr</title></text><text id="SvgjsText1160" font-family="Helvetica, Arial, sans-serif" x="290.1581264734269" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1161">May</tspan><title>May</title></text><text id="SvgjsText1163" font-family="Helvetica, Arial, sans-serif" x="354.6377101341884" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1164">Jun</tspan><title>Jun</title></text><text id="SvgjsText1166" font-family="Helvetica, Arial, sans-serif" x="419.11729379494994" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1167">Jul</tspan><title>Jul</title></text><text id="SvgjsText1169" font-family="Helvetica, Arial, sans-serif" x="483.5968774557114" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1170">Aug</tspan><title>Aug</title></text><text id="SvgjsText1172" font-family="Helvetica, Arial, sans-serif" x="548.0764611164728" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1173">Sep</tspan><title>Sep</title></text><text id="SvgjsText1175" font-family="Helvetica, Arial, sans-serif" x="612.5560447772343" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1176">Oct</tspan><title>Oct</title></text><text id="SvgjsText1178" font-family="Helvetica, Arial, sans-serif" x="677.0356284379958" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1179">Nov</tspan><title>Nov</title></text><text id="SvgjsText1181" font-family="Helvetica, Arial, sans-serif" x="741.5152120987573" y="286.81759814834595" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1182">Dec</tspan><title>Dec</title></text></g><line id="SvgjsLine1183" x1="0" y1="258.81759814834595" x2="773.7550039291382" y2="258.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" stroke-width="1"></line></g><g id="SvgjsG1198" class="apexcharts-grid"><g id="SvgjsG1199" class="apexcharts-gridlines-horizontal"><line id="SvgjsLine1214" x1="0" y1="0" x2="773.7550039291382" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1215" x1="0" y1="64.45439953708649" x2="773.7550039291382" y2="64.45439953708649" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1216" x1="0" y1="128.90879907417298" x2="773.7550039291382" y2="128.90879907417298" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1217" x1="0" y1="193.36319861125946" x2="773.7550039291382" y2="193.36319861125946" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1218" x1="0" y1="257.81759814834595" x2="773.7550039291382" y2="257.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line></g><g id="SvgjsG1200" class="apexcharts-gridlines-vertical"></g><line id="SvgjsLine1201" x1="0" y1="258.81759814834595" x2="0" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1202" x1="64.47958366076152" y1="258.81759814834595" x2="64.47958366076152" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1203" x1="128.95916732152304" y1="258.81759814834595" x2="128.95916732152304" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1204" x1="193.43875098228455" y1="258.81759814834595" x2="193.43875098228455" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1205" x1="257.9183346430461" y1="258.81759814834595" x2="257.9183346430461" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1206" x1="322.3979183038076" y1="258.81759814834595" x2="322.3979183038076" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1207" x1="386.87750196456915" y1="258.81759814834595" x2="386.87750196456915" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1208" x1="451.3570856253307" y1="258.81759814834595" x2="451.3570856253307" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1209" x1="515.8366692860922" y1="258.81759814834595" x2="515.8366692860922" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1210" x1="580.3162529468536" y1="258.81759814834595" x2="580.3162529468536" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1211" x1="644.7958366076151" y1="258.81759814834595" x2="644.7958366076151" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1212" x1="709.2754202683766" y1="258.81759814834595" x2="709.2754202683766" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1213" x1="773.7550039291381" y1="258.81759814834595" x2="773.7550039291381" y2="264.81759814834595" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1220" x1="0" y1="257.81759814834595" x2="773.7550039291382" y2="257.81759814834595" stroke="transparent" stroke-dasharray="0"></line><line id="SvgjsLine1219" x1="0" y1="1" x2="0" y2="257.81759814834595" stroke="transparent" stroke-dasharray="0"></line></g><g id="SvgjsG1130" class="apexcharts-bar-series apexcharts-plot-series"><g id="SvgjsG1131" class="apexcharts-series" rel="1" seriesName="Revenue" data:realIndex="0"><path id="SvgjsPath1133" d="M 27.726220974127454 257.81759814834595L 27.726220974127454 168.8382242245515Q 31.23979183038076 166.32465336829821 34.75336268663406 168.8382242245515L 34.75336268663406 168.8382242245515L 34.75336268663406 257.81759814834595L 34.75336268663406 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 27.726220974127454 257.81759814834595L 27.726220974127454 168.8382242245515Q 31.23979183038076 166.32465336829821 34.75336268663406 168.8382242245515L 34.75336268663406 168.8382242245515L 34.75336268663406 257.81759814834595L 34.75336268663406 257.81759814834595z" pathFrom="M 27.726220974127454 257.81759814834595L 27.726220974127454 257.81759814834595L 34.75336268663406 257.81759814834595L 34.75336268663406 257.81759814834595L 34.75336268663406 257.81759814834595L 27.726220974127454 257.81759814834595" cy="167.58143879642486" cx="91.20580463488898" j="0" val="42" barHeight="90.23615935192109" barWidth="9.027141712506612"></path><path id="SvgjsPath1134" d="M 92.20580463488898 257.81759814834595L 92.20580463488898 76.45358488806087Q 95.71937549114229 73.94001403180756 99.2329463473956 76.45358488806087L 99.2329463473956 76.45358488806087L 99.2329463473956 257.81759814834595L 99.2329463473956 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 92.20580463488898 257.81759814834595L 92.20580463488898 76.45358488806087Q 95.71937549114229 73.94001403180756 99.2329463473956 76.45358488806087L 99.2329463473956 76.45358488806087L 99.2329463473956 257.81759814834595L 99.2329463473956 257.81759814834595z" pathFrom="M 92.20580463488898 257.81759814834595L 92.20580463488898 257.81759814834595L 99.2329463473956 257.81759814834595L 99.2329463473956 257.81759814834595L 99.2329463473956 257.81759814834595L 92.20580463488898 257.81759814834595" cy="75.19679945993423" cx="155.6853882956505" j="1" val="85" barHeight="182.62079868841172" barWidth="9.027141712506612"></path><path id="SvgjsPath1135" d="M 156.6853882956505 257.81759814834595L 156.6853882956505 42.07790513494809Q 160.1989591519038 39.56433427869479 163.71253000815713 42.07790513494809L 163.71253000815713 42.07790513494809L 163.71253000815713 257.81759814834595L 163.71253000815713 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 156.6853882956505 257.81759814834595L 156.6853882956505 42.07790513494809Q 160.1989591519038 39.56433427869479 163.71253000815713 42.07790513494809L 163.71253000815713 42.07790513494809L 163.71253000815713 257.81759814834595L 163.71253000815713 257.81759814834595z" pathFrom="M 156.6853882956505 257.81759814834595L 156.6853882956505 257.81759814834595L 163.71253000815713 257.81759814834595L 163.71253000815713 257.81759814834595L 163.71253000815713 257.81759814834595L 156.6853882956505 257.81759814834595" cy="40.821119706821435" cx="220.16497195641205" j="2" val="101" barHeight="216.99647844152452" barWidth="9.027141712506612"></path><path id="SvgjsPath1136" d="M 221.16497195641205 257.81759814834595L 221.16497195641205 138.7595044405778Q 224.67854281266534 136.24593358432452 228.19211366891867 138.7595044405778L 228.19211366891867 138.7595044405778L 228.19211366891867 257.81759814834595L 228.19211366891867 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 221.16497195641205 257.81759814834595L 221.16497195641205 138.7595044405778Q 224.67854281266534 136.24593358432452 228.19211366891867 138.7595044405778L 228.19211366891867 138.7595044405778L 228.19211366891867 257.81759814834595L 228.19211366891867 257.81759814834595z" pathFrom="M 221.16497195641205 257.81759814834595L 221.16497195641205 257.81759814834595L 228.19211366891867 257.81759814834595L 228.19211366891867 257.81759814834595L 228.19211366891867 257.81759814834595L 221.16497195641205 257.81759814834595" cy="137.50271901245117" cx="284.6445556171736" j="3" val="56" barHeight="120.31487913589477" barWidth="9.027141712506612"></path><path id="SvgjsPath1137" d="M 285.6445556171736 257.81759814834595L 285.6445556171736 179.58062414739925Q 289.1581264734269 177.06705329114595 292.67169732968017 179.58062414739925L 292.67169732968017 179.58062414739925L 292.67169732968017 257.81759814834595L 292.67169732968017 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 285.6445556171736 257.81759814834595L 285.6445556171736 179.58062414739925Q 289.1581264734269 177.06705329114595 292.67169732968017 179.58062414739925L 292.67169732968017 179.58062414739925L 292.67169732968017 257.81759814834595L 292.67169732968017 257.81759814834595z" pathFrom="M 285.6445556171736 257.81759814834595L 285.6445556171736 257.81759814834595L 292.67169732968017 257.81759814834595L 292.67169732968017 257.81759814834595L 292.67169732968017 257.81759814834595L 285.6445556171736 257.81759814834595" cy="178.3238387192726" cx="349.1241392779351" j="4" val="37" barHeight="79.49375942907334" barWidth="9.027141712506612"></path><path id="SvgjsPath1138" d="M 350.1241392779351 257.81759814834595L 350.1241392779351 33.4839851966699Q 353.6377101341884 30.970414340416593 357.1512809904417 33.4839851966699L 357.1512809904417 33.4839851966699L 357.1512809904417 257.81759814834595L 357.1512809904417 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 350.1241392779351 257.81759814834595L 350.1241392779351 33.4839851966699Q 353.6377101341884 30.970414340416593 357.1512809904417 33.4839851966699L 357.1512809904417 33.4839851966699L 357.1512809904417 257.81759814834595L 357.1512809904417 257.81759814834595z" pathFrom="M 350.1241392779351 257.81759814834595L 350.1241392779351 257.81759814834595L 357.1512809904417 257.81759814834595L 357.1512809904417 257.81759814834595L 357.1512809904417 257.81759814834595L 350.1241392779351 257.81759814834595" cy="32.227199768543244" cx="413.60372293869665" j="5" val="105" barHeight="225.5903983798027" barWidth="9.027141712506612"></path><path id="SvgjsPath1139" d="M 414.60372293869665 257.81759814834595L 414.60372293869665 177.43214416282973Q 418.11729379494994 174.91857330657643 421.63086465120324 177.43214416282973L 421.63086465120324 177.43214416282973L 421.63086465120324 257.81759814834595L 421.63086465120324 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 414.60372293869665 257.81759814834595L 414.60372293869665 177.43214416282973Q 418.11729379494994 174.91857330657643 421.63086465120324 177.43214416282973L 421.63086465120324 177.43214416282973L 421.63086465120324 257.81759814834595L 421.63086465120324 257.81759814834595z" pathFrom="M 414.60372293869665 257.81759814834595L 414.60372293869665 257.81759814834595L 421.63086465120324 257.81759814834595L 421.63086465120324 257.81759814834595L 421.63086465120324 257.81759814834595L 414.60372293869665 257.81759814834595" cy="176.17535873470308" cx="478.0833065994582" j="6" val="38" barHeight="81.64223941364288" barWidth="9.027141712506612"></path><path id="SvgjsPath1140" d="M 479.0833065994582 257.81759814834595L 479.0833065994582 134.46254447143872Q 482.5968774557115 131.94897361518542 486.1104483119648 134.46254447143872L 486.1104483119648 134.46254447143872L 486.1104483119648 257.81759814834595L 486.1104483119648 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 479.0833065994582 257.81759814834595L 479.0833065994582 134.46254447143872Q 482.5968774557115 131.94897361518542 486.1104483119648 134.46254447143872L 486.1104483119648 134.46254447143872L 486.1104483119648 257.81759814834595L 486.1104483119648 257.81759814834595z" pathFrom="M 479.0833065994582 257.81759814834595L 479.0833065994582 257.81759814834595L 486.1104483119648 257.81759814834595L 486.1104483119648 257.81759814834595L 486.1104483119648 257.81759814834595L 479.0833065994582 257.81759814834595" cy="133.20575904331207" cx="542.5628902602197" j="7" val="58" barHeight="124.61183910503388" barWidth="9.027141712506612"></path><path id="SvgjsPath1141" d="M 543.5628902602197 257.81759814834595L 543.5628902602197 61.41422499607405Q 547.076461116473 58.900654139820745 550.5900319727263 61.41422499607405L 550.5900319727263 61.41422499607405L 550.5900319727263 257.81759814834595L 550.5900319727263 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 543.5628902602197 257.81759814834595L 543.5628902602197 61.41422499607405Q 547.076461116473 58.900654139820745 550.5900319727263 61.41422499607405L 550.5900319727263 61.41422499607405L 550.5900319727263 257.81759814834595L 550.5900319727263 257.81759814834595z" pathFrom="M 543.5628902602197 257.81759814834595L 543.5628902602197 257.81759814834595L 550.5900319727263 257.81759814834595L 550.5900319727263 257.81759814834595L 550.5900319727263 257.81759814834595L 543.5628902602197 257.81759814834595" cy="60.15743956794739" cx="607.0424739209811" j="8" val="92" barHeight="197.66015858039856" barWidth="9.027141712506612"></path><path id="SvgjsPath1142" d="M 608.0424739209811 257.81759814834595L 608.0424739209811 82.89902484176955Q 611.5560447772344 80.38545398551624 615.0696156334877 82.89902484176955L 615.0696156334877 82.89902484176955L 615.0696156334877 257.81759814834595L 615.0696156334877 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 608.0424739209811 257.81759814834595L 608.0424739209811 82.89902484176955Q 611.5560447772344 80.38545398551624 615.0696156334877 82.89902484176955L 615.0696156334877 82.89902484176955L 615.0696156334877 257.81759814834595L 615.0696156334877 257.81759814834595z" pathFrom="M 608.0424739209811 257.81759814834595L 608.0424739209811 257.81759814834595L 615.0696156334877 257.81759814834595L 615.0696156334877 257.81759814834595L 615.0696156334877 257.81759814834595L 608.0424739209811 257.81759814834595" cy="81.6422394136429" cx="671.5220575817426" j="9" val="82" barHeight="176.17535873470305" barWidth="9.027141712506612"></path><path id="SvgjsPath1143" d="M 672.5220575817426 257.81759814834595L 672.5220575817426 104.38382468746502Q 676.0356284379959 101.87025383121171 679.5491992942492 104.38382468746502L 679.5491992942492 104.38382468746502L 679.5491992942492 257.81759814834595L 679.5491992942492 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 672.5220575817426 257.81759814834595L 672.5220575817426 104.38382468746502Q 676.0356284379959 101.87025383121171 679.5491992942492 104.38382468746502L 679.5491992942492 104.38382468746502L 679.5491992942492 257.81759814834595L 679.5491992942492 257.81759814834595z" pathFrom="M 672.5220575817426 257.81759814834595L 672.5220575817426 257.81759814834595L 679.5491992942492 257.81759814834595L 679.5491992942492 257.81759814834595L 679.5491992942492 257.81759814834595L 672.5220575817426 257.81759814834595" cy="103.12703925933837" cx="736.0016412425041" j="10" val="72" barHeight="154.69055888900758" barWidth="9.027141712506612"></path><path id="SvgjsPath1144" d="M 737.0016412425041 257.81759814834595L 737.0016412425041 190.32302407024702Q 740.5152120987574 187.80945321399372 744.0287829550107 190.32302407024702L 744.0287829550107 190.32302407024702L 744.0287829550107 257.81759814834595L 744.0287829550107 257.81759814834595z" fill="rgba(85,110,230,1)" fill-opacity="1" stroke="transparent" stroke-opacity="1" stroke-linecap="square" stroke-width="2" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMask3j2gzfvv)" pathTo="M 737.0016412425041 257.81759814834595L 737.0016412425041 190.32302407024702Q 740.5152120987574 187.80945321399372 744.0287829550107 190.32302407024702L 744.0287829550107 190.32302407024702L 744.0287829550107 257.81759814834595L 744.0287829550107 257.81759814834595z" pathFrom="M 737.0016412425041 257.81759814834595L 737.0016412425041 257.81759814834595L 744.0287829550107 257.81759814834595L 744.0287829550107 257.81759814834595L 744.0287829550107 257.81759814834595L 737.0016412425041 257.81759814834595" cy="189.06623864212037" cx="800.4812249032656" j="11" val="32" barHeight="68.75135950622558" barWidth="9.027141712506612"></path></g><g id="SvgjsG1132" class="apexcharts-datalabels" data:realIndex="0"></g></g><line id="SvgjsLine1221" x1="0" y1="0" x2="773.7550039291382" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1222" x1="0" y1="0" x2="773.7550039291382" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line><g id="SvgjsG1223" class="apexcharts-yaxis-annotations"></g><g id="SvgjsG1224" class="apexcharts-xaxis-annotations"></g><g id="SvgjsG1225" class="apexcharts-point-annotations"></g></g><g id="SvgjsG1184" class="apexcharts-yaxis" rel="0" transform="translate(24.244996070861816, 0)"><g id="SvgjsG1185" class="apexcharts-yaxis-texts-g"><text id="SvgjsText1186" font-family="Helvetica, Arial, sans-serif" x="20" y="31.4" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1187">120</tspan></text><text id="SvgjsText1188" font-family="Helvetica, Arial, sans-serif" x="20" y="95.8543995370865" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1189">90</tspan></text><text id="SvgjsText1190" font-family="Helvetica, Arial, sans-serif" x="20" y="160.30879907417298" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1191">60</tspan></text><text id="SvgjsText1192" font-family="Helvetica, Arial, sans-serif" x="20" y="224.76319861125947" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1193">30</tspan></text><text id="SvgjsText1194" font-family="Helvetica, Arial, sans-serif" x="20" y="289.2175981483459" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1195">0</tspan></text></g><g id="SvgjsG1196" class="apexcharts-yaxis-title"><text id="SvgjsText1197" font-family="Helvetica, Arial, sans-serif" x="28.446001052856445" y="158.90879907417298" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="900" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-title-text " style="font-family: Helvetica, Arial, sans-serif;" transform="rotate(-90 -12.053993225097656 155.30880117416382)">$ (thousands)</text></g></g><g id="SvgjsG1119" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend" style="max-height: 165px;"></div><div class="apexcharts-tooltip apexcharts-theme-light"><div class="apexcharts-tooltip-title" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"></div><div class="apexcharts-tooltip-series-group" style="order: 1;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(85, 110, 230);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label"></span><span class="apexcharts-tooltip-text-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light"><div class="apexcharts-yaxistooltip-text"></div></div></div></div>
+                                    <div class="resize-triggers"><div class="expand-trigger"><div style="width: 879px; height: 413px;"></div></div><div class="contract-trigger"></div></div></div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">My Projects</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-nowrap table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Projects</th>
+                                                        <th scope="col">Start Date</th>
+                                                        <th scope="col">Deadline</th>
+                                                        <th scope="col">Budget</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Skote admin UI</td>
+                                                        <td>2 Sep, 2019</td>
+                                                        <td>20 Oct, 2019</td>
+                                                        <td>$506</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td>Skote admin Logo</td>
+                                                        <td>1 Sep, 2019</td>
+                                                        <td>2 Sep, 2019</td>
+                                                        <td>$94</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td>Redesign - Landing page</td>
+                                                        <td>21 Sep, 2019</td>
+                                                        <td>29 Sep, 2019</td>
+                                                        <td>$156</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">4</th>
+                                                        <td>App Landing UI</td>
+                                                        <td>29 Sep, 2019</td>
+                                                        <td>04 Oct, 2019</td>
+                                                        <td>$122</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">5</th>
+                                                        <td>Blog Template</td>
+                                                        <td>05 Oct, 2019</td>
+                                                        <td>16 Oct, 2019</td>
+                                                        <td>$164</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">6</th>
+                                                        <td>Redesign - Multipurpose Landing</td>
+                                                        <td>17 Oct, 2019</td>
+                                                        <td>05 Nov, 2019</td>
+                                                        <td>$192</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">7</th>
+                                                        <td>Logo Branding</td>
+                                                        <td>04 Nov, 2019</td>
+                                                        <td>05 Nov, 2019</td>
+                                                        <td>$94</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+{% endblock %}
+

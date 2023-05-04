@@ -15,7 +15,7 @@ class User implements UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "ID_User")]
-    private ?int $IdUser = null;
+    private ?int $idUser = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -37,8 +37,8 @@ class User implements UserInterface
     #[ORM\Column]
     private ?int $numtel = null;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+    #[ORM\Column(length: 30)]
+    private ?string $roles = null;
     /**
      * @see UserInterface
      */
@@ -51,7 +51,19 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function getRole(): ?string
+    {
+        return $this->roles;
+    }
+
+    public function setRole(string $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function setRoles(string $roles): self
     {
         $this->roles = $roles;
 
@@ -77,9 +89,9 @@ class User implements UserInterface
         return (string) $this->email;
     }
 
-    public function getId(): ?int
+    public function getidUser(): ?int
     {
-        return $this->IdUser;
+        return $this->idUser;
     }
 
     public function getEmail(): ?string
