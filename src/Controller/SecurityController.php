@@ -17,6 +17,7 @@ use App\Form\logintype;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SecurityController extends AbstractController
@@ -53,14 +54,15 @@ class SecurityController extends AbstractController
                 // instead of its contents
                 $user->setPhotob64($newFilename);
             }
+            if($form->get('confirm_password')==$user->getPassword()){
             $user->setPassword($user->getPassword());
             $user->setRole('SPECTATEUR');
             $em = $doctrine->getManager();
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
-        return $this->render('security/registration.html.twig',[
+        }}
+        return $this->render('user/new.html.twig',[
         'form' => $form->createView()
         ]);
     }
@@ -79,15 +81,20 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         // Ajout des informations de l'offre et de l'utilisateur courant
         $user=$userRepository->findOneBy(['email' =>($form->get('email')->getData())]);
+        
         if($user!=null){
             if($user->getPassword()==$form->get('password')->getData()){
             //            $request->getSession()->get('user')->user ou id;
 
             $request->getSession()->set('user',$user);
             if($user->getRole()=="ADMINSTRATEUR")
-            {dd("ADMINSTRATEUR");}
+            {
+                dd("ADMINSTRATEUR");}
             else
-            {dd("SPECTATEUR");}
+            {
+
+                return $this->render('templateFrontOffice/homePage.html.twig');}
+
 
         }
     else
@@ -103,4 +110,11 @@ class SecurityController extends AbstractController
     {
         return $this->render('security/login.html.twig');
     }
+
+
+    // #[Route('/forgetpassword', name: 'forget_password')]
+    // public function forget(): Response
+    // {        return $this->render('security/recoverPassword.html.twig');
+
+    // }
 }

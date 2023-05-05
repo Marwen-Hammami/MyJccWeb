@@ -73,10 +73,16 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/forgetpass', name: 'forget_password')]
-    public function forget(User $user): Response
-    {        return $this->render('user/recoverPassword.html.twig');
+    #[Route('block/{idUser}', name: 'block')]
+    public function blockUser(Request $request, User $user,ManagerRegistry $doctrine)
+    {
+        $user->setBlocked(true);
+        $em = $doctrine->getManager();
+        $em->persist($user);
 
+        $this->addFlash('success', 'User blocked.');
+
+        return $this->redirectToRoute('app_user');
     }
 
 

@@ -1,0 +1,54 @@
+{# {{ include('templateBackOffice/leftSideBar.html.twig') }} #}
+<div class="vertical-menu">
+	<div
+		data-simplebar class="h-100">
+		<!--- Sidemenu -->
+		<div
+			id="sidebar-menu">
+			<!-- Left Menu Start -->
+			<ul class="metismenu list-unstyled" id="side-menu">
+				<li class="menu-title" key="t-menu">Sponsors & Photographes</li>
+
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="bx bx-file"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Contrats Sponsoring</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							{# <a href="{{ path('app_contratsponsoring_admin_index') }}" key="t-default">Lister</a> #}
+						</li>
+						<li>
+							<a href="#" key="t-saas">Statistiques Générales</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="bx bx-collection"></i>
+						{# <span class="badge rounded-pill bg-info float-end">04</span> #}
+						<span key="t-dashboards">Galerie</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="false">
+						<li>
+							{# <a href="{{ path('app_galerie_admin_new') }}" key="t-default">Ajouter</a> #}
+						</li>
+						<li>
+							{# <a href="{{ path('app_galerie_admin_index') }}" key="t-default">Lister</a> #}
+						</li>
+					</ul>
+				</li>
+				<li>
+					{# <a href="{{ path('app_photographie_admin_index') }}" class="waves-effect">
+						<i class="bx bx-images"></i>
+						<span key="t-chat">Photographies</span>
+					</a> #}
+				</li>
+
+
+			</ul>
+		</div>
+		<!-- Sidebar -->
+	</div>
+</div>

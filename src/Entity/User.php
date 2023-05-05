@@ -27,7 +27,17 @@ class User implements UserInterface
     private ?string $password = null;
 
     public $confirm_password;
+    private $blocked = false;
 
+    public function isBlocked(): bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): void
+    {
+        $this->blocked = $blocked;
+    }
     #[ORM\Column(length: 255)]
     private ?string $photob64 = null;
 
