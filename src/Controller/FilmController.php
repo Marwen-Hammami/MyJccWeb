@@ -10,10 +10,112 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+
 
 #[Route('/film')]
 class FilmController extends AbstractController
 {
+
+
+    ////////////////////////////////////////////////
+    // http://127.0.0.1:8000/film/filmsmobile
+    #[Route('/filmsmobile', name: 'app_film_index_mobile', methods: ['GET'])]
+    public function index_filmmobile(FilmRepository $filmRepository, SerializerInterface $serializer): Response
+    {
+       
+            $films = $filmRepository->findAll();
+            $json = $serializer->serialize($films, 'json', ['groups' => "reservation"]);
+
+             return new Response($json);
+        
+    }
+    //http://127.0.0.1:8000/film/filmmobileshow/1
+    #[Route('/filmmobileshow/{idFilm}', name: 'app_film_show_mobile', methods: ['GET'])]
+    public function filmMobileshow(Film $film, SerializerInterface $serializer)
+    {
+        $json = $serializer->serialize($film, 'json', ['groups' => "reservation"]);
+
+        return new Response($json);
+    }
+
+// http://127.0.0.1:8000/film/mobileNew?titre=testNom&genre=test&resume=test$&date=2000&duree=1h&prix=12&prod=test&resume=test&acteur=test&image=http://localhost/myjcc/films/dachra.png
+    #[Route('/mobileNew', name: 'app_film_newMobile')]
+    public function Mobilenew(Request $rq, NormalizerInterface $Normalizer)
+    {
+        
+
+        $em = $this->getDoctrine()->getManager();
+        $film = new Film();
+
+        $film->setTitre($rq->get('titre'));
+        $film->setGenre($rq->get('genre'));
+        $film->setResume($rq->get('resume'));
+        $film->setDaterealisation($rq->get('date'));
+        $film->setDuree($rq->get('duree'));
+        $film->setPrix($rq->get('prix'));
+        $film->setIdProducteur($rq->get('prod'));
+        $film->setActeur($rq->get('acteur'));
+        $film->setFilmimage($rq->get('image'));
+    
+
+        $em->persist($film);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($film, 'json', ['groups' => "reservation"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    // http://127.0.0.1:8000/film/mobileupdate/24?titre=testNom12345&genre=test&resume=test$&date=2000&duree=1h&prix=12&prod=test&resume=test&acteur=test&image=http://localhost/myjcc/films/dachra.png
+    #[Route('/mobileupdate/{id}', name: 'app_film_updateMobile')]
+    public function Mobileupdate($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        
+
+        $em = $this->getDoctrine()->getManager();
+        $film = $em->getRepository(Film::class)->find($id);
+
+        $film->setTitre($rq->get('titre'));
+        $film->setGenre($rq->get('genre'));
+        $film->setResume($rq->get('resume'));
+        $film->setDaterealisation($rq->get('date'));
+        $film->setDuree($rq->get('duree'));
+        $film->setPrix($rq->get('prix'));
+        $film->setIdProducteur($rq->get('prod'));
+        $film->setActeur($rq->get('acteur'));
+        $film->setFilmimage($rq->get('image'));
+    
+
+        $em->persist($film);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($film, 'json', ['groups' => "reservation"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+     // http://127.0.0.1:8000/film/mobileDelete/21
+    #[Route('/mobileDelete/{id}', name: 'app_film_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $film = $em->getRepository(Film::class)->find($id);
+
+        $em->remove($film);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($film, 'json', ['groups' => "reservation"]);
+        return new Response("film supprimé avec succès" . json_encode($jsonContent));
+    }
+
+
+
+
+
+
+
+    /////////////////////////////////////////////////
     #[Route('/', name: 'app_film_index', methods: ['GET'])]
     public function index(FilmRepository $filmRepository): Response
     {

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\PLanningfilmsalleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlanningfilmsalleRepository::class)]
 class Planningfilmsalle
@@ -12,21 +13,26 @@ class Planningfilmsalle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ID_Planning', type: 'integer')]
+    #[Groups("reservation")]
     private ?int $idPlanning=null;
 
     #[ORM\Column(type: 'date')]
+    #[Groups("reservation")]
     private \DateTime $datediffusion;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $heurediffusion=null;
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
     #[ORM\JoinColumn(name: 'id_salle', referencedColumnName: 'id_salle')]
+    #[Groups("reservation")]
     private ?Salle $idSalle=null;
     
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
     #[ORM\JoinColumn(name: 'id_film', referencedColumnName: 'id_film')]
+    #[Groups("reservation")]
     private ?Film $idFilm=null;
 
     

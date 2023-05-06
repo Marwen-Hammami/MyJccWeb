@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\FilmRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
 class Film
@@ -12,33 +13,44 @@ class Film
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id_film', type: 'integer')]
+    #[Groups("reservation")]
     private ?int $idFilm =null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
+    #[SerializedName("titre")]
     private ?string $titre=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $daterealisation=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $genre=null;
 
     #[ORM\Column(length: 65535)]
+    #[Groups("reservation")]
     private ?string $resume=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $duree=null;
 
     #[ORM\Column]
+    #[Groups("reservation")]
     private ?float $prix=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $idProducteur=null;
 
     #[ORM\Column(length: 65535)]
+    #[Groups("reservation")]
     private ?string $acteur=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $filmimage=null;
 
     public function getIdFilm(): ?int

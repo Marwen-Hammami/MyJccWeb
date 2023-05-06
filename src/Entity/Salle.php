@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\SalleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
 class Salle
@@ -12,32 +13,41 @@ class Salle
     #[ORM\Id]
 #[ORM\GeneratedValue]
 #[ORM\Column(name: 'id_salle', type: 'integer')]
+#[Groups("reservation")]
 private ?int $idSalle = null;
 
     
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $nomsalle=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $adresse=null;
 
     #[ORM\Column]
+    #[Groups("reservation")]
     private ?int $capacite=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $numtelSalle=null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
     private ?string $emailSalle=null;
 
     #[ORM\Column(length: 6)]
+    #[Groups("reservation")]
     private ?string $tempsOuverture=null;
 
     #[ORM\Column(length: 6)]
+    #[Groups("reservation")]
     private ?string $tempsFermuture=null;
 
     #[ORM\Column]
+    #[Groups("reservation")]
     private ?float $avis=null;
 
     public function getIdSalle(): ?int

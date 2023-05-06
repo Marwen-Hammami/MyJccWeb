@@ -15,6 +15,9 @@ use App\Message\PlanningDeletedMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use CalendarBundle\Entity\Event;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 
@@ -23,6 +26,36 @@ use Doctrine\ORM\EntityManagerInterface;
 #[Route('/planningfilmsalle')]
 class PlanningfilmsalleController extends AbstractController
 {
+
+
+    ////////////////////////////////////////////////
+    // http://127.0.0.1:8000/planningfilmsalle/planmobile
+    #[Route('/planmobile', name: 'app_plan_index_mobile', methods: ['GET'])]
+    public function index_planmobile(PLanningfilmsalleRepository $pLanningfilmsalleRepository, SerializerInterface $serializer): Response
+    {
+       
+            $planningfilmsalles = $pLanningfilmsalleRepository->findAll();
+            $json = $serializer->serialize($planningfilmsalles, 'json', ['groups' => "reservation"]);
+
+             return new Response($json);
+        
+    }
+    //http://127.0.0.1:8000/planningfilmsalle/planningmobileshow/6
+    #[Route('/planningmobileshow/{idPlanning}', name: 'app_planning_show_mobile', methods: ['GET'])]
+    public function planningMobileshow(Planningfilmsalle $planningfilmsalle, SerializerInterface $serializer)
+    {
+        $json = $serializer->serialize($planningfilmsalle, 'json', ['groups' => "reservation"]);
+
+        return new Response($json);
+    }
+    
+
+
+
+
+
+
+    /////////////////////////////////////////////////
     #[Route('/', name: 'app_planningfilmsalle_index', methods: ['GET'])]
     public function index(PLanningfilmsalleRepository $pLanningfilmsalleRepository): Response
     {

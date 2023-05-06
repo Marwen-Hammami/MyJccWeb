@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -13,30 +14,39 @@ class User
     #[ORM\Id]
 #[ORM\GeneratedValue]
 #[ORM\Column(name: "ID_User", type: Types::INTEGER)]
+#[Groups("reservation")]
 private ?int $idUser = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups("reservation")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups("reservation")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups("reservation")]
     private ?string $genre = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups("reservation")]
     private ?string $email = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups("reservation")]
     private ?string $motdepasse = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups("reservation")]
     private ?string $role = null;
 
     #[ORM\Column(length: 65535)]
+    #[Groups("reservation")]
     private ?string $photob64 = null;
 
     #[ORM\Column]
+    #[Groups("reservation")]
     private ?int $numtel = null;
 
     public function getIdUser(): ?int
