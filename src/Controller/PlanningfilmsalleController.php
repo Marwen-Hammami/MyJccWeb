@@ -6,6 +6,8 @@ use App\Entity\Planningfilmsalle;
 use App\Form\PlanningfilmsalleType;
 use App\Repository\UserRepository;
 use App\Repository\PLanningfilmsalleRepository;
+use App\Repository\FilmRepository;
+use App\Repository\SalleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use DateTime;
 
 
 
@@ -48,7 +51,72 @@ class PlanningfilmsalleController extends AbstractController
 
         return new Response($json);
     }
-    
+    //http://127.0.0.1:8000/planningfilmsalle/mobileNew?idfilm=1&idsalle=2&heure=19:00&date=12/05/2023
+    #[Route('/mobileNew', name: 'app_planning_newMobile')]
+    public function Mobilenew(FilmRepository $filmrepository,SalleRepository $sallerepository, Request $rq, NormalizerInterface $Normalizer)
+    {
+       
+        $film = $filmrepository -> find($rq -> get('idfilm'));
+        $salle = $sallerepository -> find($rq -> get('idsalle'));
+
+        $em = $this->getDoctrine()->getManager();
+        $planning = new Planningfilmsalle();
+
+        $planning -> setIdFilm($film);
+        $planning -> setIdSalle($salle);
+        $planning ->setHeurediffusion($rq->get('heure'));
+        $date = DateTime::createFromFormat('d/m/Y', $rq->get('date'));
+        $planning->setDatediffusion($date);
+
+        $em->persist($planning);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($planning, 'json', ['groups' => "reservation"]);
+        return new Response(json_encode($jsonContent));
+
+        
+    }
+
+     //http://127.0.0.1:8000/planningfilmsalle/mobileupdate/23?idfilm=1&idsalle=2&heure=15:00&date=12/05/2023
+     #[Route('/mobileupdate/{id}', name: 'app_planning_updateMobile')]
+     public function Mobileupdate($id, FilmRepository $filmrepository,SalleRepository $sallerepository, Request $rq, NormalizerInterface $Normalizer)
+     {
+        
+         $film = $filmrepository -> find($rq -> get('idfilm'));
+         $salle = $sallerepository -> find($rq -> get('idsalle'));
+ 
+         $em = $this->getDoctrine()->getManager();
+         $planning = $em->getRepository(Planningfilmsalle::class)->find($id);
+
+         $planning -> setIdFilm($film);
+         $planning -> setIdSalle($salle);
+         $planning ->setHeurediffusion($rq->get('heure'));
+         $date = DateTime::createFromFormat('d/m/Y', $rq->get('date'));
+         $planning->setDatediffusion($date);
+ 
+         $em->persist($planning);
+         $em->flush();
+ 
+         $jsonContent = $Normalizer->normalize($planning, 'json', ['groups' => "reservation"]);
+         return new Response(json_encode($jsonContent));
+ 
+         
+     }
+
+      // http://127.0.0.1:8000/planningfilmsalle/mobileDelete/23
+    #[Route('/mobileDelete/{id}', name: 'app_planning_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $planning = $em->getRepository(Planningfilmsalle::class)->find($id);
+
+        $em->remove($planning);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($planning, 'json', ['groups' => "reservation"]);
+        return new Response("film supprimé avec succès" . json_encode($jsonContent));
+    }
+
 
 
 
