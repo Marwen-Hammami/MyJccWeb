@@ -37,6 +37,19 @@ class ContratsponsoringController extends AbstractController
         return new Response($json);
     }
 
+    //afficher toutes les contarts d'un sponsor
+    // http://127.0.0.1:8000/contratsponsoring/mobMesContr?idSponsor=727
+    #[Route('/mobMesContr', name: 'app_contratsponsoring_mobile_index_sponsor')]
+    public function indexMobileSponsor(Request $req, ContratsponsoringRepository $contratRepository, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $contrats = $entityManager->getRepository(Contratsponsoring::class)->findBy(['idSponsor' => $req->get('idSponsor')]);
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
     //afficher un contrat
     // http://127.0.0.1:8000/contratsponsoring/mobileDetails/63
     #[Route('/mobileDetails/{idContrat}', name: 'app_contratsponsoring_show_mobile', methods: ['GET'])]
@@ -83,6 +96,40 @@ class ContratsponsoringController extends AbstractController
 
         $jsonContent = $Normalizer->normalize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
         return new Response(json_encode($jsonContent));
+    }
+
+    //modifier un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileUpdate?ic=82&is=727&ip=734&d=2023-05-10&f=2023-06-12&t=ParPhoto&e=Proposition&s=9.2
+    #[Route('/mobileUpdate', name: 'app_contrat_UpdateMobile')]
+    public function MobileUpdate(UserRepository $repository, Request $req, NormalizerInterface $Normalizer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $contratsponsoring = $entityManager->getRepository(Contratsponsoring::class)->find($req->get('ic'));
+
+        $sponsor = new User();
+        $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('is')]);
+        $photographe = new User();
+        $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('ip')]);
+
+        $contratsponsoring->setIdPhotographe($photographe);
+        $contratsponsoring->setIdSponsor($sponsor);
+
+        $contratsponsoring->setSignaturephotographe("-");
+        $contratsponsoring->setSignaturesponsor("-");
+        $contratsponsoring->setTermespdf("-");
+
+        $contratsponsoring->setDatedebut(new \DateTime($req->get('d')));
+        $contratsponsoring->setDatefin(new \DateTime($req->get('f')));
+
+        $contratsponsoring->setType($req->get('t'));
+        $contratsponsoring->setEtat($req->get('e'));
+
+        $contratsponsoring->setSalairedt($req->get('s'));
+
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+        return new Response("Contrat modifié avec succès" . json_encode($jsonContent));
     }
 
     //supprimer un contrat
