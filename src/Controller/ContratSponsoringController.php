@@ -38,13 +38,51 @@ class ContratsponsoringController extends AbstractController
     }
 
     //afficher un contrat
-    // http://127.0.0.1:8000/contratsponsoring/mobileDetails/1
+    // http://127.0.0.1:8000/contratsponsoring/mobileDetails/63
     #[Route('/mobileDetails/{idContrat}', name: 'app_contratsponsoring_show_mobile', methods: ['GET'])]
     public function Mobileshow(Contratsponsoring $contratsponsoring, SerializerInterface $serializer)
     {
         $json = $serializer->serialize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
 
         return new Response($json);
+    }
+
+    //afficher les contrats d'un sponsor
+
+    //ajouter un contrat
+    // http://127.0.0.1:8000/contratsponsoring/ncm?is=727&ip=734&d=2023-05-10&f=2023-06-12&t=ParPhoto&e=Proposition&s=9.2
+    #[Route('/ncm', name: 'app_contratsponsoring_new_mobile')]
+    public function newMobile(Request $req, NormalizerInterface $Normalizer)
+    {
+        $contratsponsoring = new Contratsponsoring();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $sponsor = new User();
+        $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('is')]);
+        $photographe = new User();
+        $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('ip')]);
+
+        $contratsponsoring->setIdPhotographe($photographe);
+        $contratsponsoring->setIdSponsor($sponsor);
+
+        $contratsponsoring->setSignaturephotographe("-");
+        $contratsponsoring->setSignaturesponsor("-");
+        $contratsponsoring->setTermespdf("-");
+
+        $contratsponsoring->setDatedebut(new \DateTime($req->get('d')));
+        $contratsponsoring->setDatefin(new \DateTime($req->get('f')));
+
+        $contratsponsoring->setType($req->get('t'));
+        $contratsponsoring->setEtat($req->get('e'));
+
+        $contratsponsoring->setSalairedt($req->get('s'));
+
+        $entityManager->persist($contratsponsoring);
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+        return new Response(json_encode($jsonContent));
     }
 
     //supprimer un contrat

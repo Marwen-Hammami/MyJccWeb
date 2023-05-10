@@ -41,7 +41,7 @@ class GalerieController extends AbstractController
     }
 
     //ajouter une galerie
-    // http://127.0.0.1:8000/galerie/mobileNew?nom=testNom&description=testDesc&color=#0000&idUser=734
+    // http://127.0.0.1:8000/galerie/mobileNew?nom=testNom&description=testDesc&color=%230000&idUser=734
     #[Route('/mobileNew', name: 'app_galerie_newMobile')]
     public function Mobilenew(UserRepository $repository, Request $rq, NormalizerInterface $Normalizer)
     {

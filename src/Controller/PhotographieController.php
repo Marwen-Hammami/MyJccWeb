@@ -33,6 +33,7 @@ class PhotographieController extends AbstractController
     }
 
     //afficher les photographies d'un utilisateur grace à l'id galerie
+    // http://127.0.0.1:8000/photographie/mobileShowphotos/1
     #[Route('/mobileShowphotos/{idGalerie}', name: 'app_photographie_mobile_show_photos', methods: ['GET'])]
     public function indexPhotosMobile($idGalerie, PhotographieRepository $photographieRepository, SerializerInterface $serializer)
     {
