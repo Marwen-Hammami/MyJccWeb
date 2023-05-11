@@ -1,0 +1,87 @@
+{# 
+{{form_start(f,{'attr': {'class': 'my-form-class', 'novalidate': 'novalidate'}}) }}
+<table>
+<tr>
+<td> {{ form_label(f.email,"email")  }} 
+ </td>
+<td>  {{ form_widget(f.email) }} 
+</td>  
+<td> {{ form_errors(f.email) }} 
+</td>
+</tr>
+
+<tr>
+<td>  {{ form_label(f.password,"password") }} 
+</td> 
+<td> {{ form_widget(f.password)}} 
+ </td> 
+<td>  {{ form_errors(f.password) }} 
+</td> 
+</tr>
+
+
+</table>
+ {{ form_widget(f.submit)}} 
+{{form_end(f)}} #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{{ asset('images/myjccLogo.png') }}">
+	{{ encore_entry_link_tags('app') }}
+	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+</head>
+<body>
+<div id="gen-loading">
+	<div id="gen-loading-center">
+		<img src="{{ asset('images/myjccLarge1.png') }}" alt="loading">
+	</div>
+</div>
+	<section class="position-relative pb-0">
+		<div class="gen-login-page-background" style="background-image: url({{ asset('images/asset-54.jpg') }});"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="text-center">
+						<form name="login" action="{{ path('app_login') }}" method="post">
+							{{ form_start(f, {'attr': {'class': 'my-form-class', 'novalidate': 'novalidate'}}) }}
+							<h4>Sign In</h4>
+							<div class="form-group">
+								{{ form_label(f.email, "Username or Email Address") }}
+								{{ form_widget(f.email, {'attr': {'class': 'f-control'}}) }}
+								{{ form_errors(f.email) }}
+							</div>
+							<div class="form-group">
+								{{ form_label(f.password, "Password") }}
+								{{ form_widget(f.password, {'attr': {'class': 'form-control'}}) }}
+								{{ form_errors(f.password) }}
+							</div>
+							<div class="form-group">
+								{{ form_widget(f.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+							</div>
+							{{ form_end(f) }}
+							<a href="{{ path('security_registration') }}">Inscrivez-Vous !</a> | <a href="{{ path('app_sendmail') }}">Mot de Passe oublié ??</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('js/asyncloader.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('js/jquery.waypoints.min.js') }}"></script>
+<script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
+<script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('js/slick.min.js') }}"></script>
+<script src="{{ asset('js/streamlab-core.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script></body>
+</html>

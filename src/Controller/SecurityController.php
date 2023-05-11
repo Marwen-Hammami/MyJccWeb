@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
 class SecurityController extends AbstractController
 {
     #[Route('/inscription', name: 'security_registration')]
@@ -59,7 +60,7 @@ class SecurityController extends AbstractController
                 $user->setPhotob64($newFilename);
             }
 
-            // $user->setPassword($user->getPassword());
+            $user->setMotdepasse($user->getMotdepasse());
             $user->setRole('SPECTATEUR');
             $em = $doctrine->getManager();
             $em->persist($user);
@@ -71,7 +72,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/login2', name: 'app_login_')]
 
     public function login(AuthenticationUtils $authenticationUtils, Request $request, ManagerRegistry $doctrine, SessionInterface $SessionInterface): Response
     {
@@ -116,7 +117,7 @@ class SecurityController extends AbstractController
     }
 
 
-    #[Route('/mobileAll', name: 'app_users_mobile_index')]
+    #[Route('/sec/mobileAll', name: 'app_users_mobile_index')]
     public function indexMobile(UserRepository $userRepository, SerializerInterface $serializer)
     {
         $users = $userRepository->findAll();
@@ -127,8 +128,8 @@ class SecurityController extends AbstractController
     }
 
     //afficher une galerie
-    // http://127.0.0.1:8000/galerie/mobileDetails/1
-    #[Route('/mobileDetails/{idUser}', name: 'app_user_show_mobile', methods: ['GET'])]
+    // http://127.0.0.1:8000/mobileDetails/699
+    #[Route('/sec/mobileDetails/{idUser}', name: 'app_user_show_mobile', methods: ['GET'])]
     public function Mobileshow(User $galerie, SerializerInterface $serializer)
     {
         $json = $serializer->serialize($galerie, 'json', ['groups' => "users"]);
@@ -138,7 +139,7 @@ class SecurityController extends AbstractController
 
     //ajouter une galerie
     // http://127.0.0.1:8000/galerie/mobileNew?nom=testNom&description=testDesc&color=#0000&idUser=734
-    #[Route('/mobileNew', name: 'app_galerie_newMobile')]
+    #[Route('/sec/mobileNew', name: 'app_galerie_newMobile')]
     public function Mobilenew(UserRepository $repository, ManagerRegistry $doctrine, Request $rq, NormalizerInterface $Normalizer)
     {
         //créer un objet user a partir de l id
@@ -155,10 +156,10 @@ class SecurityController extends AbstractController
         $role = $rq->query->get("role");
 
         $em = $doctrine->getManager();
-        // $user->setUsername($prenom);
-        // $user->setUsername($nom);
+        $user->setPrenom($prenom);
+        $user->setNom($nom);
         $user->setEmail($email);
-        // $user->setPassword($password);
+        $user->setMotdepasse($password);
         $user->setGenre($genre);
         $user->setRole($role);
         $user->setNumtel($numtel);
@@ -173,7 +174,7 @@ class SecurityController extends AbstractController
 
     //modifier user
     // %23 = #
-    #[Route('/mobileUpdate/{id}', name: 'app_galerie_UpdateMobile')]
+    #[Route('/sec/mobileUpdate/{id}', name: 'app_galerie_UpdateMobile')]
     public function MobileUpdate(UserRepository $repository, $id, Request $rq, NormalizerInterface $Normalizer, ManagerRegistry $doctrine)
     {
         //créer un objet user a partir de l id
@@ -198,7 +199,7 @@ class SecurityController extends AbstractController
 
     //supprimer une user
     // http://127.0.0.1:8000/galerie/mobileDelete/729
-    #[Route('/mobileDelete/{id}', name: 'app_galerie_DeleteMobile')]
+    #[Route('/sec/mobileDelete/{id}', name: 'app_galerie_DeleteMobile')]
     public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer, ManagerRegistry $doctrine)
     {
         $em = $doctrine->getManager();
@@ -210,7 +211,7 @@ class SecurityController extends AbstractController
         return new Response("Utilisateur supprimé avec succès" . json_encode($jsonContent));
     }
 
-    #[Route('/mobile/signin', name: 'app_mob_login')]
+    #[Route('/sec/mobile/signin', name: 'app_mob_login')]
     public function signinAction(Request $rq, UserRepository $repository, ManagerRegistry $doctrine)
     {
         $email = $rq->query->get("email");
