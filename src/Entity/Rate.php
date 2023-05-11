@@ -8,6 +8,7 @@ use App\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Assert\Range;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 class Rate
@@ -28,27 +29,30 @@ class Rate
     #[Assert\NotBlank]
     #[Assert\Range(min: 0, max: 5, notInRangeMessage: 'il faut que le rate entre {{ min }} et {{ max }}',)]
     #[ORM\Column]
+    #[Groups("vote")]
     private ?int $valeur = null;
 
     #[Assert\NotNull(message: ' User est requis')]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
-
+    #[Groups("vote")]
     private ?User $idUser = null;
 
 
     #[ORM\ManyToOne(targetEntity: Film::class)]
     #[ORM\JoinColumn(name: 'id_film', referencedColumnName: 'id_film')]
     #[Assert\NotNull(message: ' Film est requis')]
+    #[Groups("vote")]
     private ?Film $idFilm = null;
 
     #[Assert\NotNull(message: ' commentaire est requis')]
     #[ORM\Column(length: 254)]
+    #[Groups("vote")]
     private ?string $commentaire = null;
 
 
     #[ORM\Column(type: 'date')]
-
+    #[Groups("vote")]
     private \DateTime $dateVote;
 
 
@@ -58,6 +62,7 @@ class Rate
     #[Assert\NotNull(message: ' Vote est requis')]
     #[Assert\Range(min: 0, max: 1, notInRangeMessage: '{{ min }} ou {{ max }}',)]
     #[ORM\Column]
+    #[Groups("vote")]
     private ?int $voteFilm = null;
 
     public function getValeur(): ?int

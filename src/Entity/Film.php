@@ -14,44 +14,44 @@ class Film
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id_film', type: 'integer')]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?int $idFilm = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     #[SerializedName("titre")]
     private ?string $titre = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $daterealisation = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $genre = null;
 
     #[ORM\Column(length: 65535)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $resume = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $duree = null;
 
     #[ORM\Column]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?float $prix = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $idProducteur = null;
 
     #[ORM\Column(length: 65535)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $acteur = null;
 
     #[ORM\Column(length: 254)]
-    #[Groups("reservation")]
+    #[Groups(['reservation', 'vote'])]
     private ?string $filmimage = null;
 
     public function getIdFilm(): ?int

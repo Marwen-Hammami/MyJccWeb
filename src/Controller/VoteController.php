@@ -16,14 +16,97 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class VoteController extends AbstractController
 {
+
+    //routes mobile
+    #[Route('/mobileVotes', name: 'app_vote_mobile_index')]
+    public function indexMobile(VoteRepository $voteRepository, SerializerInterface $serializer)
+    {
+        $votes = $voteRepository->findAll();
+
+        $json = $serializer->serialize($votes, 'json', ['groups' => "vote"]);
+        return new Response($json);
+    }
+
+    // http://127.0.0.1:8000/mobileNew?idfilm=1&iduser=693&valeur=4&dateVote=12/05/2023&commentaire=kys&votefilm=1
+
+    #[Route('/mobileNew', name: 'app_vote_newMobile')]
+    public function Mobilenew(FilmRepository $filmrepository, UserRepository $userRepository, Request $rq, NormalizerInterface $Normalizer)
+    {
+
+        $film = $filmrepository->find($rq->get('idfilm'));
+        $user = $userRepository->find($rq->get('iduser'));
+
+
+        $em = $this->getDoctrine()->getManager();
+        $vote = new Rate();
+
+        $vote->setValeur($rq->get('valeur'));
+        $vote->setIdFilm($film);
+        $vote->setIdUser($user);
+        $vote->setCommentaire($rq->get('commentaire'));
+        $date = DateTime::createFromFormat('d/m/Y', $rq->get('dateVote'));
+        $vote->setDateVote($date);
+        $vote->setVoteFilm($rq->get('votefilm'));
+
+        $em->persist($vote);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($vote, 'json', ['groups' => "vote"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    //http://127.0.0.1:8000/mobileupdate/30?idfilm=1&iduser=693&valeur=0&dateVote=12/05/2023&commentaire=sssss&votefilm=0
+    #[Route('/mobileupdate/{id}', name: 'app_vote_updateMobile')]
+    public function Mobileupdate($id, FilmRepository $filmrepository, UserRepository $userRepository, Request $rq, NormalizerInterface $Normalizer)
+    {
+
+        $film = $filmrepository->find($rq->get('idfilm'));
+        $user = $userRepository->find($rq->get('iduser'));
+
+        $em = $this->getDoctrine()->getManager();
+        $vote = $em->getRepository(Rate::class)->find($id);
+
+        $vote->setValeur($rq->get('valeur'));
+        $vote->setIdFilm($film);
+        $vote->setIdUser($user);
+        $vote->setCommentaire($rq->get('commentaire'));
+        $date = DateTime::createFromFormat('d/m/Y', $rq->get('dateVote'));
+        $vote->setDateVote($date);
+        $vote->setVoteFilm($rq->get('votefilm'));
+
+        $em->persist($vote);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($vote, 'json', ['groups' => "vote"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    // http://127.0.0.1:8000/mobileDelete/29
+    #[Route('/mobileDelete/{id}', name: 'app_vote_DeleteMobile')]
+    public function MobileDelete($id, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $vote = $em->getRepository(Rate::class)->find($id);
+
+        $em->remove($vote);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($vote, 'json', ['groups' => "vote"]);
+        return new Response("film supprimé avec succès" . json_encode($jsonContent));
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     #[Route('/recherche_ajax', name: 'recherche_ajax')]
     public function rechercheAjax(Request $request, VoteRepository $voteRepository): JsonResponse

@@ -13,39 +13,39 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "ID_User")]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?int $idUser = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $genre = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $motdepasse = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $role = null;
 
     #[ORM\Column(length: 65535)]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?string $photob64 = null;
 
     #[ORM\Column]
-    #[Groups(['photographies', 'contratsponsoring', 'hotel'])]
+    #[Groups(['photographies', 'contratsponsoring', 'hotel', 'vote'])]
     private ?int $numtel = null;
 
     public function getIdUser(): ?int
