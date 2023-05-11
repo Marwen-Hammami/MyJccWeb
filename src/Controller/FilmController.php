@@ -41,7 +41,7 @@ class FilmController extends AbstractController
         return new Response($json);
     }
 
-// http://127.0.0.1:8000/film/mobileNew?titre=testNom&genre=test&resume=test$&date=2000&duree=1h&prix=12&prod=test&resume=test&acteur=test&image=http://localhost/myjcc/films/dachra.png
+// http://127.0.0.1:8000/film/mobileNew?titre=testNom&genre=test$&date=2000&duree=1h&prix=12&prod=test&resume=test&acteur=test&image=http://localhost/myjcc/films/dachra.png
     #[Route('/mobileNew', name: 'app_film_newMobile')]
     public function Mobilenew(Request $rq, NormalizerInterface $Normalizer)
     {
