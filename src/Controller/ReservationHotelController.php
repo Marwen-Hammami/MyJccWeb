@@ -271,7 +271,7 @@ class ReservationHotelController extends AbstractController
         }
     }
 
-    #[Route('/reservation/{email}', name: 'mes_reservations')]
+    #[Route('/reservationH/{email}', name: 'mes_reservationsH')]
     public function GetReservation(UserRepository $request, string $email): Response
     {
         $entityManager = $this->getDoctrine()->getManager();

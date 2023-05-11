@@ -1,31 +1,39 @@
 {% extends 'baseFrontOffice.html.twig' %}
 
 {% block body %}
-    <h1>Mes Réservations</h1>
-        {% if not reservations|length %}
-        <p>Reservation indisponible.</p>
-    {% else %}
-    <div class="row">
-     {% for reservation in reservations %}
-        <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
-         <div class="card-header"><i class="fas fa-hotel"></i> {{ reservation.idHotel.libelle }}</div>
-            <div class="card-body">
-                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de début: {{ reservation.dateDebut|date('d/m/Y') }}</p>
-                <p class="card-text"><i class="far fa-calendar-alt"></i> Date de fin: {{ reservation.dateFin|date('d/m/Y') }}</p>
-                <p class="card-text"><i class="fas fa-euro-sign"></i> Tarif total: {{ reservation.tariftotale }}€</p>
-            </div>
-       
-        </div>
-    
-    </div>
-{% if reservation.qrpath %}
-    {% set imagePath = reservation.qrpath %}
-    {% set imageName = imagePath|split('/')|last %}
-    <img src="{{ asset('images/qr-code/' ~ imageName) }}" alt="QR code">
-{% endif %}
-    {% endfor %}
-    {% endif %}    
+	<h1>Mes Réservations</h1>
+	{% if not reservations|length %}
+		<p>Reservation indisponible.</p>
+	{% else %}
+		<div class="row">
+			{% for reservation in reservations %}
+				<div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+					<div class="card-header">
+						<i class="fas fa-hotel"></i>
+						{{ reservation.idHotel.libelle }}</div>
+					<div class="card-body">
+						<p class="card-text">
+							<i class="far fa-calendar-alt"></i>
+							Date de début:
+							{{ reservation.dateDebut|date('d/m/Y') }}</p>
+						<p class="card-text">
+							<i class="far fa-calendar-alt"></i>
+							Date de fin:
+							{{ reservation.dateFin|date('d/m/Y') }}</p>
+						<p class="card-text">
+							<i class="fas fa-euro-sign"></i>
+							Tarif total:
+							{{ reservation.tariftotale }}€</p>
+					</div>
+
+				</div>
+
+			</div>
+			{% if reservation.qrpath %}
+				{% set imagePath = reservation.qrpath %}
+				{% set imageName = imagePath|split('/')|last %}
+				<img src="{{ asset('images/qr-code/' ~ imageName) }}" alt="QR code">
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 {% endblock %}
-
-
-
