@@ -208,7 +208,6 @@ class SecurityController extends AbstractController
     {
         $em = $doctrine->getManager();
         $user = $em->getRepository(User::class)->find($id);
-
         $em->remove($user);
         $em->flush();
 
