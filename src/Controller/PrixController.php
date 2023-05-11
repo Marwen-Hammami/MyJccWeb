@@ -24,7 +24,7 @@ class PrixController extends AbstractController
         $form = $this->createForm(prixType::class, $prix);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $EM = $doctrine->getManager();
             $EM->persist($prix);
             $EM->flush();
@@ -64,11 +64,11 @@ class PrixController extends AbstractController
             $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('prix_index');
-        }else{
-        return $this->render('prix/ModifierPrix.html.twig', [
-            'prix' => $prix,
-            'form' => $form->createView(),
-        ]);
+        } else {
+            return $this->render('prix/ModifierPrix.html.twig', [
+                'prix' => $prix,
+                'form' => $form->createView(),
+            ]);
         }
     }
 
@@ -86,20 +86,18 @@ class PrixController extends AbstractController
     public function getPrixByID($id, PrixRepository $repo, FilmRepository $FilmRepo)
     {
         $prix = $repo->find($id);
-        
+
         $qb = $FilmRepo->createQueryBuilder('f');
         $qb->select('f.titre')
-           ->where('f.idFilm = :idFilm')
-           ->setParameter('idFilm', $prix->getIdFilm()->getIdFilm());
+            ->where('f.idFilm = :idFilm')
+            ->setParameter('idFilm', $prix->getIdFilm()->getIdFilm());
         $FilmName = $qb->getQuery()->getOneOrNullResult();
-    
+
         $data = [
             'Film' => $FilmName['titre'],
             'typeprix' => $prix->getTypeprix(),
         ];
-        
+
         return new JsonResponse($data);
     }
-
-    
 }

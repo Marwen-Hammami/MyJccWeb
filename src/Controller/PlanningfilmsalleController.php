@@ -169,8 +169,8 @@ class PlanningfilmsalleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pLanningfilmsalleRepository->save($planningfilmsalle, true);
 
-            $bus->dispatch(new PlanningCreatedMessage($planningfilmsalle));
-            $this->addFlash('success', 'The planning has been created successfully!');
+            //$bus->dispatch(new PlanningCreatedMessage($planningfilmsalle));
+            //$this->addFlash('success', 'The planning has been created successfully!');
 
             return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -229,8 +229,8 @@ class PlanningfilmsalleController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $planningfilmsalle->getIdPlanning(), $request->request->get('_token'))) {
             $pLanningfilmsalleRepository->remove($planningfilmsalle, true);
 
-            $bus->dispatch(new PlanningDeletedMessage($planningfilmsalle));
-            $this->addFlash('success', 'The planning has been deleted successfully!');
+            // $bus->dispatch(new PlanningDeletedMessage($planningfilmsalle));
+            // $this->addFlash('success', 'The planning has been deleted successfully!');
         }
 
         return $this->redirectToRoute('app_planningfilmsalle_index', [], Response::HTTP_SEE_OTHER);
