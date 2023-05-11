@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\GalerieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GalerieRepository::class)]
@@ -13,22 +14,27 @@ class Galerie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "ID_Galerie")]
+    #[Groups("photographies")]
     private ?int $idGalerie = null;
 
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank(message: "Une couleur en code html est obligatoire")]
+    #[Groups("photographies")]
     private ?string $couleurhtml = null;
 
     #[ORM\Column(length: 254)]
     #[Assert\NotBlank(message: "Le nom de la galerie est obligatoire")]
+    #[Groups("photographies")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 65535)]
     #[Assert\NotBlank(message: "Une courte description est obligatoire")]
+    #[Groups("photographies")]
     private ?string $description = null;
 
     #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'id_photographe', referencedColumnName: 'ID_User')]
+    #[Groups("photographies")]
     private ?User $idPhotographe = null;
 
     public function getIdGalerie(): ?int

@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VehiculeController extends AbstractController
 {
+
     #[Route('/vehicule', name: 'app_vehicule')]
     public function index(): Response
     {
@@ -51,8 +52,8 @@ class VehiculeController extends AbstractController
     {
         $vehicule = $repo->find($matricule);
         $data = [
-            'matricule' => $vehicule->getMatricule (),
-            'type' => $vehicule->getType (),
+            'matricule' => $vehicule->getMatricule(),
+            'type' => $vehicule->getType(),
             'marque' => $vehicule->getMarque(),
             'couleur' => $vehicule->getCouleur(),
         ];
@@ -88,10 +89,10 @@ class VehiculeController extends AbstractController
             $em = $doctrine->getManager();
             $em->flush();
             return $this->redirectToRoute('vehicule_index');
-        }else{
-        return $this->render('vehicule/ModifierVehicule.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        } else {
+            return $this->render('vehicule/ModifierVehicule.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
     }
 }

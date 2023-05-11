@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Photographie;
 use App\Entity\Galerie;
 use App\Form\PhotographieType;
+use App\Repository\GalerieRepository;
 use App\Repository\PhotographieRepository;
 use phpDocumentor\Reflection\PseudoTypes\False_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,10 +13,111 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/photographie')]
 class PhotographieController extends AbstractController
 {
+    //Routes for Code name One //////////////////////////////////////////
+
+    //afficher toutes les photographies
+    #[Route('/mobileAll', name: 'app_photographie_mobile_index')]
+    public function indexMobile(PhotographieRepository $photographieRepository, SerializerInterface $serializer)
+    {
+        $photographies = $photographieRepository->findAll();
+
+        $json = $serializer->serialize($photographies, 'json', ['groups' => "photographies"]);
+
+        return new Response($json);
+    }
+
+    //afficher les photographies d'un utilisateur grace à l'id galerie
+    // http://127.0.0.1:8000/photographie/mobileShowphotos/1
+    #[Route('/mobileShowphotos/{idGalerie}', name: 'app_photographie_mobile_show_photos', methods: ['GET'])]
+    public function indexPhotosMobile($idGalerie, PhotographieRepository $photographieRepository, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $galerie = $entityManager->getRepository(Galerie::class)->find($idGalerie);
+
+        $photographies = $photographieRepository->findBy(['idGalerie' => $idGalerie]);
+
+        $json = $serializer->serialize($photographies, 'json', ['groups' => "photographies"]);
+
+        return new Response($json);
+    }
+
+    //afficher une photo
+    #[Route('/mobileDetails/{idPhotographie}', name: 'app_photographie_show_mobile', methods: ['GET'])]
+    public function Mobileshow(Photographie $photographie, SerializerInterface $serializer)
+    {
+        $json = $serializer->serialize($photographie, 'json', ['groups' => "photographies"]);
+
+        return new Response($json);
+    }
+
+    //ajouter une photographie
+    // http://127.0.0.1:8000/photographie/mobileNew?nom=testNom&description=testDesc&path=pathToImage&idGal=1
+    #[Route('/mobileNew', name: 'app_photographie_newMobile')]
+    public function Mobilenew(GalerieRepository $repository, Request $rq, NormalizerInterface $Normalizer)
+    {
+        //créer un object galerie à partir de l'id donnée
+        $galerie = $repository->find($rq->get('idGal'));
+
+        $em = $this->getDoctrine()->getManager();
+        $photo = new Photographie();
+
+        $photo->setNom($rq->get('nom'));
+        $photo->setDescription($rq->get('description'));
+        $photo->setPhotographiepath($rq->get('path'));
+        $photo->setIdGalerie($galerie);
+
+        $em->persist($photo);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($photo, 'json', ['groups' => "photographies"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    //modifier une photographie
+    // http://127.0.0.1:8000/photographie/mobileUpdate/63?nom=testNewNom&description=testNewDesc&path=pathToImage&idGal=1
+    #[Route('/mobileUpdate/{id}', name: 'app_photographie_UpdateMobile')]
+    public function MobileUpdate(GalerieRepository $repository, $id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        //créer un object galerie à partir de l'id donnée
+        $galerie = $repository->find($rq->get('idGal'));
+
+        $em = $this->getDoctrine()->getManager();
+        $photo = $em->getRepository(Photographie::class)->find($id);
+
+        $photo->setNom($rq->get('nom'));
+        $photo->setDescription($rq->get('description'));
+        $photo->setPhotographiepath($rq->get('path'));
+        $photo->setIdGalerie($galerie);
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($photo, 'json', ['groups' => "photographies"]);
+        return new Response("Photographie modifié avec succès" . json_encode($jsonContent));
+    }
+
+    //supprimer une photographie
+    // http://127.0.0.1:8000/photographie/mobileDelete/69
+    #[Route('/mobileDelete/{id}', name: 'app_photographie_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $photo = $em->getRepository(Photographie::class)->find($id);
+
+        $em->remove($photo);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($photo, 'json', ['groups' => "photographies"]);
+        return new Response("Photographie supprimé avec succès" . json_encode($jsonContent));
+    }
+
+    ////////////////////////////////////////////////////////////////////
+
     #[Route('/EditeurImage', name: 'app_contratsponsoring_EditeurImage', methods: ['GET'])]
     public function EditeurImage(): Response
     {

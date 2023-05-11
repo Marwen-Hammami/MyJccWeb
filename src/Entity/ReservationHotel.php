@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\ReservationHotelRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
@@ -14,6 +15,7 @@ class ReservationHotel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "ID_ReservationH")]
+    #[Groups("hotel")]
     private ?int $idReservationh = null;
 
     #[ORM\Column(type: 'date')]
@@ -22,29 +24,35 @@ class ReservationHotel
     #[ORM\Column(type: 'date')]
     #[Assert\NotNull(message: 'La date de début est requise')]
     #[GreaterThanOrEqual(value: 'today', message: 'La date de début doit être supérieure ou égale à la date actuelle')]
+    #[Groups("hotel")]
     private \DateTime $dateDebut;
 
     #[ORM\Column(type: 'date')]
     #[Assert\NotNull(message: 'La date de fin est requise')]
     #[Assert\GreaterThan(propertyPath: "dateDebut", message: 'La date de fin doit être après la date de début')]
+    #[Groups("hotel")]
     private \DateTime $dateFin;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Entrer la Tarif totale de la reservation  SVP')]
-    #[Assert\PositiveOrZero(message: 'Tarif totale doit etre positive')] 
+    #[Assert\PositiveOrZero(message: 'Tarif totale doit etre positive')]
+    #[Groups("hotel")]
     private ?float $tariftotale = null;
 
     #[ORM\Column(length: 254)]
+    #[Groups("hotel")]
     private ?string $qrpath = null;
 
     #[ORM\ManyToOne(targetEntity: Hotel::class)]
     #[ORM\JoinColumn(name: 'ID_hotel', referencedColumnName: 'ID_Hotel')]
     #[Assert\NotNull(message: ' l\'hôtel est requis')]
+    #[Groups("hotel")]
     private ?Hotel $idHotel = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'ID_user', referencedColumnName: 'ID_User')]
     #[Assert\NotNull(message: 'l\'utilisateur est requis')]
+    #[Groups("hotel")]
     private ?User $idUser = null;
 
     public function getIdReservationh(): ?int

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Hotel;
+use App\Entity\Reservation;
 use App\Entity\ReservationHotel;
 use App\Entity\User;
 use App\Form\ReservationHotelType;
@@ -16,12 +18,126 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Twilio\Http\CurlClient;
 use Twilio\Rest\Client;
 
 class ReservationHotelController extends AbstractController
 {
+    //Routes for Code name One //////////////////////////////////////////
 
+    //afficher toutes les contarts
+    // http://127.0.0.1:8000//reservationmobileAll
+    #[Route('/reservationmobileAll', name: 'app_reservation_mobile_index')]
+    public function indexMobile(ReservationHotelRepository $hotelRepository, SerializerInterface $serializer)
+    {
+        $reservations = $hotelRepository->findAll();
+
+        $json = $serializer->serialize($reservations, 'json', ['groups' => "hotel"]);
+
+        return new Response($json);
+    }
+    //supprimer une réservation
+    // http://127.0.0.1:8000/mobileDeletereservationhotel/64
+    #[Route('/mobileDeletereservationhotel/{id}', name: 'app_contratsponsoring_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rservationhotel = $em->getRepository(ReservationHotel::class)->find($id);
+
+        $em->remove($rservationhotel);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($rservationhotel, 'json', ['groups' => "hotel"]);
+        return new Response("reservation hotel  supprimé avec succès" . json_encode($jsonContent));
+    }
+    //modifier une reservation :
+    #[Route('/mobileUpdateReservation/{id}', name: 'app_reservation_UpdateMobile')]
+    public function MobileUpdate(ReservationHotelRepository $repository, $id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        // Récupérer l'objet Reservation à partir de l'id donnée
+        $reservation = $repository->find($id);
+        if (!$reservation) {
+            throw $this->createNotFoundException('La réservation avec l\'id ' . $id . ' n\'existe pas.');
+        }
+        // Modifier les attributs de l'objet Reservation à partir des données envoyées en requête
+        $reservation->setDatereservation(new \DateTime());
+        $reservation->setDateDebut(new \DateTime($rq->get('dateDebut')));
+        $reservation->setDateFin(new \DateTime($rq->get('dateFin')));
+        $reservation->setTariftotale($rq->get('tariftotale'));
+        $reservation->setQrpath($rq->get('qrpath'));
+        // Récupérer l'hôtel et l'utilisateur correspondant à la réservation
+        $em = $this->getDoctrine()->getManager();
+        $hotel = $em->getRepository(Hotel::class)->find($rq->get('idHotel'));
+        $user = $em->getRepository(User::class)->find($rq->get('idUser'));
+        if (!$hotel) {
+            throw $this->createNotFoundException('L\'hôtel avec l\'id ' . $rq->get('idHotel') . ' n\'existe pas.');
+        }
+        if (!$user) {
+            throw $this->createNotFoundException('L\'utilisateur avec l\'id ' . $rq->get('idUser') . ' n\'existe pas.');
+        }
+        $reservation->setIdHotel($hotel);
+        $reservation->setIdUser($user);
+        // Sauvegarder les modifications
+        $em->flush();
+        // Retourner une réponse indiquant que l'objet a été modifié avec succès
+        $jsonContent = $Normalizer->normalize($reservation, 'json', ['groups' => "hotel"]);
+        return new Response("Réservation modifiée avec succès" . json_encode($jsonContent));
+    }
+    //ajouterrrr
+    #[Route('/mobileNewReservation', name: 'app_reservation_newMobile')]
+    public function MobilenewReservation(UserRepository $userRepository, HotelRepository $hotelRepository, Request $request, NormalizerInterface $normalizer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // récupérer l'utilisateur à partir de son ID
+        $user = $userRepository->find($request->get('idUser'));
+        if (!$user) {
+            throw $this->createNotFoundException('L\'utilisateur avec l\'id ' . $request->get('idUser') . ' n\'existe pas.');
+        }
+
+        // récupérer l'hôtel à partir de son ID
+        $hotel = $hotelRepository->find($request->get('idHotel'));
+        if (!$hotel) {
+            throw $this->createNotFoundException('L\'hôtel avec l\'id ' . $request->get('idHotel') . ' n\'existe pas.');
+        }
+
+        // créer une nouvelle réservation
+        $reservation = new ReservationHotel();
+        $reservation->setDatereservation(new \DateTime());
+        $reservation->setDateDebut(new \DateTime($request->get('dateDebut')));
+        $reservation->setDateFin(new \DateTime($request->get('dateFin')));
+        $reservation->setTariftotale($request->get('tariftotale'));
+        $reservation->setQrpath($request->get('qrpath'));
+        $reservation->setIdHotel($hotel);
+        $reservation->setIdUser($user);
+
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+
+        $jsonContent = $normalizer->normalize($reservation, 'json', ['groups' => "hotel"]);
+        return new Response(json_encode($jsonContent));
+    }
+    // http://127.0.0.1:8000/reservationmobile/{id}
+    #[Route('/reservationmobile/{id}', name: 'app_reservation_mobile_show')]
+    public function showMobile(ReservationHotelRepository $hotelRepository, SerializerInterface $serializer, $id)
+    {
+        $reservation = $hotelRepository->find($id);
+
+        if (!$reservation) {
+            throw $this->createNotFoundException(
+                'Aucune réservation trouvée pour cet identifiant : ' . $id
+            );
+        }
+
+        $json = $serializer->serialize($reservation, 'json', ['groups' => "hotel"]);
+
+        return new Response($json);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////
 
     #[Route('/reservationhotel/create', name: 'create_reservationhotel')]
     public function createReservationHotel(ManagerRegistry $doctrine, Request $request, QrcodeService $qrcodeService): Response
@@ -45,9 +161,9 @@ class ReservationHotelController extends AbstractController
                 $reservation->getTariftotale()
             );
 
-            // $qrCode = $qrcodeService->qrcode($qrContent, $typeReservation);
-            // $reservation->setQrpath($qrCode);
-            $reservation->setQrpath('');
+            $qrCode = $qrcodeService->qrcode($qrContent, $typeReservation);
+            $reservation->setQrpath($qrCode);
+
             $EM = $doctrine->getManager();
             $EM->persist($reservation);
             $EM->flush();

@@ -49,9 +49,9 @@ class LocationVehiculeController extends AbstractController
                 $locationVehicule->getTariftotal()
             );
 
-            // $qrCode = $qrcodeService->qrcode($qrContent, $typeReservation);
-            //$locationVehicule->setQrpath($qrCode);
-            $locationVehicule->setQrpath('');
+            $qrCode = $qrcodeService->qrcode($qrContent, $typeReservation);
+            $locationVehicule->setQrpath($qrCode);
+
             $em = $doctrine->getManager();
             $em->persist($locationVehicule);
             $em->flush();

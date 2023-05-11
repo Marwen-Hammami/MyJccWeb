@@ -17,10 +17,138 @@ use DateTime;
 use SebastianBergmann\Environment\Console;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/contratsponsoring')]
 class ContratsponsoringController extends AbstractController
 {
+    //Routes for Code name One //////////////////////////////////////////
+
+    //afficher toutes les contarts
+    // http://127.0.0.1:8000/contratsponsoring/mobileAll
+    #[Route('/mobileAll', name: 'app_contratsponsoring_mobile_index')]
+    public function indexMobile(ContratsponsoringRepository $contratRepository, SerializerInterface $serializer)
+    {
+        $contrats = $contratRepository->findAll();
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //afficher toutes les contarts d'un sponsor
+    // http://127.0.0.1:8000/contratsponsoring/mobMesContr?idSponsor=727
+    #[Route('/mobMesContr', name: 'app_contratsponsoring_mobile_index_sponsor')]
+    public function indexMobileSponsor(Request $req, ContratsponsoringRepository $contratRepository, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $contrats = $entityManager->getRepository(Contratsponsoring::class)->findBy(['idSponsor' => $req->get('idSponsor')]);
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //afficher un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileDetails/63
+    #[Route('/mobileDetails/{idContrat}', name: 'app_contratsponsoring_show_mobile', methods: ['GET'])]
+    public function Mobileshow(Contratsponsoring $contratsponsoring, SerializerInterface $serializer)
+    {
+        $json = $serializer->serialize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //afficher les contrats d'un sponsor
+
+    //ajouter un contrat
+    // http://127.0.0.1:8000/contratsponsoring/ncm?is=727&ip=734&d=2023-05-10&f=2023-06-12&t=ParPhoto&e=Proposition&s=9.2
+    #[Route('/ncm', name: 'app_contratsponsoring_new_mobile')]
+    public function newMobile(Request $req, NormalizerInterface $Normalizer)
+    {
+        $contratsponsoring = new Contratsponsoring();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $sponsor = new User();
+        $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('is')]);
+        $photographe = new User();
+        $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('ip')]);
+
+        $contratsponsoring->setIdPhotographe($photographe);
+        $contratsponsoring->setIdSponsor($sponsor);
+
+        $contratsponsoring->setSignaturephotographe("-");
+        $contratsponsoring->setSignaturesponsor("-");
+        $contratsponsoring->setTermespdf("-");
+
+        $contratsponsoring->setDatedebut(new \DateTime($req->get('d')));
+        $contratsponsoring->setDatefin(new \DateTime($req->get('f')));
+
+        $contratsponsoring->setType($req->get('t'));
+        $contratsponsoring->setEtat($req->get('e'));
+
+        $contratsponsoring->setSalairedt($req->get('s'));
+
+        $entityManager->persist($contratsponsoring);
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+        return new Response(json_encode($jsonContent));
+    }
+
+    //modifier un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileUpdate?ic=82&is=727&ip=734&d=2023-05-10&f=2023-06-12&t=ParPhoto&e=Proposition&s=9.2
+    #[Route('/mobileUpdate', name: 'app_contrat_UpdateMobile')]
+    public function MobileUpdate(UserRepository $repository, Request $req, NormalizerInterface $Normalizer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $contratsponsoring = $entityManager->getRepository(Contratsponsoring::class)->find($req->get('ic'));
+
+        $sponsor = new User();
+        $sponsor = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('is')]);
+        $photographe = new User();
+        $photographe = $entityManager->getRepository(User::class)->findOneBy(['idUser' => $req->get('ip')]);
+
+        $contratsponsoring->setIdPhotographe($photographe);
+        $contratsponsoring->setIdSponsor($sponsor);
+
+        $contratsponsoring->setSignaturephotographe("-");
+        $contratsponsoring->setSignaturesponsor("-");
+        $contratsponsoring->setTermespdf("-");
+
+        $contratsponsoring->setDatedebut(new \DateTime($req->get('d')));
+        $contratsponsoring->setDatefin(new \DateTime($req->get('f')));
+
+        $contratsponsoring->setType($req->get('t'));
+        $contratsponsoring->setEtat($req->get('e'));
+
+        $contratsponsoring->setSalairedt($req->get('s'));
+
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($contratsponsoring, 'json', ['groups' => "contratsponsoring"]);
+        return new Response("Contrat modifié avec succès" . json_encode($jsonContent));
+    }
+
+    //supprimer un contrat
+    // http://127.0.0.1:8000/contratsponsoring/mobileDelete/64
+    #[Route('/mobileDelete/{id}', name: 'app_contratsponsoring_DeleteMobile')]
+    public function MobileDelete($id, Request $rq, NormalizerInterface $Normalizer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository(Contratsponsoring::class)->find($id);
+
+        $em->remove($contrat);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($contrat, 'json', ['groups' => "contratsponsoring"]);
+        return new Response("Contrat Sponsoring supprimé avec succès" . json_encode($jsonContent));
+    }
+
+    ////////////////////////////////////////////////////////////////////
+
     // Debut Chemains de l'administrateur *****************************************************
     #[Route('/admin', name: 'app_contratsponsoring_admin_index', methods: ['GET'])]
     public function indexAdmin(ContratsponsoringRepository $contratsponsoringRepository): Response
