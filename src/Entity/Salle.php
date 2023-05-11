@@ -5,40 +5,50 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\SalleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
 class Salle
 {
     #[ORM\Id]
-#[ORM\GeneratedValue]
-#[ORM\Column(name: 'id_salle', type: 'integer')]
-private ?int $idSalle = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id_salle', type: 'integer')]
+    #[Groups("reservation")]
+    private ?int $idSalle = null;
 
-    
 
-    #[ORM\Column(length: 254)]
-    private ?string $nomsalle=null;
 
     #[ORM\Column(length: 254)]
-    private ?string $adresse=null;
+    #[Groups("reservation")]
+    private ?string $nomsalle = null;
+
+    #[ORM\Column(length: 254)]
+    #[Groups("reservation")]
+    private ?string $adresse = null;
 
     #[ORM\Column]
-    private ?int $capacite=null;
+    #[Groups("reservation")]
+    private ?int $capacite = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $numtelSalle=null;
+    #[Groups("reservation")]
+    private ?string $numtelSalle = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $emailSalle=null;
+    #[Groups("reservation")]
+    private ?string $emailSalle = null;
 
     #[ORM\Column(length: 6)]
-    private ?string $tempsOuverture=null;
+    #[Groups("reservation")]
+    private ?string $tempsOuverture = null;
 
     #[ORM\Column(length: 6)]
-    private ?string $tempsFermuture=null;
+    #[Groups("reservation")]
+    private ?string $tempsFermuture = null;
 
     #[ORM\Column]
-    private ?float $avis=null;
+    #[Groups("reservation")]
+    private ?float $avis = null;
 
     public function getIdSalle(): ?int
     {
@@ -140,6 +150,4 @@ private ?int $idSalle = null;
 
         return $this;
     }
-
-
 }

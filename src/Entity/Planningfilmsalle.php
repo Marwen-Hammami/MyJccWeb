@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\PLanningfilmsalleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlanningfilmsalleRepository::class)]
 class Planningfilmsalle
@@ -12,24 +13,29 @@ class Planningfilmsalle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ID_Planning', type: 'integer')]
-    private ?int $idPlanning=null;
+    #[Groups("reservation")]
+    private ?int $idPlanning = null;
 
     #[ORM\Column(type: 'date')]
+    #[Groups("reservation")]
     private \DateTime $datediffusion;
 
     #[ORM\Column(length: 254)]
-    private ?string $heurediffusion=null;
+    #[Groups("reservation")]
+    private ?string $heurediffusion = null;
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
     #[ORM\JoinColumn(name: 'id_salle', referencedColumnName: 'id_salle')]
-    private ?Salle $idSalle=null;
-    
+    #[Groups("reservation")]
+    private ?Salle $idSalle = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'Planningfilmsalle')]
     #[ORM\JoinColumn(name: 'id_film', referencedColumnName: 'id_film')]
-    private ?Film $idFilm=null;
+    #[Groups("reservation")]
+    private ?Film $idFilm = null;
 
-    
+
     public function getIdPlanning(): ?int
     {
         return $this->idPlanning;
@@ -82,6 +88,4 @@ class Planningfilmsalle
 
         return $this;
     }
-
-
 }

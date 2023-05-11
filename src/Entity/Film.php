@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\FilmRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
 class Film
@@ -12,34 +14,45 @@ class Film
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id_film', type: 'integer')]
-    private ?int $idFilm =null;
+    #[Groups("reservation")]
+    private ?int $idFilm = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $titre=null;
+    #[Groups("reservation")]
+    #[SerializedName("titre")]
+    private ?string $titre = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $daterealisation=null;
+    #[Groups("reservation")]
+    private ?string $daterealisation = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $genre=null;
+    #[Groups("reservation")]
+    private ?string $genre = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $resume=null;
+    #[Groups("reservation")]
+    private ?string $resume = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $duree=null;
+    #[Groups("reservation")]
+    private ?string $duree = null;
 
     #[ORM\Column]
-    private ?float $prix=null;
+    #[Groups("reservation")]
+    private ?float $prix = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $idProducteur=null;
+    #[Groups("reservation")]
+    private ?string $idProducteur = null;
 
     #[ORM\Column(length: 65535)]
-    private ?string $acteur=null;
+    #[Groups("reservation")]
+    private ?string $acteur = null;
 
     #[ORM\Column(length: 254)]
-    private ?string $filmimage=null;
+    #[Groups("reservation")]
+    private ?string $filmimage = null;
 
     public function getIdFilm(): ?int
     {
@@ -153,11 +166,4 @@ class Film
 
         return $this;
     }
-
-    public function __toString(): string
-    {
-        return $this->titre;
-    }
-
-
 }
