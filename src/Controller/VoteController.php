@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Vote;
+use App\Entity\Rate;
 use App\Entity\User;
 use App\Entity\Film;
 use App\Form\VoteType;
@@ -67,7 +67,7 @@ class VoteController extends AbstractController
     #[Route('/vote/create', name: 'create_vote')]
     public function createVote(ManagerRegistry $doctrine, Request $request): Response
     {
-        $vote = new vote();
+        $vote = new Rate();
         $vote->setDateVote(new \DateTime());
         $form = $this->createForm(VoteType::class, $vote);
         $form->handleRequest($request);
@@ -111,7 +111,7 @@ class VoteController extends AbstractController
     public function updateVote(ManagerRegistry $doctrine, Request $request, $id, VoteRepository $repo)
     {
 
-        $vote = new vote();
+        $vote = new Rate();
         $vote->setDateVote(new \DateTime());
         $form = $this->createForm(VoteType::class, $vote);
         $vote = $repo->find($id);

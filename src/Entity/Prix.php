@@ -15,12 +15,12 @@ class Prix
     #[ORM\Column(name: "ID_Prix")]
     private ?int $idPrix = null;
 
-    #[Assert\Choice(['OR', 'SILVER', 'BRONZE'],  message : 'choisis entre OR , SILVER ou BRONZE')]
+    #[Assert\Choice(['OR', 'SILVER', 'BRONZE'],  message: 'choisis entre OR , SILVER ou BRONZE')]
     #[Assert\NotNull(message: 'choisis entre OR , SILVER ou BRONZE')]
     #[ORM\Column(length: 254)]
     private ?string $typeprix = null;
 
-    
+
     #[ORM\ManyToOne(targetEntity: Film::class)]
     #[ORM\JoinColumn(name: 'ID_Film', referencedColumnName: 'ID_Film')]
     #[Assert\NotNull(message: ' Film est requis')]

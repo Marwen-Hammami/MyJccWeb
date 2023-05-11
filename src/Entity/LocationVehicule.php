@@ -31,7 +31,7 @@ class LocationVehicule
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Entrer la Tarif totale de la reservation  SVP')]
-    #[Assert\PositiveOrZero(message: 'Tarif totale doit etre positive')] 
+    #[Assert\PositiveOrZero(message: 'Tarif totale doit etre positive')]
     private ?float $tariftotal = null;
 
     #[ORM\Column(length: 254)]

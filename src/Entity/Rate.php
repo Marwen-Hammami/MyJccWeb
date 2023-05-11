@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Assert\Range;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
-class Vote
+class Rate
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

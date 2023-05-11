@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Vote;
+use App\Entity\Rate;
 use App\Entity\User;
 use App\Entity\Film;
 use Doctrine\DBAL\Types\DateType;
@@ -22,44 +22,43 @@ class VoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('valeur', IntegerType::class, [
-            'label' => 'Rate',
-            'constraints' => [
-                new Valid(),
-            ],
-        ])
-            ->add('idUser', EntityType::class,[
+            ->add('valeur', IntegerType::class, [
+                'label' => 'Rate',
+                'constraints' => [
+                    new Valid(),
+                ],
+            ])
+            ->add('idUser', EntityType::class, [
                 'label' => "Choisir un invité ",
                 'class' => User::class,
-                'choice_label' => function($user) {
+                'choice_label' => function ($user) {
                     return $user->getNom() . ' ' . $user->getPrenom();
                 },
                 'placeholder' => 'choisir user',
             ])
-            ->add('idFilm', EntityType::class,[
-                'label' => 'Choisir un Film',                
+            ->add('idFilm', EntityType::class, [
+                'label' => 'Choisir un Film',
                 'class' => Film::class,
-                'choice_label' => function($film) {
+                'choice_label' => function ($film) {
                     return $film->getTitre();
                 },
                 'placeholder' => 'Film',
             ])
             ->add('commentaire')
-            
-        ->add('voteFilm', CheckboxType::class, [
-            'label' => ' Vote pour ce film',
-            'required' => false,
-        ])
-        
+
+            ->add('voteFilm', CheckboxType::class, [
+                'label' => ' Vote pour ce film',
+                'required' => false,
+            ])
+
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('cancel', SubmitType::class, ['label' => 'Annuler']) 
-        ;
+            ->add('cancel', SubmitType::class, ['label' => 'Annuler']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Vote::class,
+            'data_class' => Rate::class,
         ]);
     }
 }
