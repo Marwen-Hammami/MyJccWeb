@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface
@@ -18,13 +18,28 @@ class User implements UserInterface
     private ?int $idUser = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('users')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    #[Groups('users')]
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('users')]
+    private ?string $prenom = null;
+
+
+
+    #[Assert\NotBlank(message:"Le mot de passe est obligatoire")]
+    #[ORM\Column,
+    Assert\Length(
+        min:8,
+        minMessage:'Votre mot de passe doit avoir un minimum de 8 caractères'
+    )]
+    #[Groups('users')]
     private ?string $password = null;
+
 
     public $confirm_password;
     private $blocked = false;
@@ -39,12 +54,18 @@ class User implements UserInterface
         $this->blocked = $blocked;
     }
     #[ORM\Column(length: 255)]
+    #[Groups('users')]
+
     private ?string $photob64 = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('users')]
+
     private ?string $genre = null;
 
     #[ORM\Column]
+    #[Groups('users')]
+
     private ?int $numtel = null;
 
     #[ORM\Column(length: 30)]
@@ -116,14 +137,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
+    public function getNom(): ?string
     {
-        return $this->username;
+        return $this->nom;
     }
 
-    public function setUsername(string $username): self
+    public function setNom(string $nom): self
     {
-        $this->username = $username;
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setUsername(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
