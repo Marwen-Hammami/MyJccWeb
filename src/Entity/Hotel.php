@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use App\Repository\HotelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
@@ -14,19 +15,23 @@ class Hotel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: "ID_Hotel")]
+    #[Groups("hotel")]
     private ?int $idHotel = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: 'Entrer le libelle SVP')] 
+    #[Groups("hotel")]
     private ?string $libelle = null;
 
     #[ORM\Column(length: 254)]
     #[Assert\NotBlank(message: "Entrer l'adresse SVP")] 
+    #[Groups("hotel")]
     private ?string $adresse = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Entrer le nombre de chambre disponible  SVP')]
     #[Assert\PositiveOrZero(message: 'le nombre de chambre doit etre positive')] 
+    #[Groups("hotel")]
     private ?int $nbreChambres = null;
 
     #[ORM\Column]
@@ -35,6 +40,7 @@ class Hotel
     #[Assert\Regex(
         pattern: '/^\d{8}$/',
         message: 'Le numéro de téléphone doit contenir exactement 8 chiffres')]
+        #[Groups("hotel")]
     private ?int $telephone = null;
 
     #[ORM\Column(length: 65535)]
@@ -42,7 +48,8 @@ class Hotel
     #[Assert\Regex(
         pattern: '/^[a-zA-Z0-9,.!? ]+$/',
         message: 'La description ne doit contenir que des lettres, des chiffres et les caractères suivants : .,!?')]
-    private ?string $description = null;
+        #[Groups("hotel")]
+        private ?string $description = null;
 
     public function getIdHotel(): ?int
     {

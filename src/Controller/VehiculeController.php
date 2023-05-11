@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VehiculeController extends AbstractController
 {
+    
     #[Route('/vehicule', name: 'app_vehicule')]
     public function index(): Response
     {

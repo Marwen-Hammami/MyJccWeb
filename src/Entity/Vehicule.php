@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
@@ -17,18 +18,22 @@ class Vehicule
         pattern: '/^\w{3,} Tunisie \w{4,}$/',
         message: 'Le matricule doit être au format "XXX Tunisie YYYY"'
     )]
+    #[Groups("vehicule")]
     private ?string $matricule = null;
 
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank(message: 'Le type de véhicule est obligatoire.')]
+    #[Groups("vehicule")]
     private ?string $type = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: 'La marque est obligatoire.')]
+    #[Groups("vehicule")]
     private ?string $marque = null;
 
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank(message: 'La couleur est obligatoire.')]
+    #[Groups("vehicule")]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z]+$/',
         message: 'La couleur ne doit contenir que des lettres.'
@@ -37,6 +42,7 @@ class Vehicule
         max: 20,
         maxMessage: 'La couleur ne doit pas dépasser {{ limit }} caractères.'
     )]
+    #[Groups("vehicule")]
     private ?string $couleur = null;
 
 

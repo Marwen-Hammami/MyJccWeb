@@ -57,21 +57,21 @@ class LocationVehiculeController extends AbstractController
               // Envoyer un SMS pour confirmer la réservation   
               $to = '+21626360693' ;//$reservation->getIdUser()->getNumtel() ; // Numéro de téléphone du destinataire
               $message = 'Votre réservation a bien été enregistrée.';
-              $account_sid = 'AC18f0474fed3312dea0aabb4161679485';
-              $auth_token = '2fe4a4c730de99f6d64f31fc6b5b74c0';
-              $twilio_number = '+12763303738';
+              $account_sid = 'AC2f48e072059373fff260153fe29a64ee';
+              $auth_token = '7fd10a61b380c6beda8024055e4ec71f';
+              $twilio_number = '+16206341403';
               $curlOptions = array(
                   CURLOPT_SSL_VERIFYHOST => false,
                   CURLOPT_SSL_VERIFYPEER => false
               );
               $client = new Client($account_sid,$auth_token);
               $client->setHttpClient(new CurlClient($curlOptions));
-          /*    $client->messages->create('+21626360693',
+             $client->messages->create('+21626360693',
              array(
                   'from' =>$twilio_number,
                   'body' =>$message
               )
-              );*/
+              );
               echo'message envoyer' ;
             return $this->redirectToRoute('location_vehicule_index');
         }
