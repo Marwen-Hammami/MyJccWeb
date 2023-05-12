@@ -1,99 +1,115 @@
 {% extends 'baseFrontOffice.html.twig' %}
 
-{% block title %}{{ film.titre }}{% endblock %}
+{% block title %}
+	{{ film.titre }}
+{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/planning.css') }}">
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-        }
+	{{ parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/planning.css') }}">
+	<style>
+		body {
+			background-color: #000;
+			color: #fff;
+		}
 
-        .film-details {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding-left: 50px;
-        }
+		.film-details {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+			padding-left: 50px;
+		}
 
-        .film-details > div {
-            display: flex;
-            flex-direction: column;
-            margin-left: 20px;
-            margin-bottom: 10px;
-        }
+		.film-details > div {
+			display: flex;
+			flex-direction: column;
+			margin-left: 20px;
+			margin-bottom: 10px;
+		}
 
-        .film-details > div > span {
-            width: 150px;
-            font-weight: bold;
-        }
+		.film-details > div > span {
+			width: 150px;
+			font-weight: bold;
+		}
 
-        .film-details > div > p {
-            margin: 0;
-        }
-    </style>
+		.film-details > div > p {
+			margin: 0;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
-    <br/><br/><br/>
-    <h1 style="padding-left: 50px;">{{ film.titre }} </h1>
+	<br/><br/><br/>
+	<div class="film-header">
+		<h1 style="display: inline-block; padding-left: 50px;">{{ film.titre }}</h1>
+		<a onclick="location.href='{{ path('create_vote_user', {'idf': idf}) }}'" class="btn btn-danger " style="float: right; margin-right: 100px;background-color: #8b0000;">Vote</a>
+	</div>
 
-    <div class="film-details">
-        <div>
-            <img src="{{ asset(film.filmimage) }}" alt="filmimage" style="width: 200px; height: 300px;">
-        </div>
-        <div>
-            <div>
-                <span>Date de realisation: {{ film.daterealisation }}</span>
-                {# <p>{{ film.daterealisation }}</p> #}
-            </div>
-            <div>
-                <span>Genre: {{ film.genre }}</span>
-                {# <p>{{ film.genre }}</p> #}
-            </div>
-            <div>
-                <span>Resume: {{ film.resume }}</span>
-                {# <p>{{ film.resume }}</p> #}
-            </div>
-            <div>
-                <span>Duree: {{ film.duree }}</span>
-                {# <p>{{ film.duree }}</p> #}
-            </div>
-            <div>
-                <span>Prix: {{ film.prix }} DT</span>
-                {# <p>{{ film.prix }}</p> #}
-            </div>
-            <div>
-                <span>Producteur: {{ film.idProducteur }}</span>
-                {# <p>{{ film.idProducteur }}</p> #}
-            </div>
-            <div>
-                <span>Acteur: {{ film.acteur }}</span>
-                {# <p>{{ film.acteur }}</p> #}
-            </div>
-        </div>
-    </div>
+	<div class="film-details">
+		<div>
+			<img src="{{ asset(film.filmimage) }}" alt="filmimage" style="width: 200px; height: 300px;">
+		</div>
+		<div>
+			<div>
+				<span>Date de realisation:
+					{{ film.daterealisation }}</span>
+				{# <p>{{ film.daterealisation }}</p> #}
+			</div>
+			<div>
+				<span>Genre:
+					{{ film.genre }}</span>
+				{# <p>{{ film.genre }}</p> #}
+			</div>
+			<div>
+				<span>Resume:
+					{{ film.resume }}</span>
+				{# <p>{{ film.resume }}</p> #}
+			</div>
+			<div>
+				<span>Duree:
+					{{ film.duree }}</span>
+				{# <p>{{ film.duree }}</p> #}
+			</div>
+			<div>
+				<span>Prix:
+					{{ film.prix }}
+					DT</span>
+				{# <p>{{ film.prix }}</p> #}
+			</div>
+			<div>
+				<span>Producteur:
+					{{ film.idProducteur }}</span>
+				{# <p>{{ film.idProducteur }}</p> #}
+			</div>
+			<div>
+				<span>Acteur:
+					{{ film.acteur }}</span>
+				{# <p>{{ film.acteur }}</p> #}
+			</div>
+		</div>
+	</div>
 
 
+	<div class="card-deck">
+		{% for planning in plannings %}
+			<div class="card mb-4" onclick="location.href='{{ path('app_planningfilmsalle_show_user', {'idPlanning': planning.idPlanning, 'selectedPlanningId': planning.idPlanning}) }}'" style="cursor: pointer;">
+				<div class="card-body">
+					<h5 class="card-title">{{ planning.getIdSalle().nomsalle }}</h5>
+					<p class="card-text">Date de diffusion :
+						{{ planning.getDatediffusion()|date('Y-m-d') }}</p>
+					<p class="card-text">Heure de diffusion :
+						{{ planning.getHeurediffusion() }}</p>
+				</div>
+			</div>
+		{% endfor %}
 
-   <div class="card-deck">
-  {% for planning in plannings %}
-    <div class="card mb-4" onclick="location.href='{{ path('app_planningfilmsalle_show_user', {'idPlanning': planning.idPlanning}) }}'" style="cursor: pointer;">
-      <div class="card-body">
-        <h5 class="card-title">{{ planning.getIdSalle().nomsalle }}</h5>
-        <p class="card-text">Date de diffusion : {{ planning.getDatediffusion()|date('Y-m-d') }}</p>
-        <p class="card-text">Heure de diffusion : {{ planning.getHeurediffusion() }}</p>
-      </div>
-    </div>
-  {% endfor %}
-</div>
-
+	</div>
+	<script>
+		function openvote() {
+var url = "/vote/create/user";
+var windowName = "map";
+var features = "width=600,height=400,resizable,scrollbars";
+window.open(url, windowName, features);
+}
+	</script>
 {% endblock %}
-
-
-
-
-
-

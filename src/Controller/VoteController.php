@@ -140,7 +140,7 @@ class VoteController extends AbstractController
         $list = $paginator->paginate(
             $queryBuilder, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            2 /*limit per page*/
+            8 /*limit per page*/
         );
         return $this->render('vote/getAllVote.html.twig', [
             'controller_name' => 'VoteRepository',
@@ -173,6 +173,36 @@ class VoteController extends AbstractController
         ]);
     }
 
+    #[Route('/vote/create/user/{idf}', name: 'create_vote_user')]
+    public function createVoteUser(ManagerRegistry $doctrine, Request $request, $idf): Response
+    {
+        $vote = new Rate();
+        $EM = $this->getDoctrine()->getManager();
+        $film = $EM->getRepository(Film::class)->find($idf);
+        $vote->setDateVote(new \DateTime());
+        $form = $this->createForm(VoteType::class, $vote);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $EM = $doctrine->getManager();
+            $EM->persist($vote);
+            $EM->flush();
+
+            // Add JavaScript code to show the alert and close the window
+            echo '<script>alert("Vote saved successfully."); window.close();</script>';
+        }
+        $cancelButtonClicked = isset($request->request->get('vote')['cancel']);
+
+        if ($cancelButtonClicked) {
+            echo '<script> window.close();</script>';
+        }
+
+        return $this->render('vote/Createvote.html copy.twig', [
+            'vote' => $vote,
+            'form' => $form->createView(),
+            'film' => $film,
+        ]);
+    }
+
     // #[Route('/votes', name: 'app_user_search')]
     // public function getAllVote(voteRepository $repo, Request $request, PaginatorInterface $paginator): Response
     // {
@@ -198,6 +228,7 @@ class VoteController extends AbstractController
         $vote->setDateVote(new \DateTime());
         $form = $this->createForm(VoteType::class, $vote);
         $vote = $repo->find($id);
+        $form = $this->createForm(VoteType::class, $vote);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $doctrine->getManager();

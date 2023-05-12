@@ -172,14 +172,14 @@ class FilmController extends AbstractController
         ]);
     }
     #[Route('/{idFilm}/det', name: 'app_film_show_user', methods: ['GET'])]
-    public function show_user(Film $film): Response
+    public function show_user(Film $film, int $idFilm): Response
     {
-        // Fausse erreur, la méthode fonctionne
         $plannings = $this->getDoctrine()->getRepository(Planningfilmsalle::class)->findByFilm($film);
 
         return $this->render('film/show.html.copy.twig', [
             'film' => $film,
             'plannings' => $plannings,
+            'idf' => $idFilm
         ]);
     }
 

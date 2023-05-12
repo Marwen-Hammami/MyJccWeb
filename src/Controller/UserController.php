@@ -17,10 +17,40 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
+    //Routes for Code name One //////////////////////////////////////////
+
+    //afficher toutes les contarts
+    // http://127.0.0.1:8000/user/mobileAll
+    #[Route('/mobileAll', name: 'app_users_mobile_index')]
+    public function indexMobile(UserRepository $contratRepository, SerializerInterface $serializer)
+    {
+        $contrats = $contratRepository->findAll();
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    //afficher un user
+    // http://127.0.0.1:8000/user/Mobilelogin?email=tounsisamir@yahoo.fr
+    #[Route('/Mobilelogin', name: 'app_mobileLogin_mobile_index_sponsor')]
+    public function indexMobileSponsor(Request $req, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $contrats = $entityManager->getRepository(User::class)->findBy(['email' => $req->get('email')]);
+
+        $json = $serializer->serialize($contrats, 'json', ['groups' => "contratsponsoring"]);
+
+        return new Response($json);
+    }
+
+    ///////////////////////////////////////////////////
 
 
     #[Route('/listuser', name: 'app_user')]
